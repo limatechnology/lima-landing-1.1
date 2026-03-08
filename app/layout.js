@@ -1,27 +1,28 @@
-import './globals.css'
+import './globals.css';
 
 export const metadata = {
-  title: 'Lima Technology | Crecimiento Digital y Ciberseguridad',
-  description: 'Transformación digital, ciberseguridad y soporte IT para PyMEs en Rosario, Argentina',
-  keywords: 'crecimiento digital, ciberseguridad, soporte IT, landing page, Rosario',
+  title: 'Lima Technology | Transformación Digital y Seguridad',
+  description: 'Aceleramos tu crecimiento con tecnología confiable. Ciberseguridad, Crecimiento Digital, Sitios Web y Soporte IT para PyMEs en Rosario, Argentina.',
+  keywords: 'ciberseguridad, crecimiento digital, soporte IT, sitios web, Rosario, Argentina, Lima Technology',
   openGraph: {
-    title: 'Lima Technology',
-    description: 'Aceleramos tu crecimiento con tecnología confiable',
+    title: 'Lima Technology | Transformación Digital y Seguridad',
+    description: 'Aceleramos tu crecimiento con tecnología confiable. Sin interrupciones, sin incertidumbre, sin tecnología que te frustra.',
+    url: 'https://limatechnology.com.ar',
+    siteName: 'Lima Technology',
+    locale: 'es_AR',
     type: 'website',
   },
-}
+  robots: { index: true, follow: true },
+};
 
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+        <link rel="icon" href="/favicon.ico" />
+        <meta name="theme-color" content="#101010" />
       </head>
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
-  )
+  );
 }
