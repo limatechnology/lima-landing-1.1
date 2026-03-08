@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Menu, X, ChevronDown, Zap, Lock, Code, Shield, ArrowRight, Check } from 'lucide-react';
+import { Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
 
 export default function LimaLanding() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -173,10 +173,10 @@ export default function LimaLanding() {
     const isExpanded = expandedService === service.id;
 
     const imageMap = {
-      'crecimiento': '/undraw_ideas_vn7a_2.png',
-      'ciberseguridad': '/undraw_secure-server_lz9x.png',
-      'soporte-it': '/undraw_bug-fixing_sgk7_3.png',
-      'sitios-web': '/undraw_web-devices_i15y_2.png'
+      'crecimiento': 'undraw_ideas_vn7a_2.png',
+      'ciberseguridad': 'undraw_secure-server_lz9x.png',
+      'soporte-it': 'undraw_bug-fixing_sgk7_3.png',
+      'sitios-web': 'undraw_web-devices_i15y_2.png'
     };
 
     return (
@@ -263,7 +263,6 @@ export default function LimaLanding() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img src="/lima-logo.png" alt="Lima Technology" className="h-8 w-8" />
-            <span className="font-bold text-lg">Lima Technology</span>
           </div>
           
           <div className="hidden md:flex items-center gap-8">
@@ -327,10 +326,10 @@ export default function LimaLanding() {
 
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Aceleramos tu <span style={{color: colors.lima}}>crecimiento digital</span>
+            Aceleramos tu <span style={{color: colors.lima}}>crecimiento con tecnología confiable</span>
           </h1>
           <p className="text-gray-400 text-lg md:text-xl mb-8 leading-relaxed">
-            Ciberseguridad, desarrollo web y estrategia digital para PyMEs y emprendedores en Rosario.
+            Sin interrupciones, sin incertidumbre, sin tecnología que te frustra.
           </p>
           <a href={whatsappLink} target="_blank" rel="noopener noreferrer"
              className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-bold text-lg transition-all hover:scale-105"
