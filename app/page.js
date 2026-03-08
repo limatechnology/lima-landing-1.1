@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Menu, X, ChevronDown, Zap, Lock, Code, Shield, ArrowRight, Check } from 'lucide-react';
 
@@ -142,7 +144,7 @@ export default function LimaLanding() {
       description: 'Reparaciones, configuraciones y soporte técnico remoto y presencial.',
       highlight: 'Cuando algo falla o necesita ponerse a punto.',
       color: colors.soporte_it,
-      image: '🖥️',
+      image: '🖥�?,
       serviceFeatures: [
         'Reparación y optimización de equipos',
         'Revisión completa de red y WiFi',
@@ -247,7 +249,7 @@ export default function LimaLanding() {
             <ul className="space-y-2">
               {service.serviceFeatures.map((feature, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-gray-400">
-                  <span style={{color: service.color}} className="mt-0.5">•</span>
+                  <span style={{color: service.color}} className="mt-0.5">�?/span>
                   <span>{feature}</span>
                 </li>
               ))}
@@ -285,7 +287,7 @@ export default function LimaLanding() {
                   <ul className="space-y-2">
                     {plan.features.map((feature, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-gray-400">
-                        <span className="font-bold mt-0.5" style={{color: service.color}}>•</span>
+                        <span className="font-bold mt-0.5" style={{color: service.color}}>�?/span>
                         <span>{feature}</span>
                       </li>
                     ))}
