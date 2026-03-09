@@ -215,7 +215,7 @@ export default function LimaTechnology() {
 
       <section className="hero">
         <div className="hp"><span className="hps">{I.spark}</span> Innovación & Seguridad — Rosario, Argentina</div>
-        <h1>Aceleramos tu<br /> <span className="tw-word">{typedWord}<span className="tw-cursor" /></span><br />con tecnología confiable</h1>
+        <h1>Aceleramos tu<br className="mo-br" /> <span className="tw-word">{typedWord}<span className="tw-cursor" /></span><br />con tecnología<br className="mo-br" /> confiable</h1>
 
         <p className="hs">Sin interrupciones, sin incertidumbre, sin tecnología que te frustra.</p>
         <div className="hb">
