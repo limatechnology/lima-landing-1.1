@@ -49,7 +49,7 @@ const I={
 };
 
 // ─── Data ──────────────────────────────────────────────────────────────────
-const heroWords=["emprendimiento","negocio","pyme","digitalización","crecimiento"];
+const heroWords=["crecimiento","negocio","futuro","pyme","digitalización","ciberseguridad"];
 const WA="https://wa.me/5493416139281?text=Hola%2C%20quiero%20asesoramiento%21";
 const waplan=(name)=>`https://wa.me/5493416139281?text=${encodeURIComponent(`Hola, quiero asesoramiento sobre el plan ${name}`)}`;
 
