@@ -51,7 +51,6 @@ const I={
 // ─── Data ──────────────────────────────────────────────────────────────────
 const heroWords=["emprendimiento","negocio","pyme","digitalización","crecimiento"];
 const WA="https://wa.me/5493416139281?text=Hola%2C%20quiero%20asesoramiento%21";
-const waplan=(name)=>`https://wa.me/5493416139281?text=${encodeURIComponent(`Hola, quiero asesoramiento sobre el plan ${name}`)}`;
 
 const services=[
   {icon:I.shield,title:"Ciberseguridad",color:"#6C63FF",desc:"Auditamos y protegemos la información de tu negocio: cuentas, accesos, backups, redes y dispositivos.",items:["Auditoría de accesos y permisos","Revisión de backups y recuperación","Análisis de vulnerabilidades básicas","Configuración segura de cuentas y dispositivos"]},
@@ -61,24 +60,24 @@ const services=[
 ];
 
 const featuredPlans=[
-  {name:"Auditoría PyME",service:"Ciberseguridad",color:"#6C63FF",tag:"Servicio potencial",desc:"Protección integral para equipos de 5 a 20 personas. Detectamos todo lo que está en riesgo.",features:["Revisión de cuentas corporativas vs personales","Auditoría de backups y dispositivos","Revisión de permisos y accesos por usuario","Estructura de carpetas y directorio activo","Informe escrito con recomendaciones"]},
-  {name:"Presencia Total",service:"Crecimiento Digital",color:"#F5005E",tag:"Servicio potencial",desc:"Estrategia digital completa: automatización, landing, redes y soporte post-entrega.",features:["Configuración de WhatsApp Business + ManyChat","Automatización WA + IG (setup inicial)","Landing page hasta 5 secciones + SEO","CRM: carga, segmentación y listas automáticas","Estrategia digital + 1 mes soporte post-entrega"]},
-  {name:"Starter Digital",service:"Crecimiento Digital",color:"#F5005E",tag:"Más elegido",desc:"Setup inicial para digitalizar tu negocio. Todo lo que necesitás para arrancar.",features:["Configuración de WhatsApp Business + ManyChat","Automatización WA setup inicial","CRM: carga y segmentación","Informe inicial de métricas","Soporte post-entrega incluido"]},
+  {name:"Auditoría PyME",service:"Ciberseguridad",color:"#6C63FF",tag:"★ Servicio potencial",desc:"Protección integral para equipos de 5 a 20 personas. Detectamos todo lo que está en riesgo.",features:["Revisión de cuentas corporativas vs personales","Auditoría de backups y dispositivos","Revisión de permisos y accesos por usuario","Estructura de carpetas y directorio activo","Informe escrito con recomendaciones"]},
+  {name:"Presencia Total",service:"Crecimiento Digital",color:"#F5005E",tag:"★ Servicio potencial",desc:"Estrategia digital completa: automatización, landing, redes y soporte post-entrega.",features:["Configuración de WhatsApp Business + ManyChat","Automatización WA + IG (setup inicial)","Landing page hasta 5 secciones + SEO","CRM: carga, segmentación y listas automáticas","Estrategia digital + 1 mes soporte post-entrega"]},
+  {name:"IT Pro",service:"Soporte IT",color:"#0078D4",tag:"Más elegido",desc:"Soporte remoto + presencial programado con prioridad alta. 6 horas mensuales incluidas.",features:["6 horas mensuales de soporte incluidas","Soporte remoto + presencial programado","Redes LAN / WiFi básicas","Prioridad alta en tiempos de respuesta","Consultas técnicas ilimitadas en horario laboral"]},
 ];
 
 // All plans for the full plans page
 const allPlans = [
   { section: "Ciberseguridad", color: "#6C63FF", icon: I.shield, plans: [
     { name: "Auditoría Micro", type: "Única vez", desc: "Para equipos de 1 a 5 personas.", features: ["Revisión de cuentas (corporativas vs personales)", "Backups y dispositivos", "Redes sociales y WiFi", "Dominio + informe escrito"] },
-    { name: "Auditoría PyME", type: "Única vez", tag: "Más elegido", desc: "Para equipos de 5 a 20 personas.", features: ["Todo lo de Auditoría Micro", "Revisión de permisos/accesos por usuario", "Estructura de carpetas", "Directorio activo"] },
+    { name: "Auditoría PyME", type: "Única vez", tag: "★ Potencial", desc: "Para equipos de 5 a 20 personas.", features: ["Todo lo de Auditoría Micro", "Revisión de permisos/accesos por usuario", "Estructura de carpetas", "Directorio activo"] },
     { name: "Capacitación", type: "Add-on", desc: "Taller grupal de concientización.", features: ["1 sesión grupal (hasta 10 personas)", "Estafas, contraseñas, buenas prácticas", "Guía escrita + 30 días de consultas (opcional)"] },
   ]},
   { section: "Crecimiento Digital", color: "#F5005E", icon: I.rocket, plans: [
     { name: "Starter Digital", type: "Única vez", desc: "Setup inicial para digitalizar tu negocio.", features: ["Config WhatsApp Business + ManyChat", "Automatización WA setup inicial", "CRM carga y segmentación", "Informe inicial de métricas"] },
-    { name: "Presencia Total", type: "Única vez", tag: "Más elegido", desc: "Estrategia digital completa + landing + automatizaciones.", features: ["Todo lo del Starter Digital", "Automatización IG setup inicial", "Landing page hasta 5 secciones + SEO", "Estrategia digital + revisión de redes", "1 mes de soporte post-entrega"] },
+    { name: "Presencia Total", type: "Única vez", tag: "★ Potencial", desc: "Estrategia digital completa + landing + automatizaciones.", features: ["Todo lo del Starter Digital", "Automatización IG setup inicial", "Landing page hasta 5 secciones + SEO", "Estrategia digital + revisión de redes", "1 mes de soporte post-entrega"] },
     { name: "Crecimiento Basic", type: "Mensual", desc: "Mantenimiento básico de tu estrategia digital.", features: ["1 difusión ManyChat o email marketing", "1 reunión de seguimiento (1hs)", "Informe mensual de métricas"] },
     { name: "Crecimiento Pro", type: "Mensual", desc: "Crecimiento activo con más difusiones y contenido.", features: ["2 difusiones (ManyChat + email mkt)", "Publicación de hasta 3 piezas en web", "Reunión mensual de seguimiento (2hs)", "Informe mensual de métricas"] },
-    { name: "Lima Max", type: "Mensual", tag: "★ Todo en uno", desc: "Mantenimiento web completo + crecimiento digital full.", features: ["Mantenimiento web Pro completo", "2 difusiones + email marketing", "Publicaciones en web + reunión mensual", "Informe mensual completo", "Todo en un solo plan"] },
+    { name: "Lima Max", type: "Mensual", tag: "★ Combo estrella", desc: "Mantenimiento web completo + crecimiento digital full.", features: ["Mantenimiento web Pro completo", "2 difusiones + email marketing", "Publicaciones en web + reunión mensual", "Informe mensual completo", "Todo en un solo plan"] },
   ]},
   { section: "Sitios Web", color: "#38BDF8", icon: I.globe, plans: [
     { name: "Landing Page", type: "Única vez", desc: "Sitio web profesional de hasta 5 secciones.", features: ["Diseño + publicación", "SEO básico optimizado", "Integración con WhatsApp", "Revisión de visitas post-entrega"] },
@@ -87,7 +86,7 @@ const allPlans = [
   ]},
   { section: "Soporte IT", color: "#0078D4", icon: I.monitor, plans: [
     { name: "IT Básico", type: "Mensual", desc: "Soporte remoto para equipos individuales. 3hs/mes.", features: ["3 horas mensuales de soporte", "Solo remoto, prioridad normal", "PCs, notebooks, impresoras", "Software de uso diario"] },
-    { name: "IT Pro", type: "Mensual", desc: "Soporte remoto + presencial. 6hs/mes, prioridad alta.", features: ["6 horas mensuales de soporte", "Remoto + presencial programado", "Redes LAN / WiFi básicas", "Prioridad alta en respuesta"] },
+    { name: "IT Pro", type: "Mensual", tag: "Más elegido", desc: "Soporte remoto + presencial. 6hs/mes, prioridad alta.", features: ["6 horas mensuales de soporte", "Remoto + presencial programado", "Redes LAN / WiFi básicas", "Prioridad alta en respuesta"] },
     { name: "Servicio Puntual", type: "Por evento", desc: "Solución rápida para problemas específicos.", features: ["Diagnóstico técnico completo", "Resolución de fallas hw/sw", "Optimización de rendimiento", "Recomendaciones post-servicio"] },
   ]},
 ];
@@ -113,7 +112,7 @@ function PlanCard({p}){
       <div className="pc-tag" style={{background:`${p.color}15`,border:`1px solid ${p.color}30`,color:p.color}}><span className="pc-tag-dot" style={{background:p.color}}/>{p.tag}</div>
       <h3>{p.name}</h3><p className="pc-desc">{p.desc}</p>
       <div className="pc-feats">{p.features.map((f,j)=><div key={j} className="pc-feat">{I.check(p.color)}<span>{f}</span></div>)}</div>
-      <a href={waplan(p.name)} target="_blank" rel="noopener noreferrer" className="pc-btn" style={{background:p.color}}>Consultá por este plan</a>
+      <a href={WA} target="_blank" rel="noopener noreferrer" className="pc-btn" style={{background:p.color}}>Consultá por este plan</a>
     </div>
   );
 }
@@ -121,13 +120,11 @@ function PlanCard({p}){
 // ─── All Plans Page ───────────────────────────────────────────────────────
 function AllPlansPage({onBack}){
   return(
-    <div className="sec" style={{paddingTop:"8.5rem"}}>
+    <div className="sec" style={{paddingTop:"7rem"}}>
       <button className="allp-back" onClick={onBack}>{I.back} Volver a la landing</button>
-      <div style={{marginTop:"1.5rem"}}>
-        <span className="sl">Todos los planes</span>
-        <h2 className="stt">Explorá todas nuestras opciones</h2>
-        <p className="sd">Cada servicio tiene planes adaptados a tu necesidad. Sin precios en la web — consultá directamente y te armamos algo a medida.</p>
-      </div>
+      <span className="sl">Todos los planes</span>
+      <h2 className="stt">Explorá todas nuestras opciones</h2>
+      <p className="sd">Cada servicio tiene planes adaptados a tu necesidad. Sin precios en la web — consultá directamente y te armamos algo a medida.</p>
       {allPlans.map((sec,si)=>(
         <div key={si} className="allp-section">
           <div className="allp-section-hdr">
@@ -141,7 +138,7 @@ function AllPlansPage({onBack}){
                 {p.tag && <div className="allp-card-tag" style={{background:`${sec.color}15`,color:sec.color}}>{p.tag}</div>}
                 <p>{p.desc}</p>
                 <div className="allp-feats">{p.features.map((f,fi)=><div key={fi} className="allp-feat">{I.check(sec.color)}<span>{f}</span></div>)}</div>
-                <a href={waplan(p.name)} target="_blank" rel="noopener noreferrer" className="allp-cta" style={{color:sec.color,borderColor:`${sec.color}44`,background:`${sec.color}10`}}>Consultar</a>
+                <a href={WA} target="_blank" rel="noopener noreferrer" className="allp-cta" style={{color:sec.color,borderColor:`${sec.color}44`,background:`${sec.color}10`}}>Consultar</a>
               </div>
             ))}
           </div>
