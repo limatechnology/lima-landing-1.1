@@ -221,7 +221,7 @@ export default function LimaTechnology() {
       </nav>
 
       <section className="hero">
-        <div className="hp"><span className="hps">{I.spark}</span> Especialistas en Ciberseguridad & Crecimiento Digital en Rosario, Argentina</div>
+        <div className="hp"><span className="hps">{I.spark}</span> Innovación & Seguridad — Rosario, Argentina</div>
         <h1>
           Aceleramos la <br className="mo-br" />
           <span className="tw-word">
@@ -231,34 +231,34 @@ export default function LimaTechnology() {
           con tecnología<br className="mo-br" /> confiable
         </h1>
 
-        <p className="hs">Potenciamos PyMEs en Rosario con soluciones de digitalización sin interrupciones, sin incertidumbre y sin tecnología que te frustra.</p>
+        <p className="hs">Potenciamos negocios, emprendimientos, PyMEs y freelancers con soluciones digitales simples, confiables y honestas.</p>
         <div className="hb">
           <a href={WA} target="_blank" rel="noopener noreferrer" className="bl-btn" aria-label="Contactar por WhatsApp">{I.wa} Comencemos ahora</a>
-          <a href="#servicios" className="bo">Ver servicios de tecnología</a>
+          <a href="#servicios" className="bo">Ver servicios</a>
         </div>
       </section>
       <div className="dv" />
 
       <section className="sec" id="servicios">
-        <span className="sl">Nuestros Servicios</span>
-        <h2 className="stt">Soluciones de Ciberseguridad y Digitalización para tu negocio</h2>
-        <p className="sd">Diseñamos y acompañamos tu transformación digital con herramientas modernas, seguras y accesibles. Especialistas en mejorar tu presencia online y proteger tu información.</p>
+        <span className="sl">Servicios</span>
+        <h2 className="stt">Soluciones reales para tu negocio</h2>
+        <p className="sd">Acompañamos tu transformación digital con herramientas que entendés y te sirven. Sin vueltas, con honestidad y vocación de ayudar.</p>
         <div className="sg">{services.map((s, i) => <ServiceCard key={i} s={s} onViewPlans={scrollToPlanes} />)}</div>
       </section>
       <div className="dv" />
 
       <section className="sec" id="planes" ref={planesRef}>
-        <span className="sl">Planes para PyMEs</span>
-        <h2 className="stt">Elegí el plan de tecnología que mejor se adapte</h2>
-        <p className="sd">Nuestros planes destacados en Ciberseguridad, Mantenimiento Web y Soporte IT. Consultá por precios y personalización para tu empresa en Rosario.</p>
+        <span className="sl">Planes</span>
+        <h2 className="stt">Elegí lo que necesitás</h2>
+        <p className="sd">Planes pensados para acompañar el crecimiento de tu empresa. Consultá por personalización según tu necesidad real.</p>
         <div className="pg">{featuredPlans.map((p, i) => <PlanCard key={i} p={p} />)}</div>
         <button className="view-all-btn" onClick={goToAllPlans} aria-label="Ver todos los planes disponibles">Ver todos los planes {I.arrow()}</button>
       </section>
       <div className="dv" />
 
       <section className="sec" id="nosotros">
-        <span className="sl">Expertos en IT</span>
-        <h2 className="stt">La historia detrás de Lima Technology</h2>
+        <span className="sl">Sobre nosotros</span>
+        <h2 className="stt">La historia detrás de Lima</h2>
         <div className="about-wrap">
           <div className="about-story">
             <div className="about-col"><p><strong>Lima Technology</strong> es un emprendimiento tecnológico fundado por <span className="lima-hl">Kevin</span>, un profesional con más de 10 años de experiencia en IT, seguridad informática y marketing digital, nacido y criado en Rosario.</p><p>Lima no nació en una oficina ni con un plan de negocios de 40 páginas. Nació de una conversación, de una idea suelta, y fue mutando hasta convertirse en algo con propósito real: acompañar a PyMEs y negocios locales en su crecimiento digital, con la misma dedicación que le pondría el dueño del negocio.</p></div>
@@ -282,17 +282,17 @@ export default function LimaTechnology() {
       <div className="dv" />
 
       <section className="sec cs" id="clientes">
-        <span className="sl">Casos de Éxito</span>
-        <h3 className="stt" style={{ textAlign: "center", marginBottom: "1rem" }}>Clientes que confían en nosotros</h3>
-        <p className="sd" style={{ margin: "0 auto 1.5rem", textAlign: "center" }}>Empresas y profesionales de Rosario que eligieron crecer con Lima Technology para digitalizar sus procesos y proteger sus datos.</p>
+        <span className="sl">Clientes</span>
+        <h3 className="stt" style={{ textAlign: "center", marginBottom: "1rem" }}>Confían en nosotros</h3>
+        <p className="sd" style={{ margin: "0 auto 1.5rem", textAlign: "center" }}>Empresas de Rosario que eligieron dar el paso digital junto a Lima.</p>
         <div className="cg"><div className="cc">Beauty La Peluquería</div><div className="cc">La Culpa</div><div className="cc">GEMA</div><div className="cc">Comercios Locales</div><div className="cc">Pymes & Startups</div></div>
       </section>
       <div className="dv" />
 
       <section className="ctas" id="contacto">
-        <span className="sl">Contacto Directo</span>
-        <h2>¿Listo para <span className="hl">digitalizar</span> tu negocio?</h2>
-        <p>Simplificamos lo complejo. Hacemos que la tecnología sea tu aliada cotidiana para el crecimiento y la ciberseguridad.</p>
+        <span className="sl">Contacto</span>
+        <h2>¿Listo para <span className="hl">dar el paso</span>?</h2>
+        <p>Trabajamos con vocación y honestidad para que la tecnología sea tu mejor aliada cotidianamente.</p>
         <div className="ctab">
           <a href={WA} target="_blank" rel="noopener noreferrer" className="bl-btn" aria-label="Escribir por WhatsApp">{I.wa} Escribinos por WhatsApp</a>
           <a href="mailto:limatech.ar@gmail.com" className="bo" aria-label="Enviar un correo electrónico">Enviar email</a>
