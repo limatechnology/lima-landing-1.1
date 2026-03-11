@@ -186,11 +186,11 @@ export default function LimaTechnology() {
     <>
       <FloatingParticles />
       <nav className={`nav ${scrolled ? "sc" : ""}`}>
-        <a href="#" className="nl" onClick={(e) => { e.preventDefault(); goHome(); }}><img src="/LimaTechnology.png" alt="Lima Technology" className="nl-img" /></a>
+        <a href="#" className="nl" onClick={(e) => { e.preventDefault(); goHome(); }}>
+          <img src="/LimaTechnology.png" alt="Logo de Lima Technology - Expertos en Ciberseguridad y Crecimiento Digital" className="nl-img" />
+        </a>
 
-        <ul className="nk"><li><button onClick={goHome}>← Volver</button></li></ul>
-        <div className="ncw"><a href={WA} target="_blank" rel="noopener noreferrer" className="nc">Contactar</a></div>
-        <button className="nm" onClick={goHome}>←</button>
+        <div className="ncw"><a href={WA} target="_blank" rel="noopener noreferrer" className="nc">Contactar por WhatsApp</a></div>
       </nav>
       <AllPlansPage onBack={goHome} />
       <footer className="ftr"><p>Lima Technology 2025 © — Rosario, Santa Fe</p></footer>
@@ -202,46 +202,63 @@ export default function LimaTechnology() {
       <FloatingParticles />
       <nav className={`nav ${scrolled ? "sc" : ""} ${mob ? "mo" : ""}`}>
 
-        <a href="#" className="nl"><img src="/LimaTechnology.png" alt="Lima Technology" className="nl-img" /></a>
+        <a href="#" className="nl">
+          <img src="/LimaTechnology.png" alt="Logo de Lima Technology Rosario - Ciberseguridad y Digitalización" className="nl-img" />
+        </a>
         <ul className="nk">
-          <li><a href="#servicios" onClick={() => setMob(false)}>Servicios</a></li>
-          <li><a href="#planes" onClick={() => setMob(false)}>Planes</a></li>
+          <li><a href="#servicios" onClick={() => setMob(false)}>Servicios Digitales</a></li>
+          <li className="nk-item-has-submenu">
+            <a href="#planes" onClick={() => setMob(false)}>Planes PyME</a>
+            <ul className="submenu">
+              <li><a href="#" onClick={(e) => { e.preventDefault(); goToAllPlans(); setMob(false); }}>Ver todos los planes</a></li>
+            </ul>
+          </li>
           <li><a href="#nosotros" onClick={() => setMob(false)}>Nosotros</a></li>
           <li><a href="#clientes" onClick={() => setMob(false)}>Clientes</a></li>
         </ul>
-        <div className="ncw"><a href={WA} target="_blank" rel="noopener noreferrer" className="nc">Contactar</a></div>
-        <button className="nm" onClick={() => setMob(!mob)}>{mob ? "✕" : "☰"}</button>
+        <div className="ncw"><a href={WA} target="_blank" rel="noopener noreferrer" className="nc">Agendar Consulta</a></div>
+        <button className="nm" onClick={() => setMob(!mob)} aria-label={mob ? "Cerrar menú" : "Abrir menú"}>{mob ? "✕" : "☰"}</button>
       </nav>
 
       <section className="hero">
-        <div className="hp"><span className="hps">{I.spark}</span> Innovación & Seguridad — Rosario, Argentina</div>
-        <h1>Aceleramos tu<br className="mo-br" /> <span className="tw-word">{typedWord}<span className="tw-cursor" /></span><br />con tecnología<br className="mo-br" /> confiable</h1>
+        <div className="hp"><span className="hps">{I.spark}</span> Especialistas en Ciberseguridad & Crecimiento Digital en Rosario, Argentina</div>
+        <h1>
+          Aceleramos la <br className="mo-br" />
+          <span className="tw-word">
+            <span className="sr-only">transformación digital, ciberseguridad y crecimiento de tu negocio</span>
+            {typedWord}<span className="tw-cursor" />
+          </span><br />
+          con tecnología<br className="mo-br" /> confiable
+        </h1>
 
-        <p className="hs">Sin interrupciones, sin incertidumbre, sin tecnología que te frustra.</p>
+        <p className="hs">Potenciamos PyMEs en Rosario con soluciones de digitalización sin interrupciones, sin incertidumbre y sin tecnología que te frustra.</p>
         <div className="hb">
-          <a href={WA} target="_blank" rel="noopener noreferrer" className="bl-btn">{I.wa} Comencemos</a>
-          <a href="#servicios" className="bo">Ver servicios</a>
+          <a href={WA} target="_blank" rel="noopener noreferrer" className="bl-btn" aria-label="Contactar por WhatsApp">{I.wa} Comencemos ahora</a>
+          <a href="#servicios" className="bo">Ver servicios de tecnología</a>
         </div>
       </section>
       <div className="dv" />
 
       <section className="sec" id="servicios">
-        <span className="sl">Servicios</span><h2 className="stt">Soluciones integrales para tu negocio</h2>
-        <p className="sd">Diseñamos y acompañamos tu transformación digital con herramientas modernas, seguras y accesibles.</p>
+        <span className="sl">Nuestros Servicios</span>
+        <h2 className="stt">Soluciones de Ciberseguridad y Digitalización para tu negocio</h2>
+        <p className="sd">Diseñamos y acompañamos tu transformación digital con herramientas modernas, seguras y accesibles. Especialistas en mejorar tu presencia online y proteger tu información.</p>
         <div className="sg">{services.map((s, i) => <ServiceCard key={i} s={s} onViewPlans={scrollToPlanes} />)}</div>
       </section>
       <div className="dv" />
 
       <section className="sec" id="planes" ref={planesRef}>
-        <span className="sl">Planes destacados</span><h2 className="stt">Elegí el plan que mejor se adapte</h2>
-        <p className="sd">Nuestros planes destacados por servicio. Consultá por precios y personalización.</p>
+        <span className="sl">Planes para PyMEs</span>
+        <h2 className="stt">Elegí el plan de tecnología que mejor se adapte</h2>
+        <p className="sd">Nuestros planes destacados en Ciberseguridad, Mantenimiento Web y Soporte IT. Consultá por precios y personalización para tu empresa en Rosario.</p>
         <div className="pg">{featuredPlans.map((p, i) => <PlanCard key={i} p={p} />)}</div>
-        <button className="view-all-btn" onClick={goToAllPlans}>Ver todos los planes {I.arrow()}</button>
+        <button className="view-all-btn" onClick={goToAllPlans} aria-label="Ver todos los planes disponibles">Ver todos los planes {I.arrow()}</button>
       </section>
       <div className="dv" />
 
       <section className="sec" id="nosotros">
-        <span className="sl">Quiénes somos</span><h2 className="stt">La historia detrás de Lima</h2>
+        <span className="sl">Expertos en IT</span>
+        <h2 className="stt">La historia detrás de Lima Technology</h2>
         <div className="about-wrap">
           <div className="about-story">
             <div className="about-col"><p><strong>Lima Technology</strong> es un emprendimiento tecnológico fundado por <span className="lima-hl">Kevin</span>, un profesional con más de 10 años de experiencia en IT, seguridad informática y marketing digital, nacido y criado en Rosario.</p><p>Lima no nació en una oficina ni con un plan de negocios de 40 páginas. Nació de una conversación, de una idea suelta, y fue mutando hasta convertirse en algo con propósito real: acompañar a PyMEs y negocios locales en su crecimiento digital, con la misma dedicación que le pondría el dueño del negocio.</p></div>
@@ -265,24 +282,26 @@ export default function LimaTechnology() {
       <div className="dv" />
 
       <section className="sec cs" id="clientes">
-        <span className="sl">Clientes</span><h2 className="stt">Confían en nosotros</h2>
-        <p className="sd" style={{ margin: "0 auto 1.5rem", textAlign: "center" }}>Empresas y profesionales de Rosario que eligieron crecer con Lima Technology.</p>
+        <span className="sl">Casos de Éxito</span>
+        <h3 className="stt" style={{ textAlign: "center", marginBottom: "1rem" }}>Clientes que confían en nosotros</h3>
+        <p className="sd" style={{ margin: "0 auto 1.5rem", textAlign: "center" }}>Empresas y profesionales de Rosario que eligieron crecer con Lima Technology para digitalizar sus procesos y proteger sus datos.</p>
         <div className="cg"><div className="cc">Beauty La Peluquería</div><div className="cc">La Culpa</div><div className="cc">GEMA</div><div className="cc">Comercios Locales</div><div className="cc">Pymes & Startups</div></div>
       </section>
       <div className="dv" />
 
       <section className="ctas" id="contacto">
-        <span className="sl">Contacto</span><h2>¿Listo para <span className="hl">crecer</span>?</h2>
-        <p>Simplificamos lo complejo. Hacemos que la tecnología sea tu aliada cotidiana.</p>
+        <span className="sl">Contacto Directo</span>
+        <h2>¿Listo para <span className="hl">digitalizar</span> tu negocio?</h2>
+        <p>Simplificamos lo complejo. Hacemos que la tecnología sea tu aliada cotidiana para el crecimiento y la ciberseguridad.</p>
         <div className="ctab">
-          <a href={WA} target="_blank" rel="noopener noreferrer" className="bl-btn">{I.wa} Escribinos por WhatsApp</a>
-          <a href="mailto:limatech.ar@gmail.com" className="bo">Enviar email</a>
+          <a href={WA} target="_blank" rel="noopener noreferrer" className="bl-btn" aria-label="Escribir por WhatsApp">{I.wa} Escribinos por WhatsApp</a>
+          <a href="mailto:limatech.ar@gmail.com" className="bo" aria-label="Enviar un correo electrónico">Enviar email</a>
         </div>
         <div className="ctal">
-          <a href="https://www.instagram.com/limatech_ar/" target="_blank" rel="noopener noreferrer" className="ctlk">{I.ig} Instagram</a>
-          <a href="https://threads.net/@limatech_ar" target="_blank" rel="noopener noreferrer" className="ctlk">{I.threads} Threads</a>
-          <a href="https://x.com/limatech_ar" target="_blank" rel="noopener noreferrer" className="ctlk">{I.x} X / Twitter</a>
-          <a href="mailto:limatech.ar@gmail.com" className="ctlk">{I.mail} Email</a>
+          <a href="https://www.instagram.com/limatech_ar/" target="_blank" rel="noopener noreferrer" className="ctlk" aria-label="Seguir en Instagram">{I.ig} Instagram</a>
+          <a href="https://threads.net/@limatech_ar" target="_blank" rel="noopener noreferrer" className="ctlk" aria-label="Seguir en Threads">{I.threads} Threads</a>
+          <a href="https://x.com/limatech_ar" target="_blank" rel="noopener noreferrer" className="ctlk" aria-label="Seguir en X (Twitter)">{I.x} X / Twitter</a>
+          <a href="mailto:limatech.ar@gmail.com" className="ctlk" aria-label="Enviar consulta por email">{I.mail} Email</a>
         </div>
       </section>
       <footer className="ftr"><p>Lima Technology 2025 © Todos los derechos reservados — Rosario, Santa Fe</p></footer>
