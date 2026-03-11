@@ -221,7 +221,7 @@ export default function LimaTechnology() {
       </nav>
 
       <section className="hero">
-        <div className="hp"><span className="hps">{I.spark}</span> Innovación & Seguridad para tu crecimiento</div>
+        <div className="hp"><span className="hps">{I.spark}</span> Transformación Digital & Seguridad para tu crecimiento</div>
         <h1>
           Aceleramos tu <br className="mo-br" />
           <span className="tw-word">
