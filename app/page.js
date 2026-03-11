@@ -137,7 +137,7 @@ function AllPlansPage({ onBack }) {
       <div style={{ marginTop: "1.5rem" }}>
         <span className="sl">Todos los planes</span>
         <h2 className="stt">Explorá todas nuestras opciones</h2>
-        <p className="sd">Cada servicio tiene planes adaptados a tu necesidad. Sin precios en la web — consultá directamente y te armamos algo a medida.</p>
+        <p className="sd">Pensamos planes y paquetes adaptados a cada necesidad. Sin precios fijos en la web — consultanos y buscamos la mejor opción para vos.</p>
       </div>
       {allPlans.map((sec, si) => (
         <div key={si} className="allp-section">
@@ -208,7 +208,7 @@ export default function LimaTechnology() {
         <ul className="nk">
           <li><a href="#servicios" onClick={() => setMob(false)}>Servicios Digitales</a></li>
           <li className="nk-item-has-submenu">
-            <a href="#planes" onClick={() => setMob(false)}>Planes PyME</a>
+            <a href="#planes" onClick={() => setMob(false)}>Planes</a>
             <ul className="submenu">
               <li><a href="#" onClick={(e) => { e.preventDefault(); goToAllPlans(); setMob(false); }}>Ver todos los planes</a></li>
             </ul>
@@ -221,9 +221,9 @@ export default function LimaTechnology() {
       </nav>
 
       <section className="hero">
-        <div className="hp"><span className="hps">{I.spark}</span> Innovación & Seguridad — Rosario, Argentina</div>
+        <div className="hp"><span className="hps">{I.spark}</span> Innovación & Seguridad para tu crecimiento</div>
         <h1>
-          Aceleramos la <br className="mo-br" />
+          Aceleramos tu <br className="mo-br" />
           <span className="tw-word">
             <span className="sr-only">transformación digital, ciberseguridad y crecimiento de tu negocio</span>
             {typedWord}<span className="tw-cursor" />
