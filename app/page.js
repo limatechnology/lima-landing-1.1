@@ -211,14 +211,14 @@ function FloatingParticles() {
           position: "absolute",
           top: "50%",
           left: "50%",
-          width: "78.5vmin", // +20% sobre 65.45vmin
-          height: "78.5vmin",
+          width: "82.5vmin", // Aumentado para coincidir con los bordes del orbe
+          height: "82.5vmin",
           borderRadius: "50%",
           background: "rgba(255, 255, 255, 0.01)",
           border: "none",
           transform: "translate(-50%, -50%)",
-          backdropFilter: "blur(2.2px)", // +25% sobre 1.75px
-          boxShadow: "inset 0 0 24.4px rgba(255, 255, 255, 0.02)", // +25% sobre 19.5px
+          backdropFilter: "blur(1.87px)", // Reducido un 15% de 2.2px
+          boxShadow: "inset 0 0 24.4px rgba(255, 255, 255, 0.02)",
           transition: "none"
         }}
       />
