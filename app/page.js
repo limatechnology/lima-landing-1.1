@@ -67,14 +67,14 @@ function FloatingParticles() {
         this.s = Math.random() * 1.3 + 0.5;
         this.p = Math.random() * Math.PI * 2;
       }
-      d(rot, swayX, swayY, radius, time) {
+      d(rot, radius, time) {
         let x1 = this.px * Math.cos(rot) - this.pz * Math.sin(rot);
         let z1 = this.px * Math.sin(rot) + this.pz * Math.cos(rot);
         let y2 = this.py * Math.cos(rot * 0.7) - z1 * Math.sin(rot * 0.7);
         let z2 = this.py * Math.sin(rot * 0.7) + z1 * Math.cos(rot * 0.7);
         const pers = 500 / (500 + z2 * radius);
-        const x = x1 * radius * pers + c.width / 2 + swayX;
-        const y = y2 * radius * pers + c.height / 2 + swayY;
+        const x = x1 * radius * pers + c.width / 2;
+        const y = y2 * radius * pers + c.height / 2;
         const o = (0.58 + Math.sin(this.p + time) * 0.17) * pers;
         ctx.beginPath();
         ctx.arc(x, y, this.s * pers, 0, Math.PI * 2);
@@ -128,14 +128,8 @@ function FloatingParticles() {
         }
       }
 
-      const orbRadius = Math.min(c.width, c.height) * 0.22; // Slightly tighter radius
-      const swayX = Math.sin(time * 0.3) * 10;
-      const swayY = Math.cos(time * 0.2) * 8;
-      orbParticles.forEach(p => p.d(rot, swayX, swayY, orbRadius, time));
-
-      if (shell) {
-        shell.style.transform = `translate(calc(-50% + ${swayX}px), calc(-50% + ${swayY}px))`;
-      }
+      const orbRadius = Math.min(c.width, c.height) * 0.22;
+      orbParticles.forEach(p => p.d(rot, orbRadius, time));
 
       a = requestAnimationFrame(an);
     };
@@ -152,12 +146,13 @@ function FloatingParticles() {
           position: "absolute",
           top: "50%",
           left: "50%",
-          width: "54vmin", // Increased to wrap perfectly without leaks
+          width: "54vmin",
           height: "54vmin",
           borderRadius: "50%",
           background: "rgba(255, 255, 255, 0.015)",
-          border: "1px solid rgba(255, 255, 255, 0.12)",
-          backdropFilter: "blur(8px)", // Subtle blur as requested
+          border: "none",
+          transform: "translate(-50%, -50%)",
+          backdropFilter: "blur(4px)",
           boxShadow: "inset 0 0 15px rgba(255, 255, 255, 0.04)",
           transition: "none"
         }}
