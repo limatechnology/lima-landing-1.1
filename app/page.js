@@ -19,19 +19,92 @@ function useTypewriter(words, ts = 90, ds = 55, pt = 1800) {
 }
 
 // ─── Floating Particles ────────────────────────────────────────────────────
+// ─── AI Thinking Orb ───────────────────────────────────────────────────────
 function FloatingParticles() {
   const r = useRef(null);
+  const orbWords = ["Analizando contexto...", "Buscando espacio vectorial...", "Optimizando respuesta..."];
+  const status = useTypewriter(orbWords, 50, 30, 2000);
+
   useEffect(() => {
-    const c = r.current, x = c.getContext("2d"); let a, ps = [];
-    const rs = () => { c.width = window.innerWidth; c.height = window.innerHeight; };
+    const c = r.current, ctx = c.getContext("2d");
+    let a;
+    let particles = [];
+    const count = 120;
+    
+    const rs = () => { 
+      c.width = window.innerWidth; 
+      c.height = window.innerHeight; 
+    };
     rs(); window.addEventListener("resize", rs);
-    class P { constructor() { this.r() } r() { this.x = Math.random() * c.width; this.y = Math.random() * c.height; this.s = Math.random() * 2.5 + .8; this.sx = (Math.random() - .5) * .6; this.sy = (Math.random() - .5) * .6; this.o = Math.random() * .45 + .1; this.p = Math.random() * Math.PI * 2; const cl = [[184, 245, 0], [108, 99, 255], [0, 127, 255], [56, 189, 248]]; this.c = cl[Math.floor(Math.random() * cl.length)] } u() { this.x += this.sx; this.y += this.sy; this.p += .015; if (this.x < 0 || this.x > c.width) this.sx *= -1; if (this.y < 0 || this.y > c.height) this.sy *= -1 } d() { const o = this.o + Math.sin(this.p) * .12; x.beginPath(); x.arc(this.x, this.y, this.s, 0, Math.PI * 2); x.fillStyle = `rgba(${this.c[0]},${this.c[1]},${this.c[2]},${Math.max(0, o)})`; x.fill() } }
-    for (let i = 0; i < 70; i++)ps.push(new P());
-    const ln = () => { for (let i = 0; i < ps.length; i++)for (let j = i + 1; j < ps.length; j++) { const dx = ps[i].x - ps[j].x, dy = ps[i].y - ps[j].y, d = Math.sqrt(dx * dx + dy * dy); if (d < 140) { x.beginPath(); x.moveTo(ps[i].x, ps[i].y); x.lineTo(ps[j].x, ps[j].y); x.strokeStyle = `rgba(184,245,0,${.06 * (1 - d / 140)})`; x.lineWidth = .5; x.stroke() } } };
-    const an = () => { x.clearRect(0, 0, c.width, c.height); ps.forEach(p => { p.u(); p.d() }); ln(); a = requestAnimationFrame(an) }; an();
-    return () => { cancelAnimationFrame(a); window.removeEventListener("resize", rs) };
+
+    const colors = [[184, 245, 0], [108, 99, 255], [0, 127, 255], [56, 189, 248]];
+
+    class P { 
+      constructor() {
+        const phi = Math.acos(-1 + (2 * Math.random()));
+        const theta = Math.random() * Math.PI * 2;
+        this.px = Math.sin(phi) * Math.cos(theta);
+        this.py = Math.sin(phi) * Math.sin(theta);
+        this.pz = Math.cos(phi);
+        this.s = Math.random() * 2.5 + 0.8;
+        this.c = colors[Math.floor(Math.random() * colors.length)];
+        this.p = Math.random() * Math.PI * 2;
+      }
+      d(rot, radius) {
+        let x1 = this.px * Math.cos(rot) - this.pz * Math.sin(rot);
+        let z1 = this.px * Math.sin(rot) + this.pz * Math.cos(rot);
+        let y2 = this.py * Math.cos(rot * 0.5) - z1 * Math.sin(rot * 0.5);
+        let z2 = this.py * Math.sin(rot * 0.5) + z1 * Math.cos(rot * 0.5);
+        const pers = 600 / (600 + z2 * radius);
+        const x = x1 * radius * pers + c.width / 2;
+        const y = y2 * radius * pers + c.height / 2;
+        const o = (0.4 + Math.sin(this.p) * 0.15) * pers;
+        ctx.beginPath();
+        ctx.arc(x, y, this.s * pers, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${this.c[0]},${this.c[1]},${this.c[2]},${Math.max(0, o)})`;
+        ctx.fill();
+        this.p += 0.02;
+        return { x, y, z: z2 };
+      }
+    }
+
+    for (let i = 0; i < count; i++) particles.push(new P());
+
+    let rot = 0;
+    const an = () => {
+      ctx.clearRect(0, 0, c.width, c.height);
+      rot += 0.003;
+      const radius = Math.min(c.width, c.height) * 0.35;
+      const proj = particles.map(p => p.d(rot, radius));
+      
+      for (let i = 0; i < proj.length; i++) {
+        for (let j = i + 1; j < proj.length; j++) {
+          const dx = proj[i].x - proj[j].x, dy = proj[i].y - proj[j].y;
+          const d = Math.sqrt(dx * dx + dy * dy);
+          if (d < 110) {
+            ctx.beginPath();
+            ctx.moveTo(proj[i].x, proj[i].y);
+            ctx.lineTo(proj[j].x, proj[j].y);
+            ctx.strokeStyle = `rgba(184,245,0,${0.06 * (1 - d / 110)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+      a = requestAnimationFrame(an);
+    };
+    an();
+    return () => { cancelAnimationFrame(a); window.removeEventListener("resize", rs); };
   }, []);
-  return <canvas ref={r} style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 0 }} />;
+
+  return (
+    <div style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 0 }}>
+      <canvas ref={r} style={{ width: "100%", height: "100%" }} />
+      <div style={{ position: "absolute", bottom: "10%", left: "50%", transform: "translateX(-50%)", color: "#B8F500", fontFamily: "monospace", fontSize: "0.8rem", opacity: 0.6, letterSpacing: "0.2em", textTransform: "uppercase" }}>
+        {status}
+      </div>
+    </div>
+  );
 }
 
 // ─── Icons ─────────────────────────────────────────────────────────────────
