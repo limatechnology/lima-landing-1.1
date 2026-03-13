@@ -75,7 +75,7 @@ function FloatingParticles() {
         const pers = 500 / (500 + z2 * radius);
         const x = x1 * radius * pers + c.width / 2 + swayX;
         const y = y2 * radius * pers + c.height / 2 + swayY;
-        const o = (0.7 + Math.sin(this.p + time) * 0.2) * pers;
+        const o = (0.58 + Math.sin(this.p + time) * 0.17) * pers;
         ctx.beginPath();
         ctx.arc(x, y, this.s * pers, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${orbColor[0]},${orbColor[1]},${orbColor[2]},${Math.max(0, o)})`;
@@ -128,7 +128,7 @@ function FloatingParticles() {
         }
       }
 
-      const orbRadius = Math.min(c.width, c.height) * 0.23;
+      const orbRadius = Math.min(c.width, c.height) * 0.22; // Slightly tighter radius
       const swayX = Math.sin(time * 0.3) * 10;
       const swayY = Math.cos(time * 0.2) * 8;
       orbParticles.forEach(p => p.d(rot, swayX, swayY, orbRadius, time));
@@ -152,13 +152,13 @@ function FloatingParticles() {
           position: "absolute",
           top: "50%",
           left: "50%",
-          width: "50vmin",
-          height: "50vmin",
+          width: "54vmin", // Increased to wrap perfectly without leaks
+          height: "54vmin",
           borderRadius: "50%",
-          background: "rgba(184, 245, 0, 0.04)",
-          border: "1px solid rgba(184, 245, 0, 0.25)",
-          backdropFilter: "blur(20px)",
-          boxShadow: "0 0 40px rgba(184, 245, 0, 0.08), inset 0 0 20px rgba(255, 255, 255, 0.05)",
+          background: "rgba(255, 255, 255, 0.015)",
+          border: "1px solid rgba(255, 255, 255, 0.12)",
+          backdropFilter: "blur(8px)", // Subtle blur as requested
+          boxShadow: "inset 0 0 15px rgba(255, 255, 255, 0.04)",
           transition: "none"
         }}
       />
