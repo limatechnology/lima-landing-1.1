@@ -33,7 +33,7 @@ function FloatingParticles() {
     
     const nodeCount = 100;
     const orbCount = 1350;
-    const maxPulses = 12; // Keep UX clean
+    const maxPulses = 14; 
     const connDist = 160;
 
     const rs = () => { 
@@ -51,7 +51,7 @@ function FloatingParticles() {
         y: Math.random() * c.height,
         vx: (Math.random() - 0.5) * 0.35,
         vy: (Math.random() - 0.5) * 0.35,
-        s: Math.random() * 1.5 + 0.8,
+        s: (Math.random() * 1.5 + 0.8) * 1.1, // 10% larger
         c: colors[Math.floor(Math.random() * colors.length)]
       });
     }
@@ -109,7 +109,7 @@ function FloatingParticles() {
         this.px = Math.sin(this.phi) * Math.cos(this.theta);
         this.py = Math.sin(this.phi) * Math.sin(this.theta);
         this.pz = Math.cos(this.phi);
-        this.s = Math.random() * 1.3 + 0.5;
+        this.s = (Math.random() * 1.3 + 0.5) * 1.1; // 10% larger
         this.p = Math.random() * Math.PI * 2;
       }
       d(rot, radius, time) {
@@ -147,8 +147,8 @@ function FloatingParticles() {
         ctx.fill();
       });
 
-      // Spawn pulses sparingly
-      if (activePulses.length < maxPulses && Math.random() < 0.03) {
+      // Spawn pulses sparingly (Increased rate for more connections)
+      if (activePulses.length < maxPulses && Math.random() < 0.033) {
         const i = Math.floor(Math.random() * nodeCount);
         const j = Math.floor(Math.random() * nodeCount);
         if (i !== j) {
@@ -183,13 +183,13 @@ function FloatingParticles() {
           position: "absolute",
           top: "50%",
           left: "50%",
-          width: "54vmin",
-          height: "54vmin",
+          width: "53vmin", // 2% smaller
+          height: "53vmin",
           borderRadius: "50%",
           background: "rgba(255, 255, 255, 0.015)",
           border: "none",
           transform: "translate(-50%, -50%)",
-          backdropFilter: "blur(2px)",
+          backdropFilter: "blur(1.86px)", // 7% less blur
           boxShadow: "inset 0 0 15px rgba(255, 255, 255, 0.04)",
           transition: "none"
         }}
