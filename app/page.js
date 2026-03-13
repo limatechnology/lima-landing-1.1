@@ -19,7 +19,7 @@ function useTypewriter(words, ts = 90, ds = 55, pt = 1800) {
 }
 
 // ─── Floating Particles ────────────────────────────────────────────────────
-// ─── AI Thinking Orb (Optimized Dual Layer) ────────────────────────────────
+// ─── AI Thinking Orb (Final White & Color Mix) ──────────────────────────────
 function FloatingParticles() {
   const r = useRef(null);
 
@@ -28,8 +28,8 @@ function FloatingParticles() {
     let a;
     const bgParticles = [];
     const orbParticles = [];
-    const bgCount = 100;
-    const orbCount = 1400; // Optimized count
+    const bgCount = 180; // Denser background
+    const orbCount = 1600; 
     
     const rs = () => { 
       c.width = window.innerWidth; 
@@ -37,8 +37,9 @@ function FloatingParticles() {
     };
     rs(); window.addEventListener("resize", rs);
 
-    const bgColors = [[184, 245, 0], [108, 99, 255], [0, 127, 255], [56, 189, 248]];
-    const orbColor = [184, 245, 0]; // Verde Lima
+    // Brand colors for background: Lima, Violet, Blue
+    const bgColors = [[184, 245, 0], [108, 99, 255], [0, 150, 255]];
+    const orbColor = [255, 255, 255]; // Pure White
 
     class BgP { 
       constructor() {
@@ -47,14 +48,14 @@ function FloatingParticles() {
         this.px = Math.sin(phi) * Math.cos(theta);
         this.py = Math.sin(phi) * Math.sin(theta);
         this.pz = Math.cos(phi);
-        this.s = Math.random() * 1.0 + 0.5;
+        this.s = Math.random() * 1.2 + 0.6;
         this.c = bgColors[Math.floor(Math.random() * bgColors.length)];
       }
       proj(rot, radius) {
         let x1 = this.px * Math.cos(rot) - this.pz * Math.sin(rot);
         let z1 = this.px * Math.sin(rot) + this.pz * Math.cos(rot);
-        let y2 = this.py * Math.cos(rot * 0.5) - z1 * Math.sin(rot * 0.5);
-        let z2 = this.py * Math.sin(rot * 0.5) + z1 * Math.cos(rot * 0.5);
+        let y2 = this.py * Math.cos(rot * 0.4) - z1 * Math.sin(rot * 0.4);
+        let z2 = this.py * Math.sin(rot * 0.4) + z1 * Math.cos(rot * 0.4);
         const pers = 800 / (800 + z2 * radius);
         return {
           x: x1 * radius * pers + c.width / 2,
@@ -73,7 +74,7 @@ function FloatingParticles() {
         this.px = Math.sin(this.phi) * Math.cos(this.theta);
         this.py = Math.sin(this.phi) * Math.sin(this.theta);
         this.pz = Math.cos(this.phi);
-        this.s = Math.random() * 1.2 + 0.4;
+        this.s = Math.random() * 1.3 + 0.5;
         this.p = Math.random() * Math.PI * 2;
       }
       d(rot, swayX, swayY, radius, time) {
@@ -86,9 +87,9 @@ function FloatingParticles() {
         const x = x1 * radius * pers + c.width / 2 + swayX;
         const y = y2 * radius * pers + c.height / 2 + swayY;
         
-        const wave = Math.sin(this.phi * 8 + time * 3) * 0.3 + 0.7;
-        const pulse = Math.sin(time * 2) * 0.12 + 0.88;
-        const o = (0.6 + Math.sin(this.p + time) * 0.2) * pers * wave * pulse;
+        const wave = Math.sin(this.phi * 7 + time * 2.5) * 0.2 + 0.8;
+        const pulse = Math.sin(time * 1.5) * 0.1 + 0.9;
+        const o = (0.8 + Math.sin(this.p + time) * 0.2) * pers * wave * pulse; // High alpha for white orb
         
         ctx.beginPath();
         ctx.arc(x, y, this.s * pers * pulse, 0, Math.PI * 2);
@@ -104,20 +105,21 @@ function FloatingParticles() {
     let time = 0;
     const an = () => {
       ctx.clearRect(0, 0, c.width, c.height);
-      rot += 0.002;
-      time += 0.025;
+      rot += 0.0018;
+      time += 0.022;
       
-      const bgRadius = Math.min(c.width, c.height) * 0.65;
-      const orbRadius = Math.min(c.width, c.height) * 0.23;
-      const swayX = Math.sin(time * 0.4) * 15;
-      const swayY = Math.cos(time * 0.3) * 12;
+      const bgRadius = Math.min(c.width, c.height) * 0.7;
+      const orbRadius = Math.min(c.width, c.height) * 0.24;
+      const swayX = Math.sin(time * 0.4) * 12;
+      const swayY = Math.cos(time * 0.3) * 10;
 
-      // 1. Background Network
+      // 1. Background (Vibrant nodes + Gray links)
       const bgProj = bgParticles.map(p => p.proj(rot * 0.4, bgRadius));
       bgProj.forEach(p => {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${p.c[0]},${p.c[1]},${p.c[2]},0.08)`; // Low opacity
+        // Clearly visible brand nodes
+        ctx.fillStyle = `rgba(${p.c[0]},${p.c[1]},${p.c[2]},0.7)`; 
         ctx.fill();
       });
 
@@ -126,24 +128,17 @@ function FloatingParticles() {
         for (let j = i + 1; j < bgProj.length; j++) {
           const dx = bgProj[i].x - bgProj[j].x, dy = bgProj[i].y - bgProj[j].y;
           const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 100) {
+          if (d < 120) {
             ctx.beginPath();
             ctx.moveTo(bgProj[i].x, bgProj[i].y);
             ctx.lineTo(bgProj[j].x, bgProj[j].y);
-            ctx.strokeStyle = `rgba(60,60,60,${0.4 * (1 - d / 100)})`; // Dark gray links
+            ctx.strokeStyle = `rgba(100,100,100,${0.4 * (1 - d / 120)})`; 
             ctx.stroke();
           }
         }
       }
 
-      // 2. Core Orb (Lighter Glow)
-      // Subtle manual glow circle instead of shadowBlur
-      const glowAlpha = (Math.sin(time * 2) * 0.05 + 0.15);
-      ctx.beginPath();
-      ctx.arc(c.width/2 + swayX, c.height/2 + swayY, orbRadius * 1.2, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${orbColor[0]},${orbColor[1]},${orbColor[2]},${glowAlpha})`;
-      ctx.fill();
-
+      // 2. Pure White Core Orb
       orbParticles.forEach(p => p.d(rot, swayX, swayY, orbRadius, time));
 
       a = requestAnimationFrame(an);
