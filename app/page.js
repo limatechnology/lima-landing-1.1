@@ -33,7 +33,7 @@ function FloatingParticles() {
     
     const nodeCount = 90; 
     const orbCount = 1350;
-    const maxPulses = 4; // Subido a 4
+    const maxPulses = 2; // Límite estricto de 2
     const connDist = 200; 
     const pulseChainProb = 0.4;
 
@@ -119,7 +119,7 @@ function FloatingParticles() {
           ctx.lineTo(n1.x + (n2.x - n1.x) * fE, n1.y + (n2.y - n1.y) * fE);
         }
         ctx.strokeStyle = `rgba(100,100,100,0.4)`;
-        ctx.lineWidth = 0.8;
+        ctx.lineWidth = 1.0; // Aumentado un 25% de 0.8
         ctx.stroke();
 
         if (this.state === 0 || this.state === 1) {
@@ -193,7 +193,7 @@ function FloatingParticles() {
         else activePulses[i].d();
       }
 
-      const orbRadius = Math.min(c.width, c.height) * 0.343; // +20% sobre 0.286
+      const orbRadius = Math.min(c.width, c.height) * 0.429; // +25% sobre 0.343
       orbParticles.forEach(p => p.d(rot, orbRadius, time));
 
       a = requestAnimationFrame(an);
@@ -211,13 +211,13 @@ function FloatingParticles() {
           position: "absolute",
           top: "50%",
           left: "50%",
-          width: "82.5vmin", // Aumentado para coincidir con los bordes del orbe
-          height: "82.5vmin",
+          width: "103vmin", // +25% sobre 82.5vmin
+          height: "103vmin",
           borderRadius: "50%",
           background: "rgba(255, 255, 255, 0.01)",
           border: "none",
           transform: "translate(-50%, -50%)",
-          backdropFilter: "blur(1.87px)", // Reducido un 15% de 2.2px
+          backdropFilter: "blur(1.5px)", // -20% sobre 1.87px
           boxShadow: "inset 0 0 24.4px rgba(255, 255, 255, 0.02)",
           transition: "none"
         }}
