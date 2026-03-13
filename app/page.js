@@ -193,7 +193,7 @@ function FloatingParticles() {
         else activePulses[i].d();
       }
 
-      const orbRadius = Math.min(c.width, c.height) * 0.429; // +25% sobre 0.343
+      const orbRadius = Math.min(c.width, c.height) * 0.3; // Reducido un 30% de 0.429
       orbParticles.forEach(p => p.d(rot, orbRadius, time));
 
       a = requestAnimationFrame(an);
@@ -211,8 +211,8 @@ function FloatingParticles() {
           position: "absolute",
           top: "50%",
           left: "50%",
-          width: "103vmin", // +25% sobre 82.5vmin
-          height: "103vmin",
+          width: "72.1vmin", // Reducido un 30% de 103vmin
+          height: "72.1vmin",
           borderRadius: "50%",
           background: "rgba(255, 255, 255, 0.01)",
           border: "none",
