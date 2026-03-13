@@ -18,18 +18,23 @@ function useTypewriter(words, ts = 90, ds = 55, pt = 1800) {
   return display;
 }
 
-// ─── AI Neural Network (Animated Paths) ────────────────────────────────────
+// ─── AI Premium Core (White Orb + Drawn Network) ───────────────────────────
 function FloatingParticles() {
   const r = useRef(null);
 
   useEffect(() => {
     const c = r.current, ctx = c.getContext("2d");
     let a;
-    const nodes = [];
-    const signals = [];
-    const nodeCount = 160;
-    const signalCount = 35;
+    const bgNodes = [];
+    const orbParticles = [];
+    const connections = new Map(); // Key: "i-j", Value: { prog, op }
     
+    const nodeCount = 110;
+    const orbCount = 1400;
+    const connDist = 140;
+    const drawSpeed = 0.02;
+    const fadeSpeed = 0.015;
+
     const rs = () => { 
       c.width = window.innerWidth; 
       c.height = window.innerHeight; 
@@ -37,148 +42,109 @@ function FloatingParticles() {
     rs(); window.addEventListener("resize", rs);
 
     const colors = [[184, 245, 0], [108, 99, 255], [0, 150, 255]];
+    const orbColor = [255, 255, 255];
 
-    class Node { 
+    // Initialize 2D Background Nodes (Linear movement)
+    for (let i = 0; i < nodeCount; i++) {
+      bgNodes.push({
+        x: Math.random() * c.width,
+        y: Math.random() * c.height,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45,
+        s: Math.random() * 1.5 + 0.8,
+        c: colors[Math.floor(Math.random() * colors.length)]
+      });
+    }
+
+    // Initialize 3D Orb Particles (Pure White focus)
+    class OrbP {
       constructor() {
-        const phi = Math.acos(-1 + (2 * Math.random()));
-        const theta = Math.random() * Math.PI * 2;
-        this.px = Math.sin(phi) * Math.cos(theta);
-        this.py = Math.sin(phi) * Math.sin(theta);
-        this.pz = Math.cos(phi);
-        this.s = Math.random() * 1.5 + 0.5;
-        this.c = colors[Math.floor(Math.random() * colors.length)];
+        this.phi = Math.acos(-1 + (2 * Math.random()));
+        this.theta = Math.random() * Math.PI * 2;
+        this.px = Math.sin(this.phi) * Math.cos(this.theta);
+        this.py = Math.sin(this.phi) * Math.sin(this.theta);
+        this.pz = Math.cos(this.phi);
+        this.s = Math.random() * 1.3 + 0.5;
+        this.p = Math.random() * Math.PI * 2;
       }
-      proj(rot, radius) {
+      d(rot, swayX, swayY, radius, time) {
         let x1 = this.px * Math.cos(rot) - this.pz * Math.sin(rot);
         let z1 = this.px * Math.sin(rot) + this.pz * Math.cos(rot);
-        let y2 = this.py * Math.cos(rot * 0.5) - z1 * Math.sin(rot * 0.5);
-        let z2 = this.py * Math.sin(rot * 0.5) + z1 * Math.cos(rot * 0.5);
-        const pers = 800 / (800 + z2 * radius);
-        return {
-          x: x1 * radius * pers + c.width / 2,
-          y: y2 * radius * pers + c.height / 2,
-          z: z2,
-          s: this.s * pers,
-          c: this.c,
-          pers: pers
-        };
-      }
-    }
-
-    class Signal {
-      constructor() { this.init(); }
-      init() {
-        this.path = [Math.floor(Math.random() * nodeCount)];
-        let curr = this.path[0];
-        // Build a path of 3-6 nodes
-        for (let i = 0; i < 4; i++) {
-          let neighbors = [];
-          for (let j = 0; j < nodeCount; j++) {
-            if (j === curr) continue;
-            const dx = nodes[curr].px - nodes[j].px;
-            const dy = nodes[curr].py - nodes[j].py;
-            const dz = nodes[curr].pz - nodes[j].pz;
-            if (dx*dx + dy*dy + dz*dz < 0.3) neighbors.push(j);
-          }
-          if (neighbors.length === 0) break;
-          curr = neighbors[Math.floor(Math.random() * neighbors.length)];
-          this.path.push(curr);
-        }
-        this.step = 0;
-        this.prog = 0;
-        this.speed = 0.008 + Math.random() * 0.015;
-        this.alpha = 0;
-        this.state = 'in'; // in, moving, out
-      }
-      u() {
-        if (this.state === 'in') {
-          this.alpha += 0.03;
-          if (this.alpha >= 1) { this.alpha = 1; this.state = 'moving'; }
-        } else if (this.state === 'out') {
-          this.alpha -= 0.03;
-          if (this.alpha <= 0) this.init();
-        } else {
-          this.prog += this.speed;
-          if (this.prog >= 1) {
-            this.prog = 0;
-            this.step++;
-            if (this.step >= this.path.length - 1) this.state = 'out';
-          }
-        }
-      }
-      d(proj) {
-        if (this.path.length < 2) return;
-        const n1 = proj[this.path[this.step]];
-        const n2 = proj[this.path[this.step + 1]];
-        if (!n1 || !n2) return;
-
-        const x = n1.x + (n2.x - n1.x) * this.prog;
-        const y = n1.y + (n2.y - n1.y) * this.prog;
-
-        // Path Line (trail)
+        let y2 = this.py * Math.cos(rot * 0.7) - z1 * Math.sin(rot * 0.7);
+        let z2 = this.py * Math.sin(rot * 0.7) + z1 * Math.cos(rot * 0.7);
+        const pers = 500 / (500 + z2 * radius);
+        const x = x1 * radius * pers + c.width / 2 + swayX;
+        const y = y2 * radius * pers + c.height / 2 + swayY;
+        const wave = Math.sin(this.phi * 7 + time * 2) * 0.2 + 0.8;
+        const pulse = Math.sin(time * 1.5) * 0.1 + 0.9;
+        const o = (0.7 + Math.sin(this.p + time) * 0.2) * pers * wave * pulse;
         ctx.beginPath();
-        for (let i = 0; i < this.step; i++) {
-          const p1 = proj[this.path[i]], p2 = proj[this.path[i+1]];
-          ctx.moveTo(p1.x, p1.y);
-          ctx.lineTo(p2.x, p2.y);
-        }
-        ctx.moveTo(n1.x, n1.y);
-        ctx.lineTo(x, y);
-        ctx.strokeStyle = `rgba(${n1.c[0]},${n1.c[1]},${n1.c[2]},${this.alpha * 0.25})`;
-        ctx.lineWidth = 1 * n1.pers;
-        ctx.stroke();
-
-        // Signal Head
-        ctx.beginPath();
-        ctx.arc(x, y, 2.5 * n1.pers, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${n1.c[0]},${n1.c[1]},${n1.c[2]},${this.alpha * 0.8})`;
-        ctx.fill();
-        
-        // Signal Glow
-        ctx.beginPath();
-        ctx.arc(x, y, 5 * n1.pers, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${n1.c[0]},${n1.c[1]},${n1.c[2]},${this.alpha * 0.2})`;
+        ctx.arc(x, y, this.s * pers * pulse, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${orbColor[0]},${orbColor[1]},${orbColor[2]},${Math.max(0, o)})`;
         ctx.fill();
       }
     }
-
-    for (let i = 0; i < nodeCount; i++) nodes.push(new Node());
-    for (let i = 0; i < signalCount; i++) signals.push(new Signal());
+    for (let i = 0; i < orbCount; i++) orbParticles.push(new OrbP());
 
     let rot = 0;
+    let time = 0;
+
     const an = () => {
       ctx.clearRect(0, 0, c.width, c.height);
       rot += 0.0015;
-      const radius = Math.min(c.width, c.height) * 0.65;
-      const proj = nodes.map(n => n.proj(rot, radius));
+      time += 0.02;
 
-      // 1. Static Web (Super faint baseline)
-      ctx.lineWidth = 0.5;
-      for (let i = 0; i < proj.length; i++) {
-        // Draw small nodes
+      // 1. Background Nodes & Drawn Connections
+      bgNodes.forEach(n => {
+        n.x += n.vx; n.y += n.vy;
+        // Bouncing logic
+        if (n.x < 0 || n.x > c.width) n.vx *= -1;
+        if (n.y < 0 || n.y > c.height) n.vy *= -1;
         ctx.beginPath();
-        ctx.arc(proj[i].x, proj[i].y, proj[i].s, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${proj[i].c[0]},${proj[i].c[1]},${proj[i].c[2]},0.15)`;
+        ctx.arc(n.x, n.y, n.s, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${n.c[0]},${n.c[1]},${n.c[2]},0.6)`;
         ctx.fill();
+      });
 
-        for (let j = i + 1; j < proj.length; j++) {
-          const dx = proj[i].x - proj[j].x, dy = proj[i].y - proj[j].y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 110) {
+      for (let i = 0; i < nodeCount; i++) {
+        for (let j = i + 1; j < nodeCount; j++) {
+          const ni = bgNodes[i], nj = bgNodes[j];
+          const dx = ni.x - nj.x, dy = ni.y - nj.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const key = i < j ? `${i}-${j}` : `${j}-${i}`;
+          let conn = connections.get(key);
+
+          if (dist < connDist) {
+            if (!conn) {
+              conn = { prog: 0, op: 0 };
+              connections.set(key, conn);
+            }
+            conn.prog = Math.min(1, conn.prog + drawSpeed);
+            conn.op = Math.min(0.35, conn.op + fadeSpeed);
+          } else if (conn) {
+            conn.op -= fadeSpeed;
+            if (conn.op <= 0) {
+              connections.delete(key);
+              continue;
+            }
+          }
+
+          if (conn) {
             ctx.beginPath();
-            ctx.moveTo(proj[i].x, proj[i].y);
-            ctx.lineTo(proj[j].x, proj[j].y);
-            ctx.strokeStyle = `rgba(100,100,100,0.05)`; 
+            ctx.moveTo(ni.x, ni.y);
+            ctx.lineTo(ni.x + (nj.x - ni.x) * conn.prog, ni.y + (nj.y - ni.y) * conn.prog);
+            ctx.strokeStyle = `rgba(100,100,100,${conn.op})`; // Gray paths
+            ctx.lineWidth = 0.5;
             ctx.stroke();
           }
         }
       }
 
-      // 2. Dynamic Signals (Connecting/Disconnecting paths)
-      signals.forEach(s => {
-        s.u();
-        s.d(proj);
-      });
+      // 2. White Orb (Central Energy)
+      const orbRadius = Math.min(c.width, c.height) * 0.23;
+      const swayX = Math.sin(time * 0.3) * 10;
+      const swayY = Math.cos(time * 0.2) * 8;
+      orbParticles.forEach(p => p.d(rot, swayX, swayY, orbRadius, time));
 
       a = requestAnimationFrame(an);
     };
