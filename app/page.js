@@ -33,7 +33,7 @@ function FloatingParticles() {
     
     const nodeCount = 90; 
     const orbCount = 1350;
-    const maxPulses = 2; // Límite estricto de 2
+    const maxPulses = 3; // Aumentado en un 35% (aprox de 2 a 3)
     const connDist = 200; 
     const pulseChainProb = 0.4;
 
@@ -182,8 +182,8 @@ function FloatingParticles() {
         ctx.fill();
       });
 
-      // Spawn pulses sparingly (Increased rate for 15% more connections)
-      if (activePulses.length < maxPulses && Math.random() < 0.05) {
+      // Spawn pulses sparingly (Increased rate by 35%)
+      if (activePulses.length < maxPulses && Math.random() < 0.0675) {
         const i = Math.floor(Math.random() * nodeCount);
         activePulses.push(new Pulse(i));
       }
