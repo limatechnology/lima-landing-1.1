@@ -33,7 +33,7 @@ function FloatingParticles() {
     
     const nodeCount = 100;
     const orbCount = 1350;
-    const maxPulses = 30; // Reduced by 15% from 35
+    const maxPulses = 2; // Minimalist density
     const connDist = 200; 
     const pulseChainProb = 0.4;
 
@@ -44,16 +44,27 @@ function FloatingParticles() {
     rs(); window.addEventListener("resize", rs);
 
     const colors = [[184, 245, 0], [108, 99, 255], [0, 150, 255]];
-    const orbColor = [162, 162, 162]; // ~25% darker than previous [215, 215, 215]
+    const orbColor = [146, 146, 146]; // 10% darker than previous [162, 162, 162]
 
     for (let i = 0; i < nodeCount; i++) {
+      const isLarge = Math.random() < 0.15;
+      const baseS = Math.random() * 1.5 + 0.8;
+      const brandC = colors[Math.floor(Math.random() * colors.length)];
+      // Variations in tone/saturation
+      const jitter = () => Math.floor(Math.random() * 40 - 20);
+      const cVaried = [
+        Math.max(0, Math.min(255, brandC[0] + jitter())),
+        Math.max(0, Math.min(255, brandC[1] + jitter())),
+        Math.max(0, Math.min(255, brandC[2] + jitter()))
+      ];
+
       bgNodes.push({
         x: Math.random() * c.width,
         y: Math.random() * c.height,
-        vx: (Math.random() - 0.5) * 0.21, // Reduced by 18% from 0.26
+        vx: (Math.random() - 0.5) * 0.21,
         vy: (Math.random() - 0.5) * 0.21,
-        s: (Math.random() * 1.5 + 0.8) * 1.32,
-        c: colors[Math.floor(Math.random() * colors.length)]
+        s: isLarge ? baseS * 1.32 * 1.25 : baseS * 1.32,
+        c: cVaried
       });
     }
 
@@ -77,7 +88,7 @@ function FloatingParticles() {
         this.prog = 0; 
         this.tail = 0; 
         this.state = 0; // 0: growing head, 1: solid/linger, 2: shrinking tail
-        this.speed = (0.012 + Math.random() * 0.015) * 0.75; // 25% slower
+        this.speed = ((0.012 + Math.random() * 0.015) * 0.75) * 0.75; // Additional 25% slower
         this.timer = 0;
       }
       u() {
@@ -140,7 +151,7 @@ function FloatingParticles() {
         const pers = 500 / (500 + z2 * radius);
         const x = x1 * radius * pers + c.width / 2;
         const y = y2 * radius * pers + c.height / 2;
-        const o = (0.36 + Math.sin(this.p + time) * 0.12) * pers; // ~25% darker than previous [0.49]
+        const o = (0.32 + Math.sin(this.p + time) * 0.11) * pers; // ~10% darker/fainter than 0.36
         ctx.beginPath();
         ctx.arc(x, y, this.s * pers, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${orbColor[0]},${orbColor[1]},${orbColor[2]},${Math.max(0, o)})`;
@@ -154,7 +165,7 @@ function FloatingParticles() {
 
     const an = () => {
       ctx.clearRect(0, 0, c.width, c.height);
-      rot += 0.001275; // Reduced by 15% from 0.0015
+      rot += 0.00108; // 15% reduction from 0.001275
       time += 0.02;
 
       bgNodes.forEach(n => {
