@@ -33,9 +33,9 @@ function FloatingParticles() {
     
     const nodeCount = 100;
     const orbCount = 1350;
-    const maxPulses = 35; 
+    const maxPulses = 30; // Reduced by 15% from 35
     const connDist = 200; 
-    const pulseChainProb = 0.4; // Internal chance to extend trail? Or we just build 4-5 in constructor.
+    const pulseChainProb = 0.4;
 
     const rs = () => { 
       c.width = window.innerWidth; 
@@ -50,8 +50,8 @@ function FloatingParticles() {
       bgNodes.push({
         x: Math.random() * c.width,
         y: Math.random() * c.height,
-        vx: (Math.random() - 0.5) * 0.26, // Reduced by 25% from 0.35
-        vy: (Math.random() - 0.5) * 0.26,
+        vx: (Math.random() - 0.5) * 0.21, // Reduced by 18% from 0.26
+        vy: (Math.random() - 0.5) * 0.21,
         s: (Math.random() * 1.5 + 0.8) * 1.32,
         c: colors[Math.floor(Math.random() * colors.length)]
       });
@@ -61,7 +61,7 @@ function FloatingParticles() {
       constructor(startIndex) {
         this.path = [startIndex];
         let curr = startIndex;
-        const targetLen = 4 + Math.floor(Math.random() * 2);
+        const targetLen = 3; // Fixed at 3 points (A->B->C) as requested
         for (let k = 0; k < targetLen - 1; k++) {
           let neighbors = [];
           for (let m = 0; m < nodeCount; m++) {
@@ -77,7 +77,7 @@ function FloatingParticles() {
         this.prog = 0; 
         this.tail = 0; 
         this.state = 0; // 0: growing head, 1: solid/linger, 2: shrinking tail
-        this.speed = 0.012 + Math.random() * 0.015;
+        this.speed = (0.012 + Math.random() * 0.015) * 0.75; // 25% slower
         this.timer = 0;
       }
       u() {
@@ -154,7 +154,7 @@ function FloatingParticles() {
 
     const an = () => {
       ctx.clearRect(0, 0, c.width, c.height);
-      rot += 0.0015;
+      rot += 0.001275; // Reduced by 15% from 0.0015
       time += 0.02;
 
       bgNodes.forEach(n => {
