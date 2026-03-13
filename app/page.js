@@ -18,7 +18,7 @@ function useTypewriter(words, ts = 90, ds = 55, pt = 1800) {
   return display;
 }
 
-// ─── AI Premium Core (White Orb + Drawn Network) ───────────────────────────
+// ─── AI Premium Core (White Orb + Laser Network) ───────────────────────────
 function FloatingParticles() {
   const r = useRef(null);
   const shellRef = useRef(null);
@@ -29,13 +29,12 @@ function FloatingParticles() {
     let a;
     const bgNodes = [];
     const orbParticles = [];
-    const connections = new Map();
+    const activePulses = [];
     
-    const nodeCount = 110;
-    const orbCount = 1400;
-    const connDist = 140;
-    const drawSpeed = 0.02;
-    const fadeSpeed = 0.015;
+    const nodeCount = 100;
+    const orbCount = 1350;
+    const maxPulses = 12; // Keep UX clean
+    const connDist = 160;
 
     const rs = () => { 
       c.width = window.innerWidth; 
@@ -50,11 +49,57 @@ function FloatingParticles() {
       bgNodes.push({
         x: Math.random() * c.width,
         y: Math.random() * c.height,
-        vx: (Math.random() - 0.5) * 0.45,
-        vy: (Math.random() - 0.5) * 0.45,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
         s: Math.random() * 1.5 + 0.8,
         c: colors[Math.floor(Math.random() * colors.length)]
       });
+    }
+
+    class Pulse {
+      constructor(i, j) {
+        this.i = i; this.j = j;
+        this.prog = 0; // head progress
+        this.tail = 0; // tail progress
+        this.state = 0; // 0: growing, 1: solid, 2: fading
+        this.speed = 0.008 + Math.random() * 0.012;
+        this.timer = 0;
+      }
+      u() {
+        if (this.state === 0) {
+          this.prog += this.speed;
+          if (this.prog >= 1) { this.prog = 1; this.state = 1; }
+        } else if (this.state === 1) {
+          this.timer += 1;
+          if (this.timer > 120) this.state = 2; // linger for ~2sec
+        } else {
+          this.tail += this.speed;
+          if (this.tail >= 1) return true; // complete
+        }
+        return false;
+      }
+      d() {
+        const nA = bgNodes[this.i], nB = bgNodes[this.j];
+        if (!nA || !nB) return;
+        const xA = nA.x + (nB.x - nA.x) * this.tail;
+        const yA = nA.y + (nB.y - nA.y) * this.tail;
+        const xB = nA.x + (nB.x - nA.x) * this.prog;
+        const yB = nA.y + (nB.y - nA.y) * this.prog;
+
+        ctx.beginPath();
+        ctx.moveTo(xA, yA);
+        ctx.lineTo(xB, yB);
+        ctx.strokeStyle = `rgba(100,100,100,0.4)`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+
+        if (this.state === 0 || this.state === 1) {
+          ctx.beginPath();
+          ctx.arc(xB, yB, 1.2, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(150,150,150,0.8)`;
+          ctx.fill();
+        }
+      }
     }
 
     class OrbP {
@@ -102,30 +147,22 @@ function FloatingParticles() {
         ctx.fill();
       });
 
-      for (let i = 0; i < nodeCount; i++) {
-        for (let j = i + 1; j < nodeCount; j++) {
-          const ni = bgNodes[i], nj = bgNodes[j];
-          const dx = ni.x - nj.x, dy = ni.y - nj.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const key = i < j ? `${i}-${j}` : `${j}-${i}`;
-          let conn = connections.get(key);
-          if (dist < connDist) {
-            if (!conn) { connections.set(key, conn = { prog: 0, op: 0 }); }
-            conn.prog = Math.min(1, conn.prog + drawSpeed);
-            conn.op = Math.min(0.35, conn.op + fadeSpeed);
-          } else if (conn) {
-            conn.op -= fadeSpeed;
-            if (conn.op <= 0) { connections.delete(key); continue; }
-          }
-          if (conn) {
-            ctx.beginPath();
-            ctx.moveTo(ni.x, ni.y);
-            ctx.lineTo(ni.x + (nj.x - ni.x) * conn.prog, ni.y + (nj.y - ni.y) * conn.prog);
-            ctx.strokeStyle = `rgba(100,100,100,${conn.op})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
+      // Spawn pulses sparingly
+      if (activePulses.length < maxPulses && Math.random() < 0.03) {
+        const i = Math.floor(Math.random() * nodeCount);
+        const j = Math.floor(Math.random() * nodeCount);
+        if (i !== j) {
+          const dx = bgNodes[i].x - bgNodes[j].x, dy = bgNodes[i].y - bgNodes[j].y;
+          if (Math.sqrt(dx*dx + dy*dy) < connDist) {
+             const exists = activePulses.some(p => (p.i === i && p.j === j) || (p.i === j && p.j === i));
+             if (!exists) activePulses.push(new Pulse(i, j));
           }
         }
+      }
+
+      for (let i = activePulses.length - 1; i >= 0; i--) {
+        if (activePulses[i].u()) activePulses.splice(i, 1);
+        else activePulses[i].d();
       }
 
       const orbRadius = Math.min(c.width, c.height) * 0.22;
@@ -152,7 +189,7 @@ function FloatingParticles() {
           background: "rgba(255, 255, 255, 0.015)",
           border: "none",
           transform: "translate(-50%, -50%)",
-          backdropFilter: "blur(4px)",
+          backdropFilter: "blur(2px)",
           boxShadow: "inset 0 0 15px rgba(255, 255, 255, 0.04)",
           transition: "none"
         }}
