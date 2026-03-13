@@ -31,6 +31,8 @@ function FloatingParticles() {
     const orbParticles = [];
     const activePulses = [];
     
+    const nodeCount = 90; 
+    const orbCount = 1350;
     const maxPulses = 10; // Aumentado a 10 simultáneos
     const connDist = 200; 
     const pulseChainProb = 0.4;
