@@ -90,7 +90,7 @@ function FloatingParticles() {
         this.prog = 0; 
         this.tail = 0; 
         this.state = 0; // 0: growing head, 1: solid/linger, 2: shrinking tail
-        this.speed = 0.006; // Constant speed, 15% reduction approximate
+        this.speed = 0.012; // Velocidad duplicada (tiempo reducido 50%)
         this.timer = 0;
       }
       u() {
