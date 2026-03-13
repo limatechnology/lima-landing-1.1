@@ -33,7 +33,7 @@ function FloatingParticles() {
     
     const nodeCount = 100;
     const orbCount = 1350;
-    const maxPulses = 14; 
+    const maxPulses = 17; // Increased by ~15%
     const connDist = 160;
 
     const rs = () => { 
@@ -147,22 +147,36 @@ function FloatingParticles() {
         ctx.fill();
       });
 
-      // Spawn pulses sparingly (Increased rate for more connections)
-      if (activePulses.length < maxPulses && Math.random() < 0.033) {
-        const i = Math.floor(Math.random() * nodeCount);
+      // Spawn pulses sparingly (Increased rate for 15% more connections)
+      const spawnPulse = (startNode = null) => {
+        if (activePulses.length >= maxPulses) return;
+        const i = startNode !== null ? startNode : Math.floor(Math.random() * nodeCount);
         const j = Math.floor(Math.random() * nodeCount);
         if (i !== j) {
           const dx = bgNodes[i].x - bgNodes[j].x, dy = bgNodes[i].y - bgNodes[j].y;
           if (Math.sqrt(dx*dx + dy*dy) < connDist) {
-             const exists = activePulses.some(p => (p.i === i && p.j === j) || (p.i === j && p.j === i));
-             if (!exists) activePulses.push(new Pulse(i, j));
+            const exists = activePulses.some(p => (p.i === i && p.j === j) || (p.i === j && p.j === i));
+            if (!exists) activePulses.push(new Pulse(i, j));
           }
         }
+      };
+
+      if (Math.random() < 0.038) { // 15% increase in base spawn rate
+        spawnPulse();
       }
 
       for (let i = activePulses.length - 1; i >= 0; i--) {
-        if (activePulses[i].u()) activePulses.splice(i, 1);
-        else activePulses[i].d();
+        const p = activePulses[i];
+        const wasGrowing = p.state === 0;
+        const finished = p.u();
+        
+        // Chaining logic: when a pulse reaches its destination (state changes from 0 to 1)
+        if (wasGrowing && p.state === 1 && Math.random() < 0.3) {
+          spawnPulse(p.j);
+        }
+
+        if (finished) activePulses.splice(i, 1);
+        else p.d();
       }
 
       const orbRadius = Math.min(c.width, c.height) * 0.22;
@@ -183,13 +197,13 @@ function FloatingParticles() {
           position: "absolute",
           top: "50%",
           left: "50%",
-          width: "53vmin", // 2% smaller
-          height: "53vmin",
+          width: "50.35vmin", // 5% smaller
+          height: "50.35vmin",
           borderRadius: "50%",
           background: "rgba(255, 255, 255, 0.015)",
           border: "none",
           transform: "translate(-50%, -50%)",
-          backdropFilter: "blur(1.86px)", // 7% less blur
+          backdropFilter: "blur(1.67px)", // 10% less blur
           boxShadow: "inset 0 0 15px rgba(255, 255, 255, 0.04)",
           transition: "none"
         }}
