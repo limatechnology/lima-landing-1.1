@@ -19,17 +19,17 @@ function useTypewriter(words, ts = 90, ds = 55, pt = 1800) {
 }
 
 // ─── Floating Particles ────────────────────────────────────────────────────
-// ─── AI Thinking Orb ───────────────────────────────────────────────────────
+// ─── AI Thinking Orb (Premium Dual Layer) ──────────────────────────────────
 function FloatingParticles() {
   const r = useRef(null);
-  const orbWords = ["Analizando contexto...", "Buscando espacio vectorial...", "Optimizando respuesta..."];
-  const status = useTypewriter(orbWords, 50, 30, 2000);
 
   useEffect(() => {
     const c = r.current, ctx = c.getContext("2d");
     let a;
-    let particles = [];
-    const count = 120;
+    const bgParticles = [];
+    const orbParticles = [];
+    const bgCount = 130;
+    const orbCount = 3500;
     
     const rs = () => { 
       c.width = window.innerWidth; 
@@ -37,74 +37,120 @@ function FloatingParticles() {
     };
     rs(); window.addEventListener("resize", rs);
 
-    const colors = [[184, 245, 0], [108, 99, 255], [0, 127, 255], [56, 189, 248]];
+    const bgColors = [[184, 245, 0], [108, 99, 255], [0, 127, 255], [56, 189, 248]];
+    const orbColor = [184, 245, 0]; // Verde Lima
 
-    class P { 
+    class BgP { 
       constructor() {
         const phi = Math.acos(-1 + (2 * Math.random()));
         const theta = Math.random() * Math.PI * 2;
         this.px = Math.sin(phi) * Math.cos(theta);
         this.py = Math.sin(phi) * Math.sin(theta);
         this.pz = Math.cos(phi);
-        this.s = Math.random() * 2.5 + 0.8;
-        this.c = colors[Math.floor(Math.random() * colors.length)];
-        this.p = Math.random() * Math.PI * 2;
+        this.s = Math.random() * 1.5 + 0.5;
+        this.c = bgColors[Math.floor(Math.random() * bgColors.length)];
       }
-      d(rot, radius) {
+      proj(rot, radius) {
         let x1 = this.px * Math.cos(rot) - this.pz * Math.sin(rot);
         let z1 = this.px * Math.sin(rot) + this.pz * Math.cos(rot);
         let y2 = this.py * Math.cos(rot * 0.5) - z1 * Math.sin(rot * 0.5);
         let z2 = this.py * Math.sin(rot * 0.5) + z1 * Math.cos(rot * 0.5);
-        const pers = 600 / (600 + z2 * radius);
-        const x = x1 * radius * pers + c.width / 2;
-        const y = y2 * radius * pers + c.height / 2;
-        const o = (0.4 + Math.sin(this.p) * 0.15) * pers;
-        ctx.beginPath();
-        ctx.arc(x, y, this.s * pers, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${this.c[0]},${this.c[1]},${this.c[2]},${Math.max(0, o)})`;
-        ctx.fill();
-        this.p += 0.02;
-        return { x, y, z: z2 };
+        const pers = 800 / (800 + z2 * radius);
+        return {
+          x: x1 * radius * pers + c.width / 2,
+          y: y2 * radius * pers + c.height / 2,
+          z: z2,
+          s: this.s * pers,
+          c: this.c
+        };
       }
     }
 
-    for (let i = 0; i < count; i++) particles.push(new P());
+    class OrbP {
+      constructor() {
+        this.phi = Math.acos(-1 + (2 * Math.random()));
+        this.theta = Math.random() * Math.PI * 2;
+        this.px = Math.sin(this.phi) * Math.cos(this.theta);
+        this.py = Math.sin(this.phi) * Math.sin(this.theta);
+        this.pz = Math.cos(this.phi);
+        this.s = Math.random() * 1.2 + 0.3;
+        this.p = Math.random() * Math.PI * 2;
+      }
+      d(rot, swayX, swayY, radius, time) {
+        // Rotation + Sway
+        let x1 = this.px * Math.cos(rot) - this.pz * Math.sin(rot);
+        let z1 = this.px * Math.sin(rot) + this.pz * Math.cos(rot);
+        let y2 = this.py * Math.cos(rot * 0.7) - z1 * Math.sin(rot * 0.7);
+        let z2 = this.py * Math.sin(rot * 0.7) + z1 * Math.cos(rot * 0.7);
+        
+        const pers = 500 / (500 + z2 * radius);
+        const x = x1 * radius * pers + c.width / 2 + swayX;
+        const y = y2 * radius * pers + c.height / 2 + swayY;
+        
+        // Waves and pulse
+        const wave = Math.sin(this.phi * 8 + time * 3) * 0.3 + 0.7;
+        const pulse = Math.sin(time * 2) * 0.15 + 0.85;
+        const o = (0.5 + Math.sin(this.p + time) * 0.2) * pers * wave * pulse;
+        
+        ctx.beginPath();
+        ctx.arc(x, y, this.s * pers * pulse, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${orbColor[0]},${orbColor[1]},${orbColor[2]},${Math.max(0, o)})`;
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < bgCount; i++) bgParticles.push(new BgP());
+    for (let i = 0; i < orbCount; i++) orbParticles.push(new OrbP());
 
     let rot = 0;
+    let time = 0;
     const an = () => {
       ctx.clearRect(0, 0, c.width, c.height);
-      rot += 0.003;
-      const radius = Math.min(c.width, c.height) * 0.35;
-      const proj = particles.map(p => p.d(rot, radius));
+      rot += 0.002;
+      time += 0.02;
       
-      for (let i = 0; i < proj.length; i++) {
-        for (let j = i + 1; j < proj.length; j++) {
-          const dx = proj[i].x - proj[j].x, dy = proj[i].y - proj[j].y;
+      const bgRadius = Math.min(c.width, c.height) * 0.6;
+      const orbRadius = Math.min(c.width, c.height) * 0.22;
+      const swayX = Math.sin(time * 0.5) * 20;
+      const swayY = Math.cos(time * 0.3) * 15;
+
+      // 1. Background Layer (Nodes & Links)
+      const bgProj = bgParticles.map(p => p.proj(rot * 0.5, bgRadius));
+      bgProj.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${p.c[0]},${p.c[1]},${p.c[2]},0.15)`;
+        ctx.fill();
+      });
+
+      for (let i = 0; i < bgProj.length; i++) {
+        for (let j = i + 1; j < bgProj.length; j++) {
+          const dx = bgProj[i].x - bgProj[j].x, dy = bgProj[i].y - bgProj[j].y;
           const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 110) {
+          if (d < 160) {
             ctx.beginPath();
-            ctx.moveTo(proj[i].x, proj[i].y);
-            ctx.lineTo(proj[j].x, proj[j].y);
-            ctx.strokeStyle = `rgba(184,245,0,${0.06 * (1 - d / 110)})`;
+            ctx.moveTo(bgProj[i].x, bgProj[i].y);
+            ctx.lineTo(bgProj[j].x, bgProj[j].y);
+            ctx.strokeStyle = `rgba(184,245,0,${0.03 * (1 - d / 160)})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
         }
       }
+
+      // 2. Core Orb Layer (Dense dots)
+      ctx.shadowBlur = 15;
+      ctx.shadowColor = `rgba(${orbColor[0]},${orbColor[1]},${orbColor[2]},0.4)`;
+      orbParticles.forEach(p => p.d(rot, swayX, swayY, orbRadius, time));
+      ctx.shadowBlur = 0;
+
       a = requestAnimationFrame(an);
     };
     an();
     return () => { cancelAnimationFrame(a); window.removeEventListener("resize", rs); };
   }, []);
 
-  return (
-    <div style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 0 }}>
-      <canvas ref={r} style={{ width: "100%", height: "100%" }} />
-      <div style={{ position: "absolute", bottom: "10%", left: "50%", transform: "translateX(-50%)", color: "#B8F500", fontFamily: "monospace", fontSize: "0.8rem", opacity: 0.6, letterSpacing: "0.2em", textTransform: "uppercase" }}>
-        {status}
-      </div>
-    </div>
-  );
+  return <canvas ref={r} style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: -1, background: "transparent" }} />;
 }
 
 // ─── Icons ─────────────────────────────────────────────────────────────────
