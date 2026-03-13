@@ -21,13 +21,15 @@ function useTypewriter(words, ts = 90, ds = 55, pt = 1800) {
 // ─── AI Premium Core (White Orb + Drawn Network) ───────────────────────────
 function FloatingParticles() {
   const r = useRef(null);
+  const shellRef = useRef(null);
 
   useEffect(() => {
     const c = r.current, ctx = c.getContext("2d");
+    const shell = shellRef.current;
     let a;
     const bgNodes = [];
     const orbParticles = [];
-    const connections = new Map(); // Key: "i-j", Value: { prog, op }
+    const connections = new Map();
     
     const nodeCount = 110;
     const orbCount = 1400;
@@ -44,7 +46,6 @@ function FloatingParticles() {
     const colors = [[184, 245, 0], [108, 99, 255], [0, 150, 255]];
     const orbColor = [255, 255, 255];
 
-    // Initialize 2D Background Nodes (Linear movement)
     for (let i = 0; i < nodeCount; i++) {
       bgNodes.push({
         x: Math.random() * c.width,
@@ -56,7 +57,6 @@ function FloatingParticles() {
       });
     }
 
-    // Initialize 3D Orb Particles (Pure White focus)
     class OrbP {
       constructor() {
         this.phi = Math.acos(-1 + (2 * Math.random()));
@@ -75,11 +75,9 @@ function FloatingParticles() {
         const pers = 500 / (500 + z2 * radius);
         const x = x1 * radius * pers + c.width / 2 + swayX;
         const y = y2 * radius * pers + c.height / 2 + swayY;
-        const wave = Math.sin(this.phi * 7 + time * 2) * 0.2 + 0.8;
-        const pulse = Math.sin(time * 1.5) * 0.1 + 0.9;
-        const o = (0.7 + Math.sin(this.p + time) * 0.2) * pers * wave * pulse;
+        const o = (0.7 + Math.sin(this.p + time) * 0.2) * pers;
         ctx.beginPath();
-        ctx.arc(x, y, this.s * pers * pulse, 0, Math.PI * 2);
+        ctx.arc(x, y, this.s * pers, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${orbColor[0]},${orbColor[1]},${orbColor[2]},${Math.max(0, o)})`;
         ctx.fill();
       }
@@ -94,10 +92,8 @@ function FloatingParticles() {
       rot += 0.0015;
       time += 0.02;
 
-      // 1. Background Nodes & Drawn Connections
       bgNodes.forEach(n => {
         n.x += n.vx; n.y += n.vy;
-        // Bouncing logic
         if (n.x < 0 || n.x > c.width) n.vx *= -1;
         if (n.y < 0 || n.y > c.height) n.vy *= -1;
         ctx.beginPath();
@@ -113,38 +109,33 @@ function FloatingParticles() {
           const dist = Math.sqrt(dx * dx + dy * dy);
           const key = i < j ? `${i}-${j}` : `${j}-${i}`;
           let conn = connections.get(key);
-
           if (dist < connDist) {
-            if (!conn) {
-              conn = { prog: 0, op: 0 };
-              connections.set(key, conn);
-            }
+            if (!conn) { connections.set(key, conn = { prog: 0, op: 0 }); }
             conn.prog = Math.min(1, conn.prog + drawSpeed);
             conn.op = Math.min(0.35, conn.op + fadeSpeed);
           } else if (conn) {
             conn.op -= fadeSpeed;
-            if (conn.op <= 0) {
-              connections.delete(key);
-              continue;
-            }
+            if (conn.op <= 0) { connections.delete(key); continue; }
           }
-
           if (conn) {
             ctx.beginPath();
             ctx.moveTo(ni.x, ni.y);
             ctx.lineTo(ni.x + (nj.x - ni.x) * conn.prog, ni.y + (nj.y - ni.y) * conn.prog);
-            ctx.strokeStyle = `rgba(100,100,100,${conn.op})`; // Gray paths
+            ctx.strokeStyle = `rgba(100,100,100,${conn.op})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
         }
       }
 
-      // 2. White Orb (Central Energy)
       const orbRadius = Math.min(c.width, c.height) * 0.23;
       const swayX = Math.sin(time * 0.3) * 10;
       const swayY = Math.cos(time * 0.2) * 8;
       orbParticles.forEach(p => p.d(rot, swayX, swayY, orbRadius, time));
+
+      if (shell) {
+        shell.style.transform = `translate(calc(-50% + ${swayX}px), calc(-50% + ${swayY}px))`;
+      }
 
       a = requestAnimationFrame(an);
     };
@@ -152,7 +143,27 @@ function FloatingParticles() {
     return () => { cancelAnimationFrame(a); window.removeEventListener("resize", rs); };
   }, []);
 
-  return <canvas ref={r} style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: -1 }} />;
+  return (
+    <div style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: -1 }}>
+      <canvas ref={r} style={{ width: "100%", height: "100%" }} />
+      <div 
+        ref={shellRef}
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: "50vmin",
+          height: "50vmin",
+          borderRadius: "50%",
+          background: "rgba(184, 245, 0, 0.04)",
+          border: "1px solid rgba(184, 245, 0, 0.25)",
+          backdropFilter: "blur(20px)",
+          boxShadow: "0 0 40px rgba(184, 245, 0, 0.08), inset 0 0 20px rgba(255, 255, 255, 0.05)",
+          transition: "none"
+        }}
+      />
+    </div>
+  );
 }
 
 // ─── Icons ─────────────────────────────────────────────────────────────────
