@@ -33,8 +33,9 @@ function FloatingParticles() {
     
     const nodeCount = 100;
     const orbCount = 1350;
-    const maxPulses = 22; // Increased to 22 as requested
-    const connDist = 200; // Increased to 200 as requested
+    const maxPulses = 35; 
+    const connDist = 200; 
+    const pulseChainProb = 0.4; // Internal chance to extend trail? Or we just build 4-5 in constructor.
 
     const rs = () => { 
       c.width = window.innerWidth; 
@@ -43,59 +44,78 @@ function FloatingParticles() {
     rs(); window.addEventListener("resize", rs);
 
     const colors = [[184, 245, 0], [108, 99, 255], [0, 150, 255]];
-    const orbColor = [215, 215, 215]; // Darker orb color as requested (15% reduction from white)
+    const orbColor = [162, 162, 162]; // ~25% darker than previous [215, 215, 215]
 
     for (let i = 0; i < nodeCount; i++) {
       bgNodes.push({
         x: Math.random() * c.width,
         y: Math.random() * c.height,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: (Math.random() - 0.5) * 0.35,
-        s: (Math.random() * 1.5 + 0.8) * 1.32, // Increased by 20% (1.1 * 1.2 = 1.32)
+        vx: (Math.random() - 0.5) * 0.26, // Reduced by 25% from 0.35
+        vy: (Math.random() - 0.5) * 0.26,
+        s: (Math.random() * 1.5 + 0.8) * 1.32,
         c: colors[Math.floor(Math.random() * colors.length)]
       });
     }
 
     class Pulse {
-      constructor(i, j) {
-        this.i = i; this.j = j;
-        this.prog = 0; // head progress
-        this.tail = 0; // tail progress
-        this.state = 0; // 0: growing, 1: solid, 2: fading
-        this.speed = 0.008 + Math.random() * 0.012;
+      constructor(startIndex) {
+        this.path = [startIndex];
+        let curr = startIndex;
+        const targetLen = 4 + Math.floor(Math.random() * 2);
+        for (let k = 0; k < targetLen - 1; k++) {
+          let neighbors = [];
+          for (let m = 0; m < nodeCount; m++) {
+            if (this.path.includes(m)) continue;
+            const dx = bgNodes[curr].x - bgNodes[m].x, dy = bgNodes[curr].y - bgNodes[m].y;
+            if (Math.sqrt(dx*dx + dy*dy) < connDist) neighbors.push(m);
+          }
+          if (neighbors.length === 0) break;
+          const next = neighbors[Math.floor(Math.random() * neighbors.length)];
+          this.path.push(next);
+          curr = next;
+        }
+        this.prog = 0; 
+        this.tail = 0; 
+        this.state = 0; // 0: growing head, 1: solid/linger, 2: shrinking tail
+        this.speed = 0.012 + Math.random() * 0.015;
         this.timer = 0;
       }
       u() {
+        const segs = this.path.length - 1;
         if (this.state === 0) {
           this.prog += this.speed;
-          if (this.prog >= 1) { this.prog = 1; this.state = 1; }
+          if (this.prog >= segs) { this.prog = segs; this.state = 1; }
         } else if (this.state === 1) {
-          this.timer += 1;
-          if (this.timer > 120) this.state = 2; // linger for ~2sec
+          this.timer++;
+          if (this.timer > 40) this.state = 2; 
         } else {
           this.tail += this.speed;
-          if (this.tail >= 1) return true; // complete
+          if (this.tail >= segs) return true;
         }
         return false;
       }
       d() {
-        const nA = bgNodes[this.i], nB = bgNodes[this.j];
-        if (!nA || !nB) return;
-        const xA = nA.x + (nB.x - nA.x) * this.tail;
-        const yA = nA.y + (nB.y - nA.y) * this.tail;
-        const xB = nA.x + (nB.x - nA.x) * this.prog;
-        const yB = nA.y + (nB.y - nA.y) * this.prog;
-
+        if (this.path.length < 2) return;
         ctx.beginPath();
-        ctx.moveTo(xA, yA);
-        ctx.lineTo(xB, yB);
+        for (let k = 0; k < this.path.length - 1; k++) {
+          const s = Math.max(k, this.tail), e = Math.min(k + 1, this.prog);
+          if (s >= e) continue;
+          const n1 = bgNodes[this.path[k]], n2 = bgNodes[this.path[k+1]];
+          const fS = s - k, fE = e - k;
+          ctx.moveTo(n1.x + (n2.x - n1.x) * fS, n1.y + (n2.y - n1.y) * fS);
+          ctx.lineTo(n1.x + (n2.x - n1.x) * fE, n1.y + (n2.y - n1.y) * fE);
+        }
         ctx.strokeStyle = `rgba(100,100,100,0.4)`;
         ctx.lineWidth = 0.8;
         ctx.stroke();
 
         if (this.state === 0 || this.state === 1) {
+          const idx = Math.min(Math.floor(this.prog), this.path.length - 2);
+          const f = this.prog - idx;
+          const n1 = bgNodes[this.path[idx]], n2 = bgNodes[this.path[idx+1]];
+          const hX = n1.x + (n2.x - n1.x) * f, hY = n1.y + (n2.y - n1.y) * f;
           ctx.beginPath();
-          ctx.arc(xB, yB, 1.2, 0, Math.PI * 2);
+          ctx.arc(hX, hY, 1.2, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(150,150,150,0.8)`;
           ctx.fill();
         }
@@ -120,7 +140,7 @@ function FloatingParticles() {
         const pers = 500 / (500 + z2 * radius);
         const x = x1 * radius * pers + c.width / 2;
         const y = y2 * radius * pers + c.height / 2;
-        const o = (0.49 + Math.sin(this.p + time) * 0.14) * pers; // Reduced by another 15% (0.58 * 0.85 approx 0.49)
+        const o = (0.36 + Math.sin(this.p + time) * 0.12) * pers; // ~25% darker than previous [0.49]
         ctx.beginPath();
         ctx.arc(x, y, this.s * pers, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${orbColor[0]},${orbColor[1]},${orbColor[2]},${Math.max(0, o)})`;
@@ -148,35 +168,14 @@ function FloatingParticles() {
       });
 
       // Spawn pulses sparingly (Increased rate for 15% more connections)
-      const spawnPulse = (startNode = null) => {
-        if (activePulses.length >= maxPulses) return;
-        const i = startNode !== null ? startNode : Math.floor(Math.random() * nodeCount);
-        const j = Math.floor(Math.random() * nodeCount);
-        if (i !== j) {
-          const dx = bgNodes[i].x - bgNodes[j].x, dy = bgNodes[i].y - bgNodes[j].y;
-          if (Math.sqrt(dx*dx + dy*dy) < connDist) {
-            const exists = activePulses.some(p => (p.i === i && p.j === j) || (p.i === j && p.j === i));
-            if (!exists) activePulses.push(new Pulse(i, j));
-          }
-        }
-      };
-
-      if (Math.random() < 0.038) { // 15% increase in base spawn rate
-        spawnPulse();
+      if (activePulses.length < maxPulses && Math.random() < 0.05) {
+        const i = Math.floor(Math.random() * nodeCount);
+        activePulses.push(new Pulse(i));
       }
 
       for (let i = activePulses.length - 1; i >= 0; i--) {
-        const p = activePulses[i];
-        const wasGrowing = p.state === 0;
-        const finished = p.u();
-        
-        // Chaining logic: when a pulse reaches its destination (state changes from 0 to 1)
-        if (wasGrowing && p.state === 1 && Math.random() < 0.3) {
-          spawnPulse(p.j);
-        }
-
-        if (finished) activePulses.splice(i, 1);
-        else p.d();
+        if (activePulses[i].u()) activePulses.splice(i, 1);
+        else activePulses[i].d();
       }
 
       const orbRadius = Math.min(c.width, c.height) * 0.22;
@@ -197,14 +196,14 @@ function FloatingParticles() {
           position: "absolute",
           top: "50%",
           left: "50%",
-          width: "45.3vmin", // 10% smaller as requested
-          height: "45.3vmin",
+          width: "48.9vmin", // 8% larger radius than 45.3vmin
+          height: "48.9vmin",
           borderRadius: "50%",
-          background: "rgba(255, 255, 255, 0.012)", // 15% darker/less opaque
+          background: "rgba(255, 255, 255, 0.01)",
           border: "none",
           transform: "translate(-50%, -50%)",
-          backdropFilter: "blur(1.5px)", // 10% less blur than 1.67px
-          boxShadow: "inset 0 0 15px rgba(255, 255, 255, 0.03)",
+          backdropFilter: "blur(1.35px)", // Reduced blur by 10% from 1.5px
+          boxShadow: "inset 0 0 15px rgba(255, 255, 255, 0.02)",
           transition: "none"
         }}
       />
