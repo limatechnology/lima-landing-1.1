@@ -33,7 +33,7 @@ function FloatingParticles() {
     
     const nodeCount = 90; 
     const orbCount = 1350;
-    const maxPulses = 3; // Switched to 3 for slightly more activity
+    const maxPulses = 4; // Subido a 4
     const connDist = 200; 
     const pulseChainProb = 0.4;
 
@@ -63,8 +63,10 @@ function FloatingParticles() {
         y: Math.random() * c.height,
         vx: (Math.random() - 0.5) * 0.147, 
         vy: (Math.random() - 0.5) * 0.147,
-        s: isLarge ? baseS * 1.32 * 1.25 : baseS * 1.32, // Increased by 10% (1.2 * 1.1)
-        c: cVaried
+        s: isLarge ? baseS * 1.45 * 1.25 : baseS * 1.45, // +10% sobre el anterior
+        c: cVaried,
+        r: Math.random() * Math.PI * 2, // Para micro-rotación
+        rv: Math.random() * 0.04 + 0.02
       });
     }
 
@@ -165,16 +167,18 @@ function FloatingParticles() {
 
     const an = () => {
       ctx.clearRect(0, 0, c.width, c.height);
-      rot += 0.000482; // Reduced by 15% from 0.000567
+      rot += 0.00041; // Reduced by 15% from 0.000482
       time += 0.02;
 
       bgNodes.forEach(n => {
         n.x += n.vx; n.y += n.vy;
+        n.r += n.rv; // Micro-rotación
         if (n.x < 0 || n.x > c.width) n.vx *= -1;
         if (n.y < 0 || n.y > c.height) n.vy *= -1;
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.s, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${n.c[0]},${n.c[1]},${n.c[2]},0.6)`;
+        const br = 0.45 + Math.sin(n.r) * 0.2; // Brillo variable
+        ctx.fillStyle = `rgba(${n.c[0]},${n.c[1]},${n.c[2]},${br})`;
         ctx.fill();
       });
 
@@ -189,7 +193,7 @@ function FloatingParticles() {
         else activePulses[i].d();
       }
 
-      const orbRadius = Math.min(c.width, c.height) * 0.286; // Increased by 30% from 0.22
+      const orbRadius = Math.min(c.width, c.height) * 0.343; // +20% sobre 0.286
       orbParticles.forEach(p => p.d(rot, orbRadius, time));
 
       a = requestAnimationFrame(an);
@@ -207,14 +211,14 @@ function FloatingParticles() {
           position: "absolute",
           top: "50%",
           left: "50%",
-          width: "65.45vmin", // Increased 30% from 50.35vmin
-          height: "65.45vmin",
+          width: "78.5vmin", // +20% sobre 65.45vmin
+          height: "78.5vmin",
           borderRadius: "50%",
           background: "rgba(255, 255, 255, 0.01)",
           border: "none",
           transform: "translate(-50%, -50%)",
-          backdropFilter: "blur(1.75px)", // Increased 30% from 1.35px
-          boxShadow: "inset 0 0 19.5px rgba(255, 255, 255, 0.02)", // Increased 30% from 15px
+          backdropFilter: "blur(2.2px)", // +25% sobre 1.75px
+          boxShadow: "inset 0 0 24.4px rgba(255, 255, 255, 0.02)", // +25% sobre 19.5px
           transition: "none"
         }}
       />
