@@ -33,8 +33,8 @@ function FloatingParticles() {
     
     const nodeCount = 100;
     const orbCount = 1350;
-    const maxPulses = 17; // Increased by ~15%
-    const connDist = 160;
+    const maxPulses = 22; // Increased to 22 as requested
+    const connDist = 200; // Increased to 200 as requested
 
     const rs = () => { 
       c.width = window.innerWidth; 
@@ -43,7 +43,7 @@ function FloatingParticles() {
     rs(); window.addEventListener("resize", rs);
 
     const colors = [[184, 245, 0], [108, 99, 255], [0, 150, 255]];
-    const orbColor = [255, 255, 255];
+    const orbColor = [215, 215, 215]; // Darker orb color as requested (15% reduction from white)
 
     for (let i = 0; i < nodeCount; i++) {
       bgNodes.push({
@@ -51,7 +51,7 @@ function FloatingParticles() {
         y: Math.random() * c.height,
         vx: (Math.random() - 0.5) * 0.35,
         vy: (Math.random() - 0.5) * 0.35,
-        s: (Math.random() * 1.5 + 0.8) * 1.1, // 10% larger
+        s: (Math.random() * 1.5 + 0.8) * 1.32, // Increased by 20% (1.1 * 1.2 = 1.32)
         c: colors[Math.floor(Math.random() * colors.length)]
       });
     }
@@ -120,7 +120,7 @@ function FloatingParticles() {
         const pers = 500 / (500 + z2 * radius);
         const x = x1 * radius * pers + c.width / 2;
         const y = y2 * radius * pers + c.height / 2;
-        const o = (0.58 + Math.sin(this.p + time) * 0.17) * pers;
+        const o = (0.49 + Math.sin(this.p + time) * 0.14) * pers; // Reduced by another 15% (0.58 * 0.85 approx 0.49)
         ctx.beginPath();
         ctx.arc(x, y, this.s * pers, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${orbColor[0]},${orbColor[1]},${orbColor[2]},${Math.max(0, o)})`;
@@ -197,14 +197,14 @@ function FloatingParticles() {
           position: "absolute",
           top: "50%",
           left: "50%",
-          width: "50.35vmin", // 5% smaller
-          height: "50.35vmin",
+          width: "45.3vmin", // 10% smaller as requested
+          height: "45.3vmin",
           borderRadius: "50%",
-          background: "rgba(255, 255, 255, 0.015)",
+          background: "rgba(255, 255, 255, 0.012)", // 15% darker/less opaque
           border: "none",
           transform: "translate(-50%, -50%)",
-          backdropFilter: "blur(1.67px)", // 10% less blur
-          boxShadow: "inset 0 0 15px rgba(255, 255, 255, 0.04)",
+          backdropFilter: "blur(1.5px)", // 10% less blur than 1.67px
+          boxShadow: "inset 0 0 15px rgba(255, 255, 255, 0.03)",
           transition: "none"
         }}
       />
