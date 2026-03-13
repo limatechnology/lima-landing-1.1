@@ -88,7 +88,7 @@ function FloatingParticles() {
         this.prog = 0; 
         this.tail = 0; 
         this.state = 0; // 0: growing head, 1: solid/linger, 2: shrinking tail
-        this.speed = ((0.012 + Math.random() * 0.015) * 0.75) * 0.75; // Additional 25% slower
+        this.speed = (((0.012 + Math.random() * 0.015) * 0.75) * 0.75) * 0.75; // Reduced by another 25%
         this.timer = 0;
       }
       u() {
