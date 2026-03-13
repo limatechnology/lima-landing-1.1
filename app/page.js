@@ -31,9 +31,9 @@ function FloatingParticles() {
     const orbParticles = [];
     const activePulses = [];
     
-    const nodeCount = 100;
+    const nodeCount = 90; // Reduced un 10%
     const orbCount = 1350;
-    const maxPulses = 2; // Minimalist density
+    const maxPulses = 2; 
     const connDist = 200; 
     const pulseChainProb = 0.4;
 
@@ -44,7 +44,7 @@ function FloatingParticles() {
     rs(); window.addEventListener("resize", rs);
 
     const colors = [[184, 245, 0], [108, 99, 255], [0, 150, 255]];
-    const orbColor = [146, 146, 146]; // 10% darker than previous [162, 162, 162]
+    const orbColor = [131, 131, 131]; // 10% más oscuro que [146, 146, 146]
 
     for (let i = 0; i < nodeCount; i++) {
       const isLarge = Math.random() < 0.15;
@@ -61,9 +61,9 @@ function FloatingParticles() {
       bgNodes.push({
         x: Math.random() * c.width,
         y: Math.random() * c.height,
-        vx: (Math.random() - 0.5) * 0.21,
-        vy: (Math.random() - 0.5) * 0.21,
-        s: isLarge ? baseS * 1.32 * 1.25 : baseS * 1.32,
+        vx: (Math.random() - 0.5) * 0.147, // Reduced by 30% from 0.21
+        vy: (Math.random() - 0.5) * 0.147,
+        s: isLarge ? baseS * 1.2 * 1.25 : baseS * 1.2, // 20% larger base + 25% for selected
         c: cVaried
       });
     }
@@ -72,7 +72,7 @@ function FloatingParticles() {
       constructor(startIndex) {
         this.path = [startIndex];
         let curr = startIndex;
-        const targetLen = 3; // Fixed at 3 points (A->B->C) as requested
+        const targetLen = 2; // Fixed at 2 points (A->B)
         for (let k = 0; k < targetLen - 1; k++) {
           let neighbors = [];
           for (let m = 0; m < nodeCount; m++) {
@@ -88,7 +88,7 @@ function FloatingParticles() {
         this.prog = 0; 
         this.tail = 0; 
         this.state = 0; // 0: growing head, 1: solid/linger, 2: shrinking tail
-        this.speed = (((0.012 + Math.random() * 0.015) * 0.75) * 0.75) * 0.75; // Reduced by another 25%
+        this.speed = 0.006; // Constant speed, 15% reduction approximate
         this.timer = 0;
       }
       u() {
@@ -151,7 +151,7 @@ function FloatingParticles() {
         const pers = 500 / (500 + z2 * radius);
         const x = x1 * radius * pers + c.width / 2;
         const y = y2 * radius * pers + c.height / 2;
-        const o = (0.32 + Math.sin(this.p + time) * 0.11) * pers; // ~10% darker/fainter than 0.36
+        const o = (0.29 + Math.sin(this.p + time) * 0.1) * pers; // Darkened 10% additional
         ctx.beginPath();
         ctx.arc(x, y, this.s * pers, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${orbColor[0]},${orbColor[1]},${orbColor[2]},${Math.max(0, o)})`;
@@ -165,7 +165,7 @@ function FloatingParticles() {
 
     const an = () => {
       ctx.clearRect(0, 0, c.width, c.height);
-      rot += 0.000756; // Reduced by 30% from 0.00108
+      rot += 0.000567; // Reduced by 25% from 0.000756
       time += 0.02;
 
       bgNodes.forEach(n => {
