@@ -31,9 +31,7 @@ function FloatingParticles() {
     const orbParticles = [];
     const activePulses = [];
     
-    const nodeCount = 90; 
-    const orbCount = 1350;
-    const maxPulses = 4; // Aumentado un 30% adicional (de 3 a 4)
+    const maxPulses = 6; // Aumentado a 6 max
     const connDist = 200; 
     const pulseChainProb = 0.4;
 
@@ -90,7 +88,7 @@ function FloatingParticles() {
         this.prog = 0; 
         this.tail = 0; 
         this.state = 0; // 0: growing head, 1: solid/linger, 2: shrinking tail
-        this.speed = 0.006; // Velocidad reducida (calma restaurada)
+        this.speed = 0.00555; // Velocidad ajustada para ~3 segundos por fase de trayectoria
         this.timer = 0;
       }
       u() {
@@ -182,8 +180,8 @@ function FloatingParticles() {
         ctx.fill();
       });
 
-      // Spawn pulses sparingly (Increased rate by 30% more)
-      if (activePulses.length < maxPulses && Math.random() < 0.088) {
+      // Spawn pulses sparingly (Increased rate for 6 max pulses)
+      if (activePulses.length < maxPulses && Math.random() < 0.1) {
         const i = Math.floor(Math.random() * nodeCount);
         activePulses.push(new Pulse(i));
       }
