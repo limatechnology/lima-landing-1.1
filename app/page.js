@@ -165,7 +165,7 @@ function FloatingParticles() {
 
     const an = () => {
       ctx.clearRect(0, 0, c.width, c.height);
-      rot += 0.00108; // 15% reduction from 0.001275
+      rot += 0.000756; // Reduced by 30% from 0.00108
       time += 0.02;
 
       bgNodes.forEach(n => {
