@@ -31,9 +31,9 @@ function FloatingParticles() {
     const orbParticles = [];
     const activePulses = [];
     
-    const nodeCount = 90; // Reduced un 10%
+    const nodeCount = 90; 
     const orbCount = 1350;
-    const maxPulses = 2; 
+    const maxPulses = 3; // Switched to 3 for slightly more activity
     const connDist = 200; 
     const pulseChainProb = 0.4;
 
@@ -61,9 +61,9 @@ function FloatingParticles() {
       bgNodes.push({
         x: Math.random() * c.width,
         y: Math.random() * c.height,
-        vx: (Math.random() - 0.5) * 0.147, // Reduced by 30% from 0.21
+        vx: (Math.random() - 0.5) * 0.147, 
         vy: (Math.random() - 0.5) * 0.147,
-        s: isLarge ? baseS * 1.2 * 1.25 : baseS * 1.2, // 20% larger base + 25% for selected
+        s: isLarge ? baseS * 1.32 * 1.25 : baseS * 1.32, // Increased by 10% (1.2 * 1.1)
         c: cVaried
       });
     }
@@ -165,7 +165,7 @@ function FloatingParticles() {
 
     const an = () => {
       ctx.clearRect(0, 0, c.width, c.height);
-      rot += 0.000567; // Reduced by 25% from 0.000756
+      rot += 0.000482; // Reduced by 15% from 0.000567
       time += 0.02;
 
       bgNodes.forEach(n => {
@@ -189,7 +189,7 @@ function FloatingParticles() {
         else activePulses[i].d();
       }
 
-      const orbRadius = Math.min(c.width, c.height) * 0.22;
+      const orbRadius = Math.min(c.width, c.height) * 0.286; // Increased by 30% from 0.22
       orbParticles.forEach(p => p.d(rot, orbRadius, time));
 
       a = requestAnimationFrame(an);
@@ -207,14 +207,14 @@ function FloatingParticles() {
           position: "absolute",
           top: "50%",
           left: "50%",
-          width: "48.9vmin", // 8% larger radius than 45.3vmin
-          height: "48.9vmin",
+          width: "65.45vmin", // Increased 30% from 50.35vmin
+          height: "65.45vmin",
           borderRadius: "50%",
           background: "rgba(255, 255, 255, 0.01)",
           border: "none",
           transform: "translate(-50%, -50%)",
-          backdropFilter: "blur(1.35px)", // Reduced blur by 10% from 1.5px
-          boxShadow: "inset 0 0 15px rgba(255, 255, 255, 0.02)",
+          backdropFilter: "blur(1.75px)", // Increased 30% from 1.35px
+          boxShadow: "inset 0 0 19.5px rgba(255, 255, 255, 0.02)", // Increased 30% from 15px
           transition: "none"
         }}
       />
