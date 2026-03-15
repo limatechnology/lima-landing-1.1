@@ -407,6 +407,7 @@ export default function LimaTechnology() {
           </li>
           <li><a href="#nosotros" onClick={() => setMob(false)}>Nosotros</a></li>
           <li><a href="#clientes" onClick={() => setMob(false)}>Clientes</a></li>
+          <li><a href="/contacto" onClick={() => setMob(false)}>Contacto</a></li>
         </ul>
         <div className="ncw"><a href={WA} target="_blank" rel="noopener noreferrer" className="nc">Agendar Consulta</a></div>
         <button className="nm" onClick={() => setMob(!mob)} aria-label={mob ? "Cerrar menú" : "Abrir menú"}>{mob ? "✕" : "☰"}</button>
