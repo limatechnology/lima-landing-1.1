@@ -274,7 +274,7 @@ export default function ContactoPage() {
 
       <nav className={`nav ${scrolled ? "sc" : ""}`}>
         <a href="/" className="nl">
-          <img src="/LimaTechnology.png" alt="Lima Technology" className="nl-img" />
+          <img src="/LimaTechnology.png" alt="Logo de Lima Technology - Expertos en Ciberseguridad y Crecimiento Digital en Rosario" className="nl-img" />
         </a>
         <div className="ncw">
           <a href={WA} target="_blank" rel="noopener noreferrer" className="nc">Contactar por WhatsApp</a>

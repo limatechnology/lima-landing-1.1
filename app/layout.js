@@ -2,14 +2,14 @@ import './globals.css';
 import Script from 'next/script';
 
 export const metadata = {
-  metadataBase: new URL('https://limatechnology.com.ar'),
+  metadataBase: new URL('https://www.limatechnology.com.ar'),
   title: {
-    default: 'Lima Technology | Ciberseguridad y Crecimiento Digital en Rosario',
+    default: 'Lima Technology | Ciberseguridad y Crecimiento Digital',
     template: '%s | Lima Technology'
   },
   description: 'Expertos en Ciberseguridad, Crecimiento Digital y Sitios Web en Rosario. Soluciones tecnológicas confiables para PyMEs, seguridad de datos y soporte IT.',
   keywords: ['ciberseguridad', 'crecimiento digital', 'digitalizar negocio', 'paginas web rosario', 'soporte IT', 'seguridad informatica', 'auditoria pyme', 'Lima Technology'],
-  authors: [{ name: 'Kevin', url: 'https://limatechnology.com.ar' }],
+  authors: [{ name: 'Kevin', url: 'https://www.limatechnology.com.ar' }],
   creator: 'Lima Technology',
   publisher: 'Lima Technology',
   formatDetection: {
@@ -27,7 +27,7 @@ export const metadata = {
   openGraph: {
     title: 'Lima Technology | Ciberseguridad y Crecimiento Digital',
     description: 'Aceleramos tu crecimiento con tecnología confiable en Rosario. Ciberseguridad, Digitalización y Soporte IT para potenciar tu PyME.',
-    url: 'https://limatechnology.com.ar',
+    url: 'https://www.limatechnology.com.ar',
     siteName: 'Lima Technology',
     locale: 'es_AR',
     type: 'website',
@@ -64,10 +64,27 @@ export default function RootLayout({ children }) {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     'name': 'Lima Technology',
-    'image': 'https://limatechnology.com.ar/LimaTechnology.png',
-    '@id': 'https://limatechnology.com.ar',
-    'url': 'https://limatechnology.com.ar',
+    'image': 'https://www.limatechnology.com.ar/LimaTechnology.png',
+    'logo': 'https://www.limatechnology.com.ar/icon.png',
+    '@id': 'https://www.limatechnology.com.ar',
+    'url': 'https://www.limatechnology.com.ar',
     'telephone': '+5493416139281',
+    'email': 'limatech.ar@gmail.com',
+    'priceRange': '$$',
+    'areaServed': [
+      {
+        '@type': 'AdministrativeArea',
+        'name': 'Rosario'
+      },
+      {
+        '@type': 'AdministrativeArea',
+        'name': 'Santa Fe'
+      },
+      {
+        '@type': 'AdministrativeArea',
+        'name': 'Argentina'
+      }
+    ],
     'address': {
       '@type': 'PostalAddress',
       'addressLocality': 'Rosario',
