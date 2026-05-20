@@ -292,7 +292,7 @@ export default function ContactoPage() {
         <div className="ct-grid">
 
           {/* Formulario */}
-          <form className="ct-form" onSubmit={handleSubmit}>
+          <form className="ct-form" method="POST" onSubmit={handleSubmit}>
             <div className="cf-group">
               <label className="cf-label">Nombre *</label>
               <input className="cf-input" name="nombre" value={form.nombre} onChange={handleChange} placeholder="Tu nombre" required style={errors.nombre ? { borderColor: "#ff4a4a" } : {}} />
