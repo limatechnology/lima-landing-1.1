@@ -31,3 +31,6 @@ jobs:
 
       - name: Next.js Compile Verification
         run: npm run build
+
+      - name: Audit OWASP ZAP Security Headers
+        run: node scripts/validate-headers.js

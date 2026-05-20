@@ -2,7 +2,7 @@
 const securityHeaders = [
   {
     key: 'Content-Security-Policy',
-    value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.googletagmanager.com https://*.whatsapp.com; connect-src 'self' https://www.googletagmanager.com; frame-src 'self' https://www.googletagmanager.com; font-src 'self' data: https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
+    value: "default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.googletagmanager.com https://*.whatsapp.com; connect-src 'self' https://www.googletagmanager.com; frame-src 'self' https://www.googletagmanager.com; font-src 'self' data: https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
   },
   {
     key: 'X-Frame-Options',
@@ -23,6 +23,19 @@ const securityHeaders = [
   {
     key: 'Permissions-Policy',
     value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()'
+  },
+  // CORS Restricción estricta (Evita Access-Control-Allow-Origin: *)
+  {
+    key: 'Access-Control-Allow-Origin',
+    value: 'https://limatechnology.com.ar'
+  },
+  {
+    key: 'Access-Control-Allow-Methods',
+    value: 'GET, POST, OPTIONS'
+  },
+  {
+    key: 'Access-Control-Allow-Headers',
+    value: 'Content-Type, Authorization'
   }
 ];
 
@@ -30,13 +43,43 @@ const nextConfig = {
   reactStrictMode: true,
   async headers() {
     return [
+      // 1. Cabeceras de seguridad y CORS para todas las rutas
       {
         source: '/:path*',
         headers: securityHeaders,
       },
+      // 2. Cache-Control de largo plazo para archivos estáticos del compilado de Next.js
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          }
+        ]
+      },
+      // 3. Cache-Control optimizado para scripts estáticos públicos (como gtm.js)
+      {
+        source: '/js/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, must-revalidate'
+          }
+        ]
+      },
+      // 4. Cache-Control de seguridad para endpoints dinámicos (evita recuperación desde caché)
+      {
+        source: '/api/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, no-cache, must-revalidate, proxy-revalidate'
+          }
+        ]
+      }
     ];
   },
 };
 
 module.exports = nextConfig;
-
