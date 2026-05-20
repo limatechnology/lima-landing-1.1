@@ -424,7 +424,7 @@ export default function LimaTechnology() {
           con tecnología<br className="mo-br" /> confiable
         </h1>
 
-        <p className="hs">Potenciamos negocios, emprendimientos, PyMEs y freelancers con soluciones digitales simples, confiables y honestas.</p>
+        <p className="hs">Acompañamos el crecimiento de tu negocio y su transformación digital con soluciones de ciberseguridad y tecnología confiable adaptadas a PyMEs, emprendedores y freelancers en Rosario.</p>
         <div className="hb">
           <a href={WA} target="_blank" rel="noopener noreferrer" className="bl-btn" aria-label="Contactar por WhatsApp">{I.wa} Comencemos ahora</a>
           <a href="#servicios" className="bo">Ver servicios</a>
@@ -458,8 +458,8 @@ export default function LimaTechnology() {
             <div className="about-col"><p>Hoy Lima está en plena construcción: consolidando operaciones, estableciendo procesos ágiles y sumando clientes reales con los que trabajamos hombro a hombro.</p><p>No somos una agencia grande que te asigna un ejecutivo de cuenta que no sabe quién sos. Somos un equipo chico que se mete en tu negocio, entiende tu contexto, y trabaja como si la empresa fuera nuestra. Cada decisión que tomamos la tomamos pensando en si realmente te conviene — no en si nos conviene a nosotros.</p></div>
           </div>
           <div className="about-boxes">
-            <div className="about-box"><div className="about-box-icon">🎯</div><h4>Misión</h4><p>Ayudar a PyMEs y negocios locales a crecer, digitalizarse y protegerse — con soluciones tecnológicas reales, sin venderles humo. Nos metemos en el negocio del cliente para entender qué necesitan de verdad, no para cerrar una venta.</p></div>
-            <div className="about-box"><div className="about-box-icon">🔭</div><h4>Visión</h4><p>Ser el aliado tecnológico de referencia para negocios locales en Argentina — la empresa a la que llaman cuando quieren crecer con tecnología y saben que van a hablar con alguien que entiende su negocio, no solo su problema técnico.</p></div>
+            <div className="about-box"><div className="about-box-icon">🎯</div><h3>Misión</h3><p>Ayudar a PyMEs y negocios locales a crecer, digitalizarse y protegerse — con soluciones tecnológicas reales, sin venderles humo. Nos metemos en el negocio del cliente para entender qué necesitan de verdad, no para cerrar una venta.</p></div>
+            <div className="about-box"><div className="about-box-icon">🔭</div><h3>Visión</h3><p>Ser el aliado tecnológico de referencia para negocios locales en Argentina — la empresa a la que llaman cuando quieren crecer con tecnología y saben que van a hablar con alguien que entiende su negocio, no solo su problema técnico.</p></div>
           </div>
           <div><span className="sl">Valores</span>
             <div className="about-values-grid">
@@ -476,7 +476,7 @@ export default function LimaTechnology() {
 
       <section className="sec cs" id="clientes">
         <span className="sl">Clientes</span>
-        <h3 className="stt" style={{ textAlign: "center", marginBottom: "1rem" }}>Confían en nosotros</h3>
+        <h2 className="stt" style={{ textAlign: "center", marginBottom: "1rem" }}>Confían en nosotros</h2>
         <p className="sd" style={{ margin: "0 auto 1.5rem", textAlign: "center" }}>Empresas de Rosario que eligieron dar el paso digital junto a Lima.</p>
         <div className="cg"><div className="cc">Beauty La Peluquería</div><div className="cc">La Culpa</div><div className="cc">GEMA</div><div className="cc">Comercios Locales</div><div className="cc">Pymes & Startups</div></div>
       </section>

@@ -4,10 +4,10 @@ import Script from 'next/script';
 export const metadata = {
   metadataBase: new URL('https://limatechnology.com.ar'),
   title: {
-    default: 'Lima Technology | Ciberseguridad and Crecimiento Digital en Rosario',
+    default: 'Lima Technology | Ciberseguridad y Crecimiento Digital en Rosario',
     template: '%s | Lima Technology'
   },
-  description: 'Tus expertos en Ciberseguridad, Crecimiento Digital y Sitios Web en Rosario. Soluciones tecnológicas confiables para PyMEs: seguridad de datos, automatización y soporte IT.',
+  description: 'Expertos en Ciberseguridad, Crecimiento Digital y Sitios Web en Rosario. Soluciones tecnológicas confiables para PyMEs, seguridad de datos y soporte IT.',
   keywords: ['ciberseguridad', 'crecimiento digital', 'digitalizar negocio', 'paginas web rosario', 'soporte IT', 'seguridad informatica', 'auditoria pyme', 'Lima Technology'],
   authors: [{ name: 'Kevin', url: 'https://limatechnology.com.ar' }],
   creator: 'Lima Technology',
@@ -25,7 +25,7 @@ export const metadata = {
     apple: '/icon.png',
   },
   openGraph: {
-    title: 'Lima Technology | Ciberseguridad and Crecimiento Digital',
+    title: 'Lima Technology | Ciberseguridad y Crecimiento Digital',
     description: 'Aceleramos tu crecimiento con tecnología confiable en Rosario. Ciberseguridad, Digitalización y Soporte IT para potenciar tu PyME.',
     url: 'https://limatechnology.com.ar',
     siteName: 'Lima Technology',
