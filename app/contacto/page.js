@@ -201,6 +201,7 @@ const WA = "https://wa.me/5493416139281";
 // ─── Contacto Page ──────────────────────────────────────────────────────────
 export default function ContactoPage() {
   const [form, setForm] = useState({ nombre: "", email: "", telefono: "", servicio: "", mensaje: "" });
+  const [errors, setErrors] = useState({});
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -209,19 +210,60 @@ export default function ContactoPage() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    // Clear errors when user types
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: "" });
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const newErrors = {};
+
+    // Standardize and sanitize inputs
+    const cleanNombre = form.nombre.replace(/[\r\n\x00-\x1F\x7F]/g, "").trim().substring(0, 100);
+    const cleanEmail = form.email.replace(/[\r\n\x00-\x1F\x7F]/g, "").trim().substring(0, 150);
+    const cleanTelefono = form.telefono.replace(/[\r\n\x00-\x1F\x7F]/g, "").trim().substring(0, 30);
+    const cleanServicio = form.servicio.replace(/[\r\n\x00-\x1F\x7F]/g, "").trim().substring(0, 50);
+    const cleanMensaje = form.mensaje.substring(0, 2000);
+    const sanitizedMensaje = cleanMensaje.replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, "").trim();
+
+    // Validation checks
+    if (!cleanNombre) {
+      newErrors.nombre = "El nombre es obligatorio.";
+    }
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!cleanEmail || !emailRegex.test(cleanEmail)) {
+      newErrors.email = "Por favor, ingresa un correo electrónico válido.";
+    }
+
+    if (cleanTelefono && !/^\+?[0-9\s\-()]{7,25}$/.test(cleanTelefono)) {
+      newErrors.telefono = "Por favor, ingresa un número de teléfono válido (ej: +54 9 341 000-0000).";
+    }
+
+    if (!sanitizedMensaje) {
+      newErrors.mensaje = "El mensaje no puede estar vacío o contener caracteres inválidos.";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setErrors({});
+
     const lines = [
       `Hola Lima Technology! Me contacto desde el formulario web.`,
       ``,
-      `Nombre: ${form.nombre}`,
-      `Email: ${form.email}`,
-      form.telefono ? `Teléfono: ${form.telefono}` : null,
-      form.servicio ? `Servicio de interés: ${form.servicio}` : null,
+      `Nombre: ${cleanNombre}`,
+      `Email: ${cleanEmail}`,
+      cleanTelefono ? `Teléfono: ${cleanTelefono}` : null,
+      cleanServicio ? `Servicio de interés: ${cleanServicio}` : null,
       ``,
-      `Mensaje: ${form.mensaje}`,
+      `Mensaje: ${sanitizedMensaje}`,
     ].filter(l => l !== null).join("\n");
     window.open(`${WA}?text=${encodeURIComponent(lines)}`, "_blank");
   };
@@ -253,15 +295,18 @@ export default function ContactoPage() {
           <form className="ct-form" onSubmit={handleSubmit}>
             <div className="cf-group">
               <label className="cf-label">Nombre *</label>
-              <input className="cf-input" name="nombre" value={form.nombre} onChange={handleChange} placeholder="Tu nombre" required />
+              <input className="cf-input" name="nombre" value={form.nombre} onChange={handleChange} placeholder="Tu nombre" required style={errors.nombre ? { borderColor: "#ff4a4a" } : {}} />
+              {errors.nombre && <span className="cf-error-text" style={{ color: "#ff4a4a", fontSize: "0.8rem", marginTop: "0.25rem", display: "block" }}>{errors.nombre}</span>}
             </div>
             <div className="cf-group">
               <label className="cf-label">Email *</label>
-              <input className="cf-input" type="email" name="email" value={form.email} onChange={handleChange} placeholder="tu@email.com" required />
+              <input className="cf-input" type="email" name="email" value={form.email} onChange={handleChange} placeholder="tu@email.com" required style={errors.email ? { borderColor: "#ff4a4a" } : {}} />
+              {errors.email && <span className="cf-error-text" style={{ color: "#ff4a4a", fontSize: "0.8rem", marginTop: "0.25rem", display: "block" }}>{errors.email}</span>}
             </div>
             <div className="cf-group">
               <label className="cf-label">WhatsApp <span className="cf-opt">(opcional)</span></label>
-              <input className="cf-input" name="telefono" value={form.telefono} onChange={handleChange} placeholder="+54 9 341 000 0000" />
+              <input className="cf-input" name="telefono" value={form.telefono} onChange={handleChange} placeholder="+54 9 341 000 0000" style={errors.telefono ? { borderColor: "#ff4a4a" } : {}} />
+              {errors.telefono && <span className="cf-error-text" style={{ color: "#ff4a4a", fontSize: "0.8rem", marginTop: "0.25rem", display: "block" }}>{errors.telefono}</span>}
             </div>
             <div className="cf-group">
               <label className="cf-label">Servicio de interés</label>
@@ -276,7 +321,8 @@ export default function ContactoPage() {
             </div>
             <div className="cf-group">
               <label className="cf-label">Mensaje *</label>
-              <textarea className="cf-input cf-textarea" name="mensaje" value={form.mensaje} onChange={handleChange} placeholder="Contanos en qué podemos ayudarte..." required rows={4} />
+              <textarea className="cf-input cf-textarea" name="mensaje" value={form.mensaje} onChange={handleChange} placeholder="Contanos en qué podemos ayudarte..." required rows={4} style={errors.mensaje ? { borderColor: "#ff4a4a" } : {}} />
+              {errors.mensaje && <span className="cf-error-text" style={{ color: "#ff4a4a", fontSize: "0.8rem", marginTop: "0.25rem", display: "block" }}>{errors.mensaje}</span>}
             </div>
             <button type="submit" className="cf-submit">
               {I.wa} Enviar por WhatsApp
