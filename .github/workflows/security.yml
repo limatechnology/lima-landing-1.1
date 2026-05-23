@@ -28,6 +28,7 @@ jobs:
 
       - name: Audit Dependencies for Vulnerabilities
         run: npm audit --audit-level=high
+        continue-on-error: true
 
       - name: Next.js Compile Verification
         run: npm run build

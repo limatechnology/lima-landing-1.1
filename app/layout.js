@@ -1,15 +1,16 @@
 import './globals.css';
 import Script from 'next/script';
+import { SITE_URL } from '../lib/site';
 
 export const metadata = {
-  metadataBase: new URL('https://www.limatechnology.com.ar'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'Lima Technology | Ciberseguridad y Crecimiento Digital',
     template: '%s | Lima Technology'
   },
   description: 'Expertos en Ciberseguridad, Crecimiento Digital y Sitios Web en Rosario. Soluciones tecnológicas confiables para PyMEs, seguridad de datos y soporte IT.',
   keywords: ['ciberseguridad', 'crecimiento digital', 'digitalizar negocio', 'paginas web rosario', 'soporte IT', 'seguridad informatica', 'auditoria pyme', 'Lima Technology'],
-  authors: [{ name: 'Kevin', url: 'https://www.limatechnology.com.ar' }],
+  authors: [{ name: 'Kevin', url: SITE_URL }],
   creator: 'Lima Technology',
   publisher: 'Lima Technology',
   formatDetection: {
@@ -27,7 +28,7 @@ export const metadata = {
   openGraph: {
     title: 'Lima Technology | Ciberseguridad y Crecimiento Digital',
     description: 'Aceleramos tu crecimiento con tecnología confiable en Rosario. Ciberseguridad, Digitalización y Soporte IT para potenciar tu PyME.',
-    url: 'https://www.limatechnology.com.ar',
+    url: SITE_URL,
     siteName: 'Lima Technology',
     locale: 'es_AR',
     type: 'website',
@@ -64,10 +65,10 @@ export default function RootLayout({ children }) {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     'name': 'Lima Technology',
-    'image': 'https://www.limatechnology.com.ar/LimaTechnology.png',
-    'logo': 'https://www.limatechnology.com.ar/icon.png',
-    '@id': 'https://www.limatechnology.com.ar',
-    'url': 'https://www.limatechnology.com.ar',
+    'image': `${SITE_URL}/LimaTechnology.png`,
+    'logo': `${SITE_URL}/icon.png`,
+    '@id': SITE_URL,
+    'url': SITE_URL,
     'telephone': '+5493416139281',
     'email': 'limatech.ar@gmail.com',
     'priceRange': '$$',

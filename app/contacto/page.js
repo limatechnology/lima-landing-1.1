@@ -370,7 +370,10 @@ export default function ContactoPage() {
         </div>
       </main>
 
-      <footer className="ftr"><p>Lima Technology 2025 © — Rosario, Santa Fe</p></footer>
+      <footer className="ftr">
+        <p>Lima Technology 2026 © — Rosario, Santa Fe</p>
+        <p className="ftr-made">Hecho con ♥ en Latinoamérica</p>
+      </footer>
     </>
   );
 }

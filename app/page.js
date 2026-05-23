@@ -385,7 +385,10 @@ export default function LimaTechnology() {
         <div className="ncw"><a href={WA} target="_blank" rel="noopener noreferrer" className="nc">Contactar por WhatsApp</a></div>
       </nav>
       <AllPlansPage onBack={goHome} />
-      <footer className="ftr"><p>Lima Technology 2025 © — Rosario, Santa Fe</p></footer>
+      <footer className="ftr">
+        <p>Lima Technology 2026 © — Rosario, Santa Fe</p>
+        <p className="ftr-made">Hecho con ♥ en Latinoamérica</p>
+      </footer>
     </>
   );
 
@@ -497,7 +500,10 @@ export default function LimaTechnology() {
           <a href="mailto:limatech.ar@gmail.com" className="ctlk" aria-label="Enviar consulta por email">{I.mail} Email</a>
         </div>
       </section>
-      <footer className="ftr"><p>Lima Technology 2025 © Todos los derechos reservados — Rosario, Santa Fe</p></footer>
+      <footer className="ftr">
+        <p>Lima Technology 2026 © Todos los derechos reservados — Rosario, Santa Fe</p>
+        <p className="ftr-made">Hecho con ♥ en Latinoamérica</p>
+      </footer>
     </>
   );
 }

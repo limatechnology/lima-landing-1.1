@@ -28,12 +28,12 @@ const securityHeaders = [
   },
   {
     key: 'Permissions-Policy',
-    value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()'
+    value: 'camera=(), microphone=(), geolocation=()'
   },
   // CORS Restricción estricta (Evita Access-Control-Allow-Origin: *)
   {
     key: 'Access-Control-Allow-Origin',
-    value: 'https://limatechnology.com.ar'
+    value: 'https://www.limatechnology.com.ar'
   },
   {
     key: 'Access-Control-Allow-Methods',

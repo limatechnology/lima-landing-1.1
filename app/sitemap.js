@@ -1,5 +1,7 @@
+import { SITE_URL } from '../lib/site';
+
 export default function sitemap() {
-  const baseUrl = 'https://limatechnology.com.ar';
+  const baseUrl = SITE_URL;
   
   return [
     {
