@@ -304,7 +304,7 @@ function ServiceCard({ s, onViewPlans }) {
       <div className="si" style={{ background: `${s.color}18`, color: s.color }}>{s.icon}</div>
       <h3>{s.title}</h3><p className="scd">{s.desc}</p>
       <div className="sis">{s.items.map((it, i) => <div key={i} className="sit">{I.check(s.color)}<span>{it}</span></div>)}</div>
-      <button className="srv-plan-btn" style={{ color: s.color, borderColor: `${s.color}44`, background: `${s.color}10` }} onClick={onViewPlans}>Ver planes {I.arrow(s.color)}</button>
+      <button className="btn btn-outline" style={{ color: s.color, borderColor: `${s.color}44`, background: `${s.color}10` }} onClick={onViewPlans}>Ver planes {I.arrow(s.color)}</button>
     </div>
   );
 }
@@ -316,7 +316,7 @@ function PlanCard({ p }) {
       <div className="pc-tag" style={{ background: `${p.color}15`, border: `1px solid ${p.color}30`, color: p.color }}><span className="pc-tag-dot" style={{ background: p.color }} />{p.tag}</div>
       <h3>{p.name}</h3><p className="pc-desc">{p.desc}</p>
       <div className="pc-feats">{p.features.map((f, j) => <div key={j} className="pc-feat">{I.check(p.color)}<span>{f}</span></div>)}</div>
-      <a href={waplan(p.name)} target="_blank" rel="noopener noreferrer" className="pc-btn" style={{ background: p.color }}>Consultá por este plan</a>
+      <a href={waplan(p.name)} target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ width: "100%", marginTop: "auto", background: p.color }}>Consultá por este plan</a>
     </div>
   );
 }
@@ -325,7 +325,7 @@ function PlanCard({ p }) {
 function AllPlansPage({ onBack }) {
   return (
     <div className="sec" style={{ paddingTop: "8.5rem" }}>
-      <button className="allp-back" onClick={onBack}>{I.back} Volver a la landing</button>
+      <button className="btn-extra" onClick={onBack}>{I.back} Volver a la landing</button>
       <div style={{ marginTop: "1.5rem" }}>
         <span className="sl">Todos los planes</span>
         <h2 className="stt">Explorá todas nuestras opciones</h2>
@@ -344,7 +344,7 @@ function AllPlansPage({ onBack }) {
                 {p.tag && <div className="allp-card-tag" style={{ background: `${sec.color}15`, color: sec.color }}>{p.tag}</div>}
                 <p>{p.desc}</p>
                 <div className="allp-feats">{p.features.map((f, fi) => <div key={fi} className="allp-feat">{I.check(sec.color)}<span>{f}</span></div>)}</div>
-                <a href={waplan(p.name)} target="_blank" rel="noopener noreferrer" className="allp-cta" style={{ color: sec.color, borderColor: `${sec.color}44`, background: `${sec.color}10` }}>Consultar</a>
+                <a href={waplan(p.name)} target="_blank" rel="noopener noreferrer" className="btn btn-outline" style={{ width: "100%", marginTop: "auto", color: sec.color, borderColor: `${sec.color}44`, background: `${sec.color}10` }}>Consultar</a>
               </div>
             ))}
           </div>
@@ -382,7 +382,7 @@ export default function LimaTechnology() {
           <img src="/LimaTechnology.png" alt="Logo de Lima Technology - Expertos en Ciberseguridad y Crecimiento Digital" className="nl-img" />
         </a>
 
-        <div className="ncw"><a href={WA} target="_blank" rel="noopener noreferrer" className="nc">Contactar por WhatsApp</a></div>
+        <div className="ncw"><a href={WA} target="_blank" rel="noopener noreferrer" className="btn btn-primary">Contactar por WhatsApp</a></div>
       </nav>
       <AllPlansPage onBack={goHome} />
       <footer className="ftr">
@@ -412,8 +412,8 @@ export default function LimaTechnology() {
           <li><a href="#clientes" onClick={() => setMob(false)}>Clientes</a></li>
           <li><a href="/contacto" onClick={() => setMob(false)}>Contacto</a></li>
         </ul>
-        <div className="ncw"><a href={WA} target="_blank" rel="noopener noreferrer" className="nc">Agendar Consulta</a></div>
-        <button className="nm" onClick={() => setMob(!mob)} aria-label={mob ? "Cerrar menú" : "Abrir menú"}>{mob ? "✕" : "☰"}</button>
+        <div className="ncw"><a href={WA} target="_blank" rel="noopener noreferrer" className="btn btn-primary">Agendar Consulta</a></div>
+        <button className="btn-menu" onClick={() => setMob(!mob)} aria-label={mob ? "Cerrar menú" : "Abrir menú"}>{mob ? "✕" : "☰"}</button>
       </nav>
 
       <section className="hero">
@@ -429,8 +429,8 @@ export default function LimaTechnology() {
 
         <p className="hs">Acompañamos el crecimiento de tu negocio y su transformación digital con soluciones de ciberseguridad y tecnología confiable adaptadas a PyMEs, emprendedores y freelancers.</p>
         <div className="hb">
-          <a href={WA} target="_blank" rel="noopener noreferrer" className="bl-btn" aria-label="Contactar por WhatsApp">{I.wa} Comencemos ahora</a>
-          <a href="#servicios" className="bo">Ver servicios</a>
+          <a href={WA} target="_blank" rel="noopener noreferrer" className="btn btn-primary" aria-label="Contactar por WhatsApp">{I.wa} Comencemos ahora</a>
+          <a href="#servicios" className="btn btn-secondary">Ver servicios</a>
         </div>
       </section>
       <div className="dv" />
@@ -448,7 +448,7 @@ export default function LimaTechnology() {
         <h2 className="stt">Elegí lo que necesitás</h2>
         <p className="sd">Planes pensados para acompañar el crecimiento de tu empresa. Consultá por personalización según tu necesidad real.</p>
         <div className="pg">{featuredPlans.map((p, i) => <PlanCard key={i} p={p} />)}</div>
-        <button className="view-all-btn" onClick={goToAllPlans} aria-label="Ver todos los planes disponibles">Ver todos los planes {I.arrow()}</button>
+        <button className="btn btn-secondary" onClick={goToAllPlans} aria-label="Ver todos los planes disponibles">Ver todos los planes {I.arrow()}</button>
       </section>
       <div className="dv" />
 
@@ -490,12 +490,12 @@ export default function LimaTechnology() {
         <h2>¿Listo para <span className="hl">dar el paso</span>?</h2>
         <p>Trabajamos con vocación y honestidad para que la tecnología sea tu mejor aliada cotidianamente.</p>
         <div className="ctab">
-          <a href={WA} target="_blank" rel="noopener noreferrer" className="bl-btn" aria-label="Escribir por WhatsApp">{I.wa} Escribinos por WhatsApp</a>
+          <a href={WA} target="_blank" rel="noopener noreferrer" className="btn btn-primary" aria-label="Escribir por WhatsApp">{I.wa} Escribinos por WhatsApp</a>
         </div>
         <div className="ctal">
-          <a href="https://www.instagram.com/limatech.ar/" target="_blank" rel="noopener noreferrer" className="ctlk" aria-label="Seguir en Instagram">{I.ig} Instagram</a>
-          <a href="https://threads.net/@limatech.ar" target="_blank" rel="noopener noreferrer" className="ctlk" aria-label="Seguir en Threads">{I.threads} Threads</a>
-          <a href="https://x.com/limatech_ar" target="_blank" rel="noopener noreferrer" className="ctlk" aria-label="Seguir en X (Twitter)">{I.x} X / Twitter</a>
+          <a href="https://www.instagram.com/limatech.ar/" target="_blank" rel="noopener noreferrer" className="btn-link" aria-label="Seguir en Instagram">{I.ig} Instagram</a>
+          <a href="https://threads.net/@limatech.ar" target="_blank" rel="noopener noreferrer" className="btn-link" aria-label="Seguir en Threads">{I.threads} Threads</a>
+          <a href="https://x.com/limatech_ar" target="_blank" rel="noopener noreferrer" className="btn-link" aria-label="Seguir en X (Twitter)">{I.x} X / Twitter</a>
         </div>
       </section>
       <footer className="ftr">

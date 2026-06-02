@@ -300,7 +300,7 @@ export default function ContactoPage() {
           <img src="/LimaTechnology.png" alt="Logo de Lima Technology - Expertos en Ciberseguridad y Crecimiento Digital" className="nl-img" />
         </a>
         <div className="ncw">
-          <a href={WA} target="_blank" rel="noopener noreferrer" className="nc">Contactar por WhatsApp</a>
+          <a href={WA} target="_blank" rel="noopener noreferrer" className="btn btn-primary">Contactar por WhatsApp</a>
         </div>
       </nav>
 
@@ -355,10 +355,10 @@ export default function ContactoPage() {
               </div>
             )}
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-              <button type="button" className="cf-submit" onClick={() => handleAction("whatsapp")} style={{ flex: 1, minWidth: '200px' }}>
+              <button type="button" className="btn btn-primary" onClick={() => handleAction("whatsapp")} style={{ flex: 1, minWidth: '200px' }}>
                 {I.wa} Enviar WhatsApp
               </button>
-              <button type="button" className="cf-submit" onClick={() => handleAction("email")} style={{ flex: 1, minWidth: '200px', background: 'transparent', border: '1px solid #444', color: '#fff' }}>
+              <button type="button" className="btn btn-primary" onClick={() => handleAction("email")} style={{ flex: 1, minWidth: '200px', background: 'transparent', border: '1px solid #444', color: '#fff' }}>
                 {I.mail} Enviar por email
               </button>
             </div>
@@ -370,9 +370,9 @@ export default function ContactoPage() {
             <div className="ci-block">
               <h3>Seguinos</h3>
               <div className="ci-socials">
-                <a href="https://www.instagram.com/limatech.ar/" target="_blank" rel="noopener noreferrer" className="ctlk">{I.ig} Instagram</a>
-                <a href="https://threads.net/@limatech.ar" target="_blank" rel="noopener noreferrer" className="ctlk">{I.threads} Threads</a>
-                <a href="https://x.com/limatech_ar" target="_blank" rel="noopener noreferrer" className="ctlk">{I.x} X / Twitter</a>
+                <a href="https://www.instagram.com/limatech.ar/" target="_blank" rel="noopener noreferrer" className="btn-link">{I.ig} Instagram</a>
+                <a href="https://threads.net/@limatech.ar" target="_blank" rel="noopener noreferrer" className="btn-link">{I.threads} Threads</a>
+                <a href="https://x.com/limatech_ar" target="_blank" rel="noopener noreferrer" className="btn-link">{I.x} X / Twitter</a>
               </div>
             </div>
 
