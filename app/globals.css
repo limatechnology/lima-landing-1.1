@@ -127,7 +127,6 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   border: 1px solid transparent;
 }
 .btn:hover {
-  filter: brightness(1.15);
   box-shadow: 0 6px 20px rgba(0,0,0,0.5);
 }
 
@@ -136,8 +135,8 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   color: #101010;
 }
 .btn-primary:hover {
-  background: #a6dd00;
-  
+  background: #cfff33; /* Más claro */
+  box-shadow: 0 6px 20px rgba(207, 255, 51, 0.3);
 }
 
 .btn-secondary {
@@ -159,8 +158,9 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   font-size: 0.82rem;
 }
 .btn-outline:hover {
-  background: rgba(184,245,0,0.25);
-  border-color: rgba(184,245,0,0.6);
+  background: rgba(0, 0, 0, 0.5); /* Oscurece el fondo */
+  border-color: var(--lima);
+  filter: brightness(0.9);
 }
 
 .btn-extra {
