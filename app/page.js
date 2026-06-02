@@ -362,6 +362,8 @@ function ContactoSection() {
   const [form, setForm] = useState({ nombre: "", email: "", telefono: "", servicio: "", mensaje: "" });
   const [errors, setErrors] = useState({});
   const [captcha, setCaptcha] = useState({ n1: 0, n2: 0, answer: "" });
+  const [servOpen, setServOpen] = useState(false);
+  const servOptions = ["Ciberseguridad", "Crecimiento Digital", "Sitios Web", "Soporte IT", "Otro / Consulta general"];
 
   useEffect(() => {
     setCaptcha({ n1: Math.floor(Math.random() * 9) + 1, n2: Math.floor(Math.random() * 9) + 1, answer: "" });
@@ -464,14 +466,41 @@ function ContactoSection() {
           </div>
           <div className="cf-group">
             <label className="cf-label">Servicio de interés</label>
-            <select className="cf-input cf-select" name="servicio" value={form.servicio} onChange={handleChange}>
-              <option value="">Seleccionar...</option>
-              <option>Ciberseguridad</option>
-              <option>Crecimiento Digital</option>
-              <option>Sitios Web</option>
-              <option>Soporte IT</option>
-              <option>Otro / Consulta general</option>
-            </select>
+            <div style={{ position: "relative" }}>
+              <div 
+                className={`cf-input cf-select ${servOpen ? "open" : ""}`} 
+                onClick={() => setServOpen(!servOpen)}
+                style={{ cursor: "pointer", userSelect: "none", display: "flex", alignItems: "center" }}
+              >
+                {form.servicio || "Seleccionar..."}
+              </div>
+              {servOpen && <div style={{position: "fixed", inset: 0, zIndex: 9}} onClick={() => setServOpen(false)} />}
+              {servOpen && (
+                <div style={{
+                  position: "absolute", top: "100%", left: 0, right: 0, 
+                  background: "#1a1a1a", border: "1px solid #333", borderRadius: "8px", 
+                  marginTop: "4px", zIndex: 10, overflow: "hidden",
+                  animation: "dropdownFade 0.2s ease forwards",
+                  boxShadow: "0 10px 25px rgba(0,0,0,0.5)"
+                }}>
+                  {servOptions.map(opt => (
+                    <div 
+                      key={opt}
+                      onClick={() => { setForm({ ...form, servicio: opt }); setServOpen(false); }}
+                      style={{
+                        padding: "10px 15px", cursor: "pointer", transition: "background 0.2s",
+                        color: form.servicio === opt ? "#B8F500" : "#fff",
+                        fontSize: "0.95rem"
+                      }}
+                      onMouseOver={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"}
+                      onMouseOut={(e) => e.currentTarget.style.background = "transparent"}
+                    >
+                      {opt}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
           <div className="cf-group">
             <label className="cf-label">Mensaje *</label>

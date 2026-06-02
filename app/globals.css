@@ -252,5 +252,14 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   border-color: var(--lima);
   box-shadow: 0 0 15px rgba(184, 245, 0, 0.2);
   outline: none;
-  transform: translateY(-2px);
+}
+
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.cf-select.open {
+  border-color: var(--lima);
+  box-shadow: 0 0 15px rgba(184, 245, 0, 0.2);
 }
