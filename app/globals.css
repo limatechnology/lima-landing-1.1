@@ -103,7 +103,7 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
 .ci-link:hover .ci-link-icon{opacity:1}
 .ci-link-title{display:block;font-size:.88rem;font-weight:700}
 .ci-link-sub{display:block;font-size:.75rem;color:var(--t3);margin-top:.1rem}
-.ci-socials{display:flex;flex-direction:column;gap:.5rem}
+.ci-socials{display:flex;flex-direction:column;gap:1.25rem}
 .ci-socials 
 .ci-days{font-size:.88rem;color:var(--t2);font-weight:600;margin-bottom:.2rem}
 .ci-hours-time{font-size:1.2rem;font-weight:800;color:var(--t1);margin:.2rem 0 .4rem}
@@ -220,6 +220,7 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
 .allp-card:hover { border-color: color-mix(in srgb, var(--ac) 50%, transparent); box-shadow: 0 0 25px color-mix(in srgb, var(--ac) 15%, transparent); }
 
 .cf-select {
+  transition: all 0.3s ease;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -228,4 +229,28 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   background-position: right 1rem center;
   background-size: 1.2em;
   padding-right: 2.5rem; /* Make sure text doesn't overlap chevron */
+}
+
+
+.submenu::before {
+  content: '';
+  position: absolute;
+  top: -25px;
+  left: 0;
+  width: 100%;
+  height: 25px;
+  background: transparent;
+}
+
+
+.cf-select:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(184, 245, 0, 0.5);
+}
+.cf-select:focus {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-color: var(--lima);
+  box-shadow: 0 0 15px rgba(184, 245, 0, 0.2);
+  outline: none;
+  transform: translateY(-2px);
 }
