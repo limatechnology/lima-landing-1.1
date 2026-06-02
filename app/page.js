@@ -300,23 +300,23 @@ const allPlans = [
 // ─── Components ────────────────────────────────────────────────────────────
 function ServiceCard({ s, onViewPlans }) {
   return (
-    <div className="sc-card" style={{ "--acc": s.color }}>
+    <div className="info-card" style={{ "--acc": s.color }}>
       <div className="si" style={{ background: `${s.color}18`, color: s.color }}>{s.icon}</div>
       <h3>{s.title}</h3><p className="scd">{s.desc}</p>
       <div className="sis">{s.items.map((it, i) => <div key={i} className="sit">{I.check(s.color)}<span>{it}</span></div>)}</div>
-      <button className="btn btn-outline" style={{ color: s.color, borderColor: `${s.color}44`, background: `${s.color}10` }} onClick={onViewPlans}>Ver planes {I.arrow(s.color)}</button>
+      <button className="btn btn-outline" style={{ color: s.color, borderColor: `${s.color}44`, background: `${s.color}10`, marginTop: "1.5rem" }} onClick={onViewPlans}>Ver planes {I.arrow(s.color)}</button>
     </div>
   );
 }
 
 function PlanCard({ p }) {
   return (
-    <div className="pc" style={{ "--plan-c": p.color }}>
+    <div className="service-card" style={{ "--plan-c": p.color }}>
       <div className="pc-service" style={{ color: p.color }}>{p.service}</div>
       <div className="pc-tag" style={{ background: `${p.color}15`, border: `1px solid ${p.color}30`, color: p.color }}><span className="pc-tag-dot" style={{ background: p.color }} />{p.tag}</div>
       <h3>{p.name}</h3><p className="pc-desc">{p.desc}</p>
       <div className="pc-feats">{p.features.map((f, j) => <div key={j} className="pc-feat">{I.check(p.color)}<span>{f}</span></div>)}</div>
-      <a href={waplan(p.name)} target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ width: "100%", marginTop: "auto", background: p.color }}>Consultá por este plan</a>
+      <a href={waplan(p.name)} target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ width: "100%", marginTop: "2.5rem", background: p.color }}>Consultá por este plan</a>
     </div>
   );
 }
@@ -344,7 +344,7 @@ function AllPlansPage({ onBack }) {
                 {p.tag && <div className="allp-card-tag" style={{ background: `${sec.color}15`, color: sec.color }}>{p.tag}</div>}
                 <p>{p.desc}</p>
                 <div className="allp-feats">{p.features.map((f, fi) => <div key={fi} className="allp-feat">{I.check(sec.color)}<span>{f}</span></div>)}</div>
-                <a href={waplan(p.name)} target="_blank" rel="noopener noreferrer" className="btn btn-outline" style={{ width: "100%", marginTop: "auto", color: sec.color, borderColor: `${sec.color}44`, background: `${sec.color}10` }}>Consultar</a>
+                <a href={waplan(p.name)} target="_blank" rel="noopener noreferrer" className="btn btn-outline" style={{ width: "100%", marginTop: "2.5rem", color: sec.color, borderColor: `${sec.color}44`, background: `${sec.color}10` }}>Consultar</a>
               </div>
             ))}
           </div>
@@ -448,7 +448,7 @@ export default function LimaTechnology() {
         <h2 className="stt">Elegí lo que necesitás</h2>
         <p className="sd">Planes pensados para acompañar el crecimiento de tu empresa. Consultá por personalización según tu necesidad real.</p>
         <div className="pg">{featuredPlans.map((p, i) => <PlanCard key={i} p={p} />)}</div>
-        <button className="btn btn-secondary" onClick={goToAllPlans} aria-label="Ver todos los planes disponibles">Ver todos los planes {I.arrow()}</button>
+        <button className="btn btn-secondary" style={{ marginTop: "2.5rem" }} onClick={goToAllPlans} aria-label="Ver todos los planes disponibles">Ver todos los planes {I.arrow()}</button>
       </section>
       <div className="dv" />
 
