@@ -159,11 +159,12 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   font-size: 0.82rem;
 }
 .btn-outline:hover {
-  background: rgba(184,245,0,0.1);
-  border-color: rgba(184,245,0,0.4);
+  background: rgba(184,245,0,0.25);
+  border-color: rgba(184,245,0,0.6);
 }
 
 .btn-extra {
+  text-decoration: none !important;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -181,6 +182,7 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
 }
 
 .btn-link {
+  text-decoration: none !important;
   display: flex;
   align-items: center;
   gap: 0.4rem;

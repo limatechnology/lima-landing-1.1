@@ -355,6 +355,166 @@ function AllPlansPage({ onBack }) {
 }
 
 // ─── App ───────────────────────────────────────────────────────────────────
+
+// ─── Contacto Section ──────────────────────────────────────────────────────
+function ContactoSection() {
+  const [form, setForm] = useState({ nombre: "", email: "", telefono: "", servicio: "", mensaje: "" });
+  const [errors, setErrors] = useState({});
+  const [captcha, setCaptcha] = useState({ n1: 0, n2: 0, answer: "" });
+
+  useEffect(() => {
+    setCaptcha({ n1: Math.floor(Math.random() * 9) + 1, n2: Math.floor(Math.random() * 9) + 1, answer: "" });
+  }, []);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: "" });
+    }
+  };
+
+  const handleAction = (action) => {
+    const newErrors = {};
+
+    const cleanNombre = form.nombre.replace(/[\r\n\x00-\x1F\x7F]/g, "").trim().substring(0, 100);
+    const cleanEmail = form.email.replace(/[\r\n\x00-\x1F\x7F]/g, "").trim().substring(0, 150);
+    const cleanTelefono = form.telefono.replace(/[\r\n\x00-\x1F\x7F]/g, "").trim().substring(0, 30);
+    const cleanServicio = form.servicio.replace(/[\r\n\x00-\x1F\x7F]/g, "").trim().substring(0, 50);
+    const cleanMensaje = form.mensaje.substring(0, 2000);
+    const sanitizedMensaje = cleanMensaje.replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, "").trim();
+
+    if (!cleanNombre) newErrors.nombre = "El nombre es obligatorio.";
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!cleanEmail || !emailRegex.test(cleanEmail)) newErrors.email = "Por favor, ingresa un correo electrónico válido.";
+
+    if (cleanTelefono && !/^\+?[0-9\s\-()]{7,25}$/.test(cleanTelefono)) {
+      newErrors.telefono = "Por favor, ingresa un número de teléfono válido (ej: +54 9 341 000-0000).";
+    }
+
+    if (!sanitizedMensaje) newErrors.mensaje = "El mensaje no puede estar vacío o contener caracteres inválidos.";
+
+    if (parseInt(captcha.answer) !== captcha.n1 + captcha.n2) {
+      newErrors.captcha = "La suma de seguridad es incorrecta.";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setErrors({});
+
+    const WA = "https://wa.me/5493416139281";
+    if (action === "whatsapp") {
+      const lines = [
+        `Hola Lima Technology! Me contacto desde el formulario web.`,
+        ``,
+        `Nombre: ${cleanNombre}`,
+        `Email: ${cleanEmail}`,
+        cleanTelefono ? `Teléfono: ${cleanTelefono}` : null,
+        cleanServicio ? `Servicio de interés: ${cleanServicio}` : null,
+        ``,
+        `Mensaje: ${sanitizedMensaje}`,
+      ].filter(l => l !== null).join("\n");
+      window.open(`${WA}?text=${encodeURIComponent(lines)}`, "_blank");
+    } else {
+      const lines = [
+        `Nombre: ${cleanNombre}`,
+        `Email: ${cleanEmail}`,
+        cleanTelefono ? `Teléfono: ${cleanTelefono}` : null,
+        cleanServicio ? `Servicio de interés: ${cleanServicio}` : null,
+        ``,
+        `Mensaje: ${sanitizedMensaje}`,
+      ].filter(l => l !== null).join("\n");
+      window.open(`mailto:limatech.ar@gmail.com?subject=Contacto desde sitio web&body=${encodeURIComponent(lines)}`, "_blank");
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleAction("whatsapp");
+  };
+
+  return (
+    <section id="contacto" className="sec">
+      <div className="ct-hero" style={{marginBottom: "3.5rem", textAlign: "center"}}>
+        <span className="sl">Contacto</span>
+        <h2 className="stt">Hablemos de tu <span className="hl">proyecto</span></h2>
+        <p className="sd" style={{margin: "0 auto"}}>Completá el formulario y te respondemos por WhatsApp en menos de 24 horas.</p>
+      </div>
+
+      <div className="ct-grid">
+        <form className="ct-form" method="POST" onSubmit={handleSubmit}>
+          <div className="cf-group">
+            <label className="cf-label">Nombre *</label>
+            <input className="cf-input" name="nombre" value={form.nombre} onChange={handleChange} placeholder="Tu nombre" required style={errors.nombre ? { borderColor: "#ff4a4a" } : {}} />
+            {errors.nombre && <span className="cf-error-text" style={{ color: "#ff4a4a", fontSize: "0.8rem", marginTop: "0.25rem", display: "block" }}>{errors.nombre}</span>}
+          </div>
+          <div className="cf-group">
+            <label className="cf-label">Email *</label>
+            <input className="cf-input" type="email" name="email" value={form.email} onChange={handleChange} placeholder="tu@email.com" required style={errors.email ? { borderColor: "#ff4a4a" } : {}} />
+            {errors.email && <span className="cf-error-text" style={{ color: "#ff4a4a", fontSize: "0.8rem", marginTop: "0.25rem", display: "block" }}>{errors.email}</span>}
+          </div>
+          <div className="cf-group">
+            <label className="cf-label">WhatsApp <span className="cf-opt">(opcional)</span></label>
+            <input className="cf-input" name="telefono" value={form.telefono} onChange={handleChange} placeholder="+54 9 341 000 0000" style={errors.telefono ? { borderColor: "#ff4a4a" } : {}} />
+            {errors.telefono && <span className="cf-error-text" style={{ color: "#ff4a4a", fontSize: "0.8rem", marginTop: "0.25rem", display: "block" }}>{errors.telefono}</span>}
+          </div>
+          <div className="cf-group">
+            <label className="cf-label">Servicio de interés</label>
+            <select className="cf-input cf-select" name="servicio" value={form.servicio} onChange={handleChange}>
+              <option value="">Seleccionar...</option>
+              <option>Ciberseguridad</option>
+              <option>Crecimiento Digital</option>
+              <option>Sitios Web</option>
+              <option>Soporte IT</option>
+              <option>Otro / Consulta general</option>
+            </select>
+          </div>
+          <div className="cf-group">
+            <label className="cf-label">Mensaje *</label>
+            <textarea className="cf-input cf-textarea" name="mensaje" value={form.mensaje} onChange={handleChange} placeholder="Contanos en qué podemos ayudarte..." required rows={4} style={errors.mensaje ? { borderColor: "#ff4a4a" } : {}} />
+            {errors.mensaje && <span className="cf-error-text" style={{ color: "#ff4a4a", fontSize: "0.8rem", marginTop: "0.25rem", display: "block" }}>{errors.mensaje}</span>}
+          </div>
+          {captcha.n1 > 0 && (
+            <div className="cf-group">
+              <label className="cf-label">Seguridad: ¿Cuánto es {captcha.n1} + {captcha.n2}? *</label>
+              <input className="cf-input" name="captcha" value={captcha.answer} onChange={(e) => { setCaptcha({ ...captcha, answer: e.target.value }); if (errors.captcha) setErrors({ ...errors, captcha: "" }); }} placeholder="Respuesta" required style={errors.captcha ? { borderColor: "#ff4a4a" } : {}} />
+              {errors.captcha && <span className="cf-error-text" style={{ color: "#ff4a4a", fontSize: "0.8rem", marginTop: "0.25rem", display: "block" }}>{errors.captcha}</span>}
+            </div>
+          )}
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <button type="button" className="btn btn-primary" onClick={() => handleAction("whatsapp")} style={{ flex: 1, minWidth: '200px' }}>
+              {I.wa} Enviar WhatsApp
+            </button>
+            <button type="button" className="btn btn-primary" onClick={() => handleAction("email")} style={{ flex: 1, minWidth: '200px', background: 'transparent', border: '1px solid #444', color: '#fff' }}>
+              {I.mail} Enviar por email
+            </button>
+          </div>
+          <p className="cf-note">Se abrirá WhatsApp o tu cliente de correo con el mensaje.</p>
+        </form>
+
+        <aside className="ct-info">
+          <div className="ci-block">
+            <h3>Seguinos</h3>
+            <div className="ci-socials">
+              <a href="https://www.instagram.com/limatech.ar/" target="_blank" rel="noopener noreferrer" className="btn-link">{I.ig} Instagram</a>
+              <a href="https://threads.net/@limatech.ar" target="_blank" rel="noopener noreferrer" className="btn-link">{I.threads} Threads</a>
+              <a href="https://x.com/limatech_ar" target="_blank" rel="noopener noreferrer" className="btn-link">{I.x} X / Twitter</a>
+            </div>
+          </div>
+          <div className="ci-block">
+            <h3>Horario de atención</h3>
+            <p className="ci-days">Lunes a Viernes</p>
+            <p className="ci-hours-time">9:00 — 18:00</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  );
+}
+
 export default function LimaTechnology() {
   const [mob, setMob] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -385,6 +545,7 @@ export default function LimaTechnology() {
         
       </nav>
       <AllPlansPage onBack={goHome} />
+      <ContactoSection />
       <footer className="ftr">
         <p>Lima Technology 2026 ©</p>
         <p className="ftr-made">Hecho con ♥ en Latinoamérica</p>
@@ -410,7 +571,7 @@ export default function LimaTechnology() {
           </li>
           <li><a href="#nosotros" onClick={() => setMob(false)}>Nosotros</a></li>
           <li><a href="#clientes" onClick={() => setMob(false)}>Clientes</a></li>
-          <li><a href="/contacto" onClick={() => setMob(false)}>Contacto</a></li>
+          <li><a href="#contacto" onClick={() => setMob(false)}>Contacto</a></li>
         </ul>
         
         <button className="btn-menu" onClick={() => setMob(!mob)} aria-label={mob ? "Cerrar menú" : "Abrir menú"}>{mob ? "✕" : "☰"}</button>
@@ -498,6 +659,7 @@ export default function LimaTechnology() {
           <a href="https://x.com/limatech_ar" target="_blank" rel="noopener noreferrer" className="btn-link" aria-label="Seguir en X (Twitter)">{I.x} X / Twitter</a>
         </div>
       </section>
+      <ContactoSection />
       <footer className="ftr">
         <p>Lima Technology 2026 © Todos los derechos reservados</p>
         <p className="ftr-made">Hecho con ♥ en Latinoamérica</p>
