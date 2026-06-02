@@ -228,6 +228,7 @@ function FloatingParticles() {
 
 // ─── Icons ─────────────────────────────────────────────────────────────────
 const I = {
+  tiktok: <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 2.78-1.15 5.54-3.33 7.31-1.92 1.57-4.62 2.15-7.01 1.4-2.58-.8-4.64-3.08-5.11-5.73-.55-3.08.76-6.41 3.42-7.98 1.88-1.12 4.24-1.31 6.29-.63l-.04 4.12c-1.3-.39-2.8-.24-3.92.51-1.25.84-1.8 2.51-1.22 3.9.52 1.25 1.96 2.05 3.32 1.95 1.52-.1 2.75-1.32 2.89-2.84.06-2.47.01-4.94.03-7.41V.02z"/></svg>,
   rocket: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z" /><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z" /><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" /><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /></svg>,
   shield: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></svg>,
   monitor: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></svg>,
@@ -497,10 +498,11 @@ function ContactoSection() {
 
         <aside className="ct-info">
           <div className="ci-block">
-            <h3>Seguinos</h3>
+            <h3>Seguinos en redes</h3>
             <div className="ci-socials">
               <a href="https://www.instagram.com/limatech.ar/" target="_blank" rel="noopener noreferrer" className="btn-link">{I.ig} Instagram</a>
               <a href="https://threads.net/@limatech.ar" target="_blank" rel="noopener noreferrer" className="btn-link">{I.threads} Threads</a>
+                            <a href="https://www.tiktok.com/@limatech.ar" target="_blank" rel="noopener noreferrer" className="btn-link">{I.tiktok} TikTok</a>
               <a href="https://x.com/limatech_ar" target="_blank" rel="noopener noreferrer" className="btn-link">{I.x} X / Twitter</a>
             </div>
           </div>
