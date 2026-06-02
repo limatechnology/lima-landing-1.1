@@ -357,7 +357,7 @@ function AllPlansPage({ onBack }) {
 // ─── App ───────────────────────────────────────────────────────────────────
 
 // ─── Contacto Section ──────────────────────────────────────────────────────
-function ContactoSection() {
+function ContactoSection({ onBack }) {
   const [form, setForm] = useState({ nombre: "", email: "", telefono: "", servicio: "", mensaje: "" });
   const [errors, setErrors] = useState({});
   const [captcha, setCaptcha] = useState({ n1: 0, n2: 0, answer: "" });
@@ -439,6 +439,7 @@ function ContactoSection() {
   return (
     <section id="contacto" className="sec">
       <div className="ct-hero" style={{marginBottom: "3.5rem", textAlign: "center"}}>
+        <button onClick={onBack} className="btn-link" style={{margin: "0 auto 2rem auto", color: "var(--muted)", textDecoration: "none"}}>{I.back} Volver a la landing</button>
         <span className="sl">Contacto</span>
         <h2 className="stt">Hablemos de tu <span className="hl">proyecto</span></h2>
         <p className="sd" style={{margin: "0 auto"}}>Completá el formulario y te respondemos por WhatsApp en menos de 24 horas.</p>
@@ -518,7 +519,7 @@ function ContactoSection() {
 export default function LimaTechnology() {
   const [mob, setMob] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [page, setPage] = useState("home"); // "home" or "plans"
+  const [page, setPage] = useState("home"); // "home", "plans" or "contacto"
   const planesRef = useRef(null);
   const typedWord = useTypewriter(heroWords);
 
@@ -532,6 +533,7 @@ export default function LimaTechnology() {
   }, []);
 
   const goToAllPlans = () => { setPage("plans"); window.scrollTo(0, 0); };
+  const goToContacto = () => { setPage("contacto"); window.scrollTo(0, 0); };
   const goHome = () => { setPage("home"); window.scrollTo(0, 0); };
 
   if (page === "plans") return (
@@ -545,7 +547,22 @@ export default function LimaTechnology() {
         
       </nav>
       <AllPlansPage onBack={goHome} />
-      <ContactoSection />
+      <footer className="ftr">
+        <p>Lima Technology 2026 ©</p>
+        <p className="ftr-made">Hecho con ♥ en Latinoamérica</p>
+      </footer>
+    </>
+  );
+
+  if (page === "contacto") return (
+    <>
+      <FloatingParticles />
+      <nav className={`nav ${scrolled ? "sc" : ""}`}>
+        <a href="#" className="nl" onClick={(e) => { e.preventDefault(); goHome(); }}>
+          <img src="/LimaTechnology.png" alt="Logo de Lima Technology - Expertos en Ciberseguridad y Crecimiento Digital" className="nl-img" />
+        </a>
+      </nav>
+      <ContactoSection onBack={goHome} />
       <footer className="ftr">
         <p>Lima Technology 2026 ©</p>
         <p className="ftr-made">Hecho con ♥ en Latinoamérica</p>
@@ -571,7 +588,7 @@ export default function LimaTechnology() {
           </li>
           <li><a href="#nosotros" onClick={() => setMob(false)}>Nosotros</a></li>
           <li><a href="#clientes" onClick={() => setMob(false)}>Clientes</a></li>
-          <li><a href="#contacto" onClick={() => setMob(false)}>Contacto</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); goToContacto(); setMob(false); }}>Contacto</a></li>
         </ul>
         
         <button className="btn-menu" onClick={() => setMob(!mob)} aria-label={mob ? "Cerrar menú" : "Abrir menú"}>{mob ? "✕" : "☰"}</button>
@@ -647,6 +664,7 @@ export default function LimaTechnology() {
       <div className="dv" />
 
       <section className="ctas" id="contacto">
+        <button onClick={onBack} className="btn-link" style={{margin: "0 auto 2rem auto", color: "var(--muted)", textDecoration: "none"}}>{I.back} Volver a la landing</button>
         <span className="sl">Contacto</span>
         <h2>¿Listo para <span className="hl">dar el paso</span>?</h2>
         <p>Trabajamos con vocación y honestidad para que la tecnología sea tu mejor aliada cotidianamente.</p>
@@ -659,7 +677,6 @@ export default function LimaTechnology() {
           <a href="https://x.com/limatech_ar" target="_blank" rel="noopener noreferrer" className="btn-link" aria-label="Seguir en X (Twitter)">{I.x} X / Twitter</a>
         </div>
       </section>
-      <ContactoSection />
       <footer className="ftr">
         <p>Lima Technology 2026 © Todos los derechos reservados</p>
         <p className="ftr-made">Hecho con ♥ en Latinoamérica</p>
