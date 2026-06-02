@@ -135,8 +135,8 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   color: #101010;
 }
 .btn-primary:hover {
-  background: #cfff33; /* Más claro */
-  box-shadow: 0 6px 20px rgba(207, 255, 51, 0.3);
+  filter: brightness(1.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .btn-secondary {
@@ -158,9 +158,8 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   font-size: 0.82rem;
 }
 .btn-outline:hover {
-  background: rgba(0, 0, 0, 0.5); /* Oscurece el fondo */
+  background: rgba(255, 255, 255, 0.1);
   border-color: var(--lima);
-  filter: brightness(0.9);
 }
 
 .btn-extra {
