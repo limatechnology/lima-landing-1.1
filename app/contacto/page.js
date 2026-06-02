@@ -204,10 +204,12 @@ export default function ContactoPage() {
   const [form, setForm] = useState({ nombre: "", email: "", telefono: "", servicio: "", mensaje: "" });
   const [errors, setErrors] = useState({});
   const [scrolled, setScrolled] = useState(false);
+  const [captcha, setCaptcha] = useState({ n1: 0, n2: 0, answer: "" });
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", h);
+    setCaptcha({ n1: Math.floor(Math.random() * 9) + 1, n2: Math.floor(Math.random() * 9) + 1, answer: "" });
     return () => window.removeEventListener("scroll", h);
   }, []);
 
@@ -246,6 +248,10 @@ export default function ContactoPage() {
 
     if (!sanitizedMensaje) {
       newErrors.mensaje = "El mensaje no puede estar vacío o contener caracteres inválidos.";
+    }
+
+    if (parseInt(captcha.answer) !== captcha.n1 + captcha.n2) {
+      newErrors.captcha = "La suma de seguridad es incorrecta.";
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -341,6 +347,13 @@ export default function ContactoPage() {
               <textarea className="cf-input cf-textarea" name="mensaje" value={form.mensaje} onChange={handleChange} placeholder="Contanos en qué podemos ayudarte..." required rows={4} style={errors.mensaje ? { borderColor: "#ff4a4a" } : {}} />
               {errors.mensaje && <span className="cf-error-text" style={{ color: "#ff4a4a", fontSize: "0.8rem", marginTop: "0.25rem", display: "block" }}>{errors.mensaje}</span>}
             </div>
+            {captcha.n1 > 0 && (
+              <div className="cf-group">
+                <label className="cf-label">Seguridad: ¿Cuánto es {captcha.n1} + {captcha.n2}? *</label>
+                <input className="cf-input" name="captcha" value={captcha.answer} onChange={(e) => { setCaptcha({ ...captcha, answer: e.target.value }); if (errors.captcha) setErrors({ ...errors, captcha: "" }); }} placeholder="Respuesta" required style={errors.captcha ? { borderColor: "#ff4a4a" } : {}} />
+                {errors.captcha && <span className="cf-error-text" style={{ color: "#ff4a4a", fontSize: "0.8rem", marginTop: "0.25rem", display: "block" }}>{errors.captcha}</span>}
+              </div>
+            )}
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               <button type="button" className="cf-submit" onClick={() => handleAction("whatsapp")} style={{ flex: 1, minWidth: '200px' }}>
                 {I.wa} Enviar WhatsApp
