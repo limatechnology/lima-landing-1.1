@@ -386,7 +386,7 @@ export default function LimaTechnology() {
       </nav>
       <AllPlansPage onBack={goHome} />
       <footer className="ftr">
-        <p>Lima Technology 2026 © — Rosario, Santa Fe</p>
+        <p>Lima Technology 2026 ©</p>
         <p className="ftr-made">Hecho con ♥ en Latinoamérica</p>
       </footer>
     </>
@@ -398,7 +398,7 @@ export default function LimaTechnology() {
       <nav className={`nav ${scrolled ? "sc" : ""} ${mob ? "mo" : ""}`}>
 
         <a href="#" className="nl">
-          <img src="/LimaTechnology.png" alt="Logo de Lima Technology Rosario - Ciberseguridad y Digitalización" className="nl-img" />
+          <img src="/LimaTechnology.png" alt="Logo de Lima Technology - Ciberseguridad y Digitalización" className="nl-img" />
         </a>
         <ul className="nk">
           <li><a href="#servicios" onClick={() => setMob(false)}>Servicios Digitales</a></li>
@@ -427,7 +427,7 @@ export default function LimaTechnology() {
           con tecnología<br className="mo-br" /> confiable
         </h1>
 
-        <p className="hs">Acompañamos el crecimiento de tu negocio y su transformación digital con soluciones de ciberseguridad y tecnología confiable adaptadas a PyMEs, emprendedores y freelancers en Rosario.</p>
+        <p className="hs">Acompañamos el crecimiento de tu negocio y su transformación digital con soluciones de ciberseguridad y tecnología confiable adaptadas a PyMEs, emprendedores y freelancers.</p>
         <div className="hb">
           <a href={WA} target="_blank" rel="noopener noreferrer" className="bl-btn" aria-label="Contactar por WhatsApp">{I.wa} Comencemos ahora</a>
           <a href="#servicios" className="bo">Ver servicios</a>
@@ -457,7 +457,7 @@ export default function LimaTechnology() {
         <h2 className="stt">La historia detrás de Lima</h2>
         <div className="about-wrap">
           <div className="about-story">
-            <div className="about-col"><p><strong>Lima Technology</strong> es un emprendimiento tecnológico fundado por <span className="lima-hl">Kevin</span>, un profesional con más de 10 años de experiencia en IT, seguridad informática y marketing digital, nacido y criado en Rosario.</p><p>Lima no nació en una oficina ni con un plan de negocios de 40 páginas. Nació de una conversación, de una idea suelta, y fue mutando hasta convertirse en algo con propósito real: acompañar a PyMEs y negocios locales en su crecimiento digital, con la misma dedicación que le pondría el dueño del negocio.</p></div>
+            <div className="about-col"><p><strong>Lima Technology</strong> es un emprendimiento tecnológico fundado por <span className="lima-hl">Kevin</span>, un profesional con más de 10 años de experiencia en IT, seguridad informática y marketing digital.</p><p>Lima no nació en una oficina ni con un plan de negocios de 40 páginas. Nació de una conversación, de una idea suelta, y fue mutando hasta convertirse en algo con propósito real: acompañar a PyMEs y negocios locales en su crecimiento digital, con la misma dedicación que le pondría el dueño del negocio.</p></div>
             <div className="about-col"><p>Hoy Lima está en plena construcción: consolidando operaciones, estableciendo procesos ágiles y sumando clientes reales con los que trabajamos hombro a hombro.</p><p>No somos una agencia grande que te asigna un ejecutivo de cuenta que no sabe quién sos. Somos un equipo chico que se mete en tu negocio, entiende tu contexto, y trabaja como si la empresa fuera nuestra. Cada decisión que tomamos la tomamos pensando en si realmente te conviene — no en si nos conviene a nosotros.</p></div>
           </div>
           <div className="about-boxes">
@@ -480,7 +480,7 @@ export default function LimaTechnology() {
       <section className="sec cs" id="clientes">
         <span className="sl">Clientes</span>
         <h2 className="stt" style={{ textAlign: "center", marginBottom: "1rem" }}>Confían en nosotros</h2>
-        <p className="sd" style={{ margin: "0 auto 1.5rem", textAlign: "center" }}>Empresas de Rosario que eligieron dar el paso digital junto a Lima.</p>
+        <p className="sd" style={{ margin: "0 auto 1.5rem", textAlign: "center" }}>Empresas que eligieron dar el paso digital junto a Lima.</p>
         <div className="cg"><div className="cc">Beauty La Peluquería</div><div className="cc">La Culpa</div><div className="cc">GEMA</div><div className="cc">Comercios Locales</div><div className="cc">Pymes & Startups</div></div>
       </section>
       <div className="dv" />
@@ -491,17 +491,15 @@ export default function LimaTechnology() {
         <p>Trabajamos con vocación y honestidad para que la tecnología sea tu mejor aliada cotidianamente.</p>
         <div className="ctab">
           <a href={WA} target="_blank" rel="noopener noreferrer" className="bl-btn" aria-label="Escribir por WhatsApp">{I.wa} Escribinos por WhatsApp</a>
-          <a href="mailto:limatech.ar@gmail.com" className="bo" aria-label="Enviar un correo electrónico">Enviar email</a>
         </div>
         <div className="ctal">
-          <a href="https://www.instagram.com/limatech_ar/" target="_blank" rel="noopener noreferrer" className="ctlk" aria-label="Seguir en Instagram">{I.ig} Instagram</a>
-          <a href="https://threads.net/@limatech_ar" target="_blank" rel="noopener noreferrer" className="ctlk" aria-label="Seguir en Threads">{I.threads} Threads</a>
+          <a href="https://www.instagram.com/limatech.ar/" target="_blank" rel="noopener noreferrer" className="ctlk" aria-label="Seguir en Instagram">{I.ig} Instagram</a>
+          <a href="https://threads.net/@limatech.ar" target="_blank" rel="noopener noreferrer" className="ctlk" aria-label="Seguir en Threads">{I.threads} Threads</a>
           <a href="https://x.com/limatech_ar" target="_blank" rel="noopener noreferrer" className="ctlk" aria-label="Seguir en X (Twitter)">{I.x} X / Twitter</a>
-          <a href="mailto:limatech.ar@gmail.com" className="ctlk" aria-label="Enviar consulta por email">{I.mail} Email</a>
         </div>
       </section>
       <footer className="ftr">
-        <p>Lima Technology 2026 © Todos los derechos reservados — Rosario, Santa Fe</p>
+        <p>Lima Technology 2026 © Todos los derechos reservados</p>
         <p className="ftr-made">Hecho con ♥ en Latinoamérica</p>
       </footer>
     </>

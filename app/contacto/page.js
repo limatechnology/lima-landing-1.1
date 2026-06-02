@@ -218,8 +218,7 @@ export default function ContactoPage() {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleAction = (action) => {
     const newErrors = {};
 
     // Standardize and sanitize inputs
@@ -255,17 +254,34 @@ export default function ContactoPage() {
 
     setErrors({});
 
-    const lines = [
-      `Hola Lima Technology! Me contacto desde el formulario web.`,
-      ``,
-      `Nombre: ${cleanNombre}`,
-      `Email: ${cleanEmail}`,
-      cleanTelefono ? `Teléfono: ${cleanTelefono}` : null,
-      cleanServicio ? `Servicio de interés: ${cleanServicio}` : null,
-      ``,
-      `Mensaje: ${sanitizedMensaje}`,
-    ].filter(l => l !== null).join("\n");
-    window.open(`${WA}?text=${encodeURIComponent(lines)}`, "_blank");
+    if (action === "whatsapp") {
+      const lines = [
+        `Hola Lima Technology! Me contacto desde el formulario web.`,
+        ``,
+        `Nombre: ${cleanNombre}`,
+        `Email: ${cleanEmail}`,
+        cleanTelefono ? `Teléfono: ${cleanTelefono}` : null,
+        cleanServicio ? `Servicio de interés: ${cleanServicio}` : null,
+        ``,
+        `Mensaje: ${sanitizedMensaje}`,
+      ].filter(l => l !== null).join("\n");
+      window.open(`${WA}?text=${encodeURIComponent(lines)}`, "_blank");
+    } else {
+      const lines = [
+        `Nombre: ${cleanNombre}`,
+        `Email: ${cleanEmail}`,
+        cleanTelefono ? `Teléfono: ${cleanTelefono}` : null,
+        cleanServicio ? `Servicio de interés: ${cleanServicio}` : null,
+        ``,
+        `Mensaje: ${sanitizedMensaje}`,
+      ].filter(l => l !== null).join("\n");
+      window.open(`mailto:limatech.ar@gmail.com?subject=Contacto desde sitio web&body=${encodeURIComponent(lines)}`, "_blank");
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleAction("whatsapp");
   };
 
   return (
@@ -274,7 +290,7 @@ export default function ContactoPage() {
 
       <nav className={`nav ${scrolled ? "sc" : ""}`}>
         <a href="/" className="nl">
-          <img src="/LimaTechnology.png" alt="Logo de Lima Technology - Expertos en Ciberseguridad y Crecimiento Digital en Rosario" className="nl-img" />
+          <img src="/LimaTechnology.png" alt="Logo de Lima Technology - Expertos en Ciberseguridad y Crecimiento Digital" className="nl-img" />
         </a>
         <div className="ncw">
           <a href={WA} target="_blank" rel="noopener noreferrer" className="nc">Contactar por WhatsApp</a>
@@ -324,38 +340,25 @@ export default function ContactoPage() {
               <textarea className="cf-input cf-textarea" name="mensaje" value={form.mensaje} onChange={handleChange} placeholder="Contanos en qué podemos ayudarte..." required rows={4} style={errors.mensaje ? { borderColor: "#ff4a4a" } : {}} />
               {errors.mensaje && <span className="cf-error-text" style={{ color: "#ff4a4a", fontSize: "0.8rem", marginTop: "0.25rem", display: "block" }}>{errors.mensaje}</span>}
             </div>
-            <button type="submit" className="cf-submit">
-              {I.wa} Enviar por WhatsApp
-            </button>
-            <p className="cf-note">Al enviar se abrirá WhatsApp con tu mensaje prellenado.</p>
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+              <button type="button" className="cf-submit" onClick={() => handleAction("whatsapp")} style={{ flex: 1, minWidth: '200px' }}>
+                {I.wa} Enviar WhatsApp
+              </button>
+              <button type="button" className="cf-submit" onClick={() => handleAction("email")} style={{ flex: 1, minWidth: '200px', background: 'transparent', border: '1px solid #444', color: '#fff' }}>
+                {I.mail} Enviar por email
+              </button>
+            </div>
+            <p className="cf-note">Se abrirá WhatsApp o tu cliente de correo con el mensaje.</p>
           </form>
 
           {/* Info sidebar */}
           <aside className="ct-info">
             <div className="ci-block">
-              <h3>Formas de contacto</h3>
-              <a href={WA} target="_blank" rel="noopener noreferrer" className="ci-link">
-                <span className="ci-link-icon">{I.wa}</span>
-                <div>
-                  <span className="ci-link-title">WhatsApp</span>
-                  <span className="ci-link-sub">+54 9 341 613-9281</span>
-                </div>
-              </a>
-              <a href="mailto:limatech.ar@gmail.com" className="ci-link">
-                <span className="ci-link-icon">{I.mail}</span>
-                <div>
-                  <span className="ci-link-title">Email</span>
-                  <span className="ci-link-sub">limatech.ar@gmail.com</span>
-                </div>
-              </a>
-            </div>
-
-            <div className="ci-block">
               <h3>Seguinos</h3>
               <div className="ci-socials">
-                <a href="https://www.instagram.com/limatech_ar/" target="_blank" rel="noopener noreferrer" className="ctlk">{I.ig} Instagram</a>
+                <a href="https://www.instagram.com/limatech.ar/" target="_blank" rel="noopener noreferrer" className="ctlk">{I.ig} Instagram</a>
+                <a href="https://threads.net/@limatech.ar" target="_blank" rel="noopener noreferrer" className="ctlk">{I.threads} Threads</a>
                 <a href="https://x.com/limatech_ar" target="_blank" rel="noopener noreferrer" className="ctlk">{I.x} X / Twitter</a>
-                <a href="mailto:limatech.ar@gmail.com" className="ctlk">{I.mail} Email</a>
               </div>
             </div>
 
@@ -363,7 +366,6 @@ export default function ContactoPage() {
               <h3>Horario de atención</h3>
               <p className="ci-days">Lunes a Viernes</p>
               <p className="ci-hours-time">9:00 — 18:00</p>
-              <p className="ci-location">Rosario, Santa Fe, Argentina</p>
             </div>
           </aside>
 
@@ -371,7 +373,7 @@ export default function ContactoPage() {
       </main>
 
       <footer className="ftr">
-        <p>Lima Technology 2026 © — Rosario, Santa Fe</p>
+        <p>Lima Technology 2026 ©</p>
         <p className="ftr-made">Hecho con ♥ en Latinoamérica</p>
       </footer>
     </>
