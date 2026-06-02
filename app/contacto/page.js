@@ -299,14 +299,20 @@ export default function ContactoPage() {
         <a href="/" className="nl">
           <img src="/LimaTechnology.png" alt="Logo de Lima Technology - Expertos en Ciberseguridad y Crecimiento Digital" className="nl-img" />
         </a>
-        <div className="ncw">
-          <a href={WA} target="_blank" rel="noopener noreferrer" className="btn btn-primary">Contactar por WhatsApp</a>
-        </div>
+        
       </nav>
 
       <main className="ct-main">
 
-        <div className="ct-hero">
+        
+      <div style={{ marginBottom: "2rem" }}>
+        <a href="/" className="btn-extra" style={{ display: "inline-flex" }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{marginRight:"0.2rem"}}><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+          Volver a la landing
+        </a>
+      </div>
+      <div className="ct-hero">
+
           <span className="sl">Contacto</span>
           <h1 className="ct-title">Hablemos de tu <span className="hl">proyecto</span></h1>
           <p className="ct-sub">Completá el formulario y te respondemos por WhatsApp en menos de 24 horas.</p>

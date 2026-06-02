@@ -382,7 +382,7 @@ export default function LimaTechnology() {
           <img src="/LimaTechnology.png" alt="Logo de Lima Technology - Expertos en Ciberseguridad y Crecimiento Digital" className="nl-img" />
         </a>
 
-        <div className="ncw"><a href={WA} target="_blank" rel="noopener noreferrer" className="btn btn-primary">Contactar por WhatsApp</a></div>
+        
       </nav>
       <AllPlansPage onBack={goHome} />
       <footer className="ftr">
@@ -412,7 +412,7 @@ export default function LimaTechnology() {
           <li><a href="#clientes" onClick={() => setMob(false)}>Clientes</a></li>
           <li><a href="/contacto" onClick={() => setMob(false)}>Contacto</a></li>
         </ul>
-        <div className="ncw"><a href={WA} target="_blank" rel="noopener noreferrer" className="btn btn-primary">Agendar Consulta</a></div>
+        
         <button className="btn-menu" onClick={() => setMob(!mob)} aria-label={mob ? "Cerrar menú" : "Abrir menú"}>{mob ? "✕" : "☰"}</button>
       </nav>
 
