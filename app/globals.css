@@ -127,7 +127,6 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   border: 1px solid transparent;
 }
 .btn:hover {
-  transform: translateY(-1px);
 }
 
 .btn-primary {
