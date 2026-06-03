@@ -127,7 +127,7 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   border: 1px solid transparent;
 }
 .btn:hover {
-  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+  transform: translateY(-1px);
 }
 
 .btn-primary {
@@ -135,8 +135,7 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   color: #101010;
 }
 .btn-primary:hover {
-  filter: brightness(1.15);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  opacity: 0.9;
 }
 
 .btn-secondary {
@@ -145,9 +144,9 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   border-color: var(--brd2);
 }
 .btn-secondary:hover {
-  border-color: var(--lima);
-  color: var(--lima);
-  
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--t1);
 }
 
 .btn-outline {
@@ -158,8 +157,8 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   font-size: 0.82rem;
 }
 .btn-outline:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--lima);
+  background: rgba(184,245,0,0.12);
+  border-color: rgba(184,245,0,0.3);
 }
 
 .btn-extra {
@@ -177,7 +176,7 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   padding: 0;
 }
 .btn-extra:hover {
-  color: var(--lima);
+  color: var(--t1);
 }
 
 .btn-link {
@@ -192,7 +191,7 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   transition: color 0.2s;
 }
 .btn-link:hover {
-  color: var(--lima);
+  color: var(--t1);
 }
 
 .btn-menu {
