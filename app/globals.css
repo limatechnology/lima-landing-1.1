@@ -68,7 +68,7 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
 .allp-card p{font-size:.82rem;color:var(--t2);line-height:1.5;margin-bottom:.85rem}
 .allp-feats{display:flex;flex-direction:column;gap:.4rem;flex:1;margin-bottom:1rem}
 .allp-feat{display:flex;align-items:flex-start;gap:.4rem;font-size:.78rem;color:var(--t2);line-height:1.35}
-.allp-cta:hover{}
+
 
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
 
@@ -122,42 +122,64 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   font-size: 0.9rem;
   text-decoration: none;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: inherit;
-  border: 1px solid transparent;
-}
-.btn:hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  
+  position: relative;
+  overflow: hidden;
+  background: var(--btn-bg, transparent);
+  color: var(--btn-text, var(--t1));
+  border: 1px solid var(--btn-border, transparent);
+  z-index: 1;
 }
 
-.btn-primary {
-  background: var(--lima);
-  color: #101010;
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background: var(--btn-fill, rgba(255, 255, 255, 0.1));
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: -1;
 }
-.btn-primary:hover {
-  opacity: 0.9;
+
+.btn:hover::before {
+  width: 100%;
+}
+
+.btn:hover {
+  border-color: var(--btn-border-hover, var(--btn-border, transparent));
+  box-shadow: 0 0 15px var(--btn-glow, transparent);
+}
+
+
+.btn-primary {
+  --btn-bg: var(--lima);
+  --btn-text: #101010;
+  --btn-border: var(--lima);
+  --btn-fill: rgba(255, 255, 255, 0.25);
+  --btn-border-hover: var(--lima);
+  --btn-glow: rgba(184, 245, 0, 0.5);
 }
 
 .btn-secondary {
-  background: transparent;
-  color: var(--t1);
-  border-color: var(--brd2);
-}
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.1);
-  color: var(--t1);
+  --btn-bg: transparent;
+  --btn-text: var(--t1);
+  --btn-border: var(--brd2);
+  --btn-fill: rgba(255, 255, 255, 0.05);
+  --btn-border-hover: rgba(255, 255, 255, 0.2);
+  --btn-glow: rgba(255, 255, 255, 0.1);
 }
 
 .btn-outline {
-  background: rgba(184,245,0,0.05);
-  color: var(--lima);
-  border-color: rgba(184,245,0,0.2);
-  padding: 0.55rem 1.2rem;
-  font-size: 0.82rem;
-}
-.btn-outline:hover {
-  background: rgba(184,245,0,0.12);
-  border-color: rgba(184,245,0,0.3);
+  --btn-bg: rgba(184, 245, 0, 0.05);
+  --btn-text: var(--lima);
+  --btn-border: rgba(184, 245, 0, 0.2);
+  --btn-fill: rgba(184, 245, 0, 0.15);
+  --btn-border-hover: var(--lima);
+  --btn-glow: rgba(184, 245, 0, 0.35);
 }
 
 .btn-extra {
