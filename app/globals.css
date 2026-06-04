@@ -126,13 +126,10 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   
   position: relative;
-  overflow: hidden;
-  background: var(--btn-bg, transparent);
-  color: var(--btn-text, var(--t1));
-  border: 1px solid var(--btn-border, transparent);
   z-index: 1;
 }
 
+/* Sweep effect element for outline/secondary */
 .btn::before {
   content: '';
   position: absolute;
@@ -140,46 +137,69 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   left: 0;
   width: 0%;
   height: 100%;
-  background: var(--btn-fill, rgba(255, 255, 255, 0.1));
-  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: inherit;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: -1;
 }
 
-.btn:hover::before {
+
+/* 1. PRIMARY BUTTONS */
+.btn-primary {
+  background: var(--lima);
+  color: #101010;
+  border: 1px solid transparent;
+}
+/* This ::after creates a glow that EXACTLY matches the background color! */
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  filter: blur(14px);
+  opacity: 0;
+  z-index: -2;
+  transition: opacity 0.3s;
+  border-radius: inherit;
+}
+.btn-primary:hover {
+  filter: brightness(1.15); /* Lightens the button dynamically */
+}
+.btn-primary:hover::after {
+  opacity: 0.7; /* Activates the exact color glow */
+}
+
+/* 2. OUTLINE BUTTONS */
+.btn-outline {
+  color: var(--lima); /* Se puede sobreescribir inline con style="color: #F5005E" */
+  background: transparent;
+  border: 1px solid color-mix(in srgb, currentColor 40%, transparent);
+}
+.btn-outline::before {
+  background: color-mix(in srgb, currentColor 15%, transparent); /* Llenado del mismo color */
+}
+.btn-outline:hover::before {
   width: 100%;
 }
-
-.btn:hover {
-  border-color: var(--btn-border-hover, var(--btn-border, transparent));
-  box-shadow: 0 0 15px var(--btn-glow, transparent);
+.btn-outline:hover {
+  border-color: currentColor;
+  box-shadow: 0 0 15px color-mix(in srgb, currentColor 40%, transparent);
 }
 
-
-.btn-primary {
-  --btn-bg: var(--lima);
-  --btn-text: #101010;
-  --btn-border: var(--lima);
-  --btn-fill: rgba(255, 255, 255, 0.25);
-  --btn-border-hover: var(--lima);
-  --btn-glow: rgba(184, 245, 0, 0.5);
-}
-
+/* 3. SECONDARY BUTTONS */
 .btn-secondary {
-  --btn-bg: transparent;
-  --btn-text: var(--t1);
-  --btn-border: var(--brd2);
-  --btn-fill: rgba(255, 255, 255, 0.05);
-  --btn-border-hover: rgba(255, 255, 255, 0.2);
-  --btn-glow: rgba(255, 255, 255, 0.1);
+  color: var(--t1);
+  background: transparent;
+  border: 1px solid var(--brd2);
 }
-
-.btn-outline {
-  --btn-bg: rgba(184, 245, 0, 0.05);
-  --btn-text: var(--lima);
-  --btn-border: rgba(184, 245, 0, 0.2);
-  --btn-fill: rgba(184, 245, 0, 0.15);
-  --btn-border-hover: var(--lima);
-  --btn-glow: rgba(184, 245, 0, 0.35);
+.btn-secondary::before {
+  background: rgba(255, 255, 255, 0.05);
+}
+.btn-secondary:hover::before {
+  width: 100%;
+}
+.btn-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
 }
 
 .btn-extra {
