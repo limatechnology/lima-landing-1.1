@@ -154,11 +154,10 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   border: 1px solid transparent;
 }
 .btn-primary::before {
-  background: color-mix(in srgb, #B8F5A0 60%, transparent);
+  background: rgba(255, 255, 255, 0.2);
 }
 .btn-primary:hover {
   border-radius: 6px;
-  box-shadow: 0 4px 15px rgba(20, 25, 35, 0.4);
 }
 
 /* 2. OUTLINE BUTTONS */
@@ -173,7 +172,6 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
 .btn-outline:hover {
   border-radius: 6px;
   border-color: currentColor;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
 }
 
 /* 3. SECONDARY BUTTONS */
