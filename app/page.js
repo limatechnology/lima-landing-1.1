@@ -558,7 +558,7 @@ export default function LimaTechnology() {
     window.addEventListener("scroll", h);
     
     const handleGlobalMouseMove = (e) => {
-      const btn = e.target.closest('.btn-outline, .btn-secondary');
+      const btn = e.target.closest('.btn');
       if (btn) {
         const rect = btn.getBoundingClientRect();
         btn.style.setProperty('--x', `${e.clientX - rect.left}px`);
