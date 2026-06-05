@@ -123,25 +123,11 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   text-decoration: none;
   cursor: pointer;
   font-family: inherit;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
   position: relative;
   z-index: 1;
+  overflow: hidden;
 }
-
-/* Sweep effect element for outline/secondary */
-.btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0%;
-  height: 100%;
-  border-radius: inherit;
-  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: -1;
-}
-
 
 /* 1. PRIMARY BUTTONS */
 .btn-primary {
@@ -149,23 +135,10 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   color: #101010;
   border: 1px solid transparent;
 }
-/* This ::after creates a glow that EXACTLY matches the background color! */
-.btn-primary::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: inherit;
-  filter: blur(14px);
-  opacity: 0;
-  z-index: -2;
-  transition: opacity 0.3s;
-  border-radius: inherit;
-}
 .btn-primary:hover {
-  filter: brightness(1.15); /* Lightens the button dynamically */
-}
-.btn-primary:hover::after {
-  opacity: 0.7; /* Activates the exact color glow */
+  background: color-mix(in srgb, var(--lima) 85%, transparent);
+  transform: scale(1.03);
+  box-shadow: 0 4px 15px rgba(184, 245, 0, 0.15);
 }
 
 /* 2. OUTLINE BUTTONS */
@@ -175,10 +148,21 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   border: 1px solid color-mix(in srgb, currentColor 40%, transparent);
 }
 .btn-outline::before {
-  background: color-mix(in srgb, currentColor 15%, transparent); /* Llenado del mismo color */
+  content: '';
+  position: absolute;
+  top: var(--y, 50%);
+  left: var(--x, 50%);
+  width: 0;
+  padding-bottom: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s ease-out, padding-bottom 0.25s ease-out;
+  z-index: -1;
+  background: color-mix(in srgb, currentColor 30%, transparent); 
 }
 .btn-outline:hover::before {
-  width: 100%;
+  width: 250%;
+  padding-bottom: 250%;
 }
 .btn-outline:hover {
   border-color: currentColor;
@@ -192,10 +176,21 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
   border: 1px solid var(--brd2);
 }
 .btn-secondary::before {
+  content: '';
+  position: absolute;
+  top: var(--y, 50%);
+  left: var(--x, 50%);
+  width: 0;
+  padding-bottom: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s ease-out, padding-bottom 0.25s ease-out;
+  z-index: -1;
   background: rgba(255, 255, 255, 0.05);
 }
 .btn-secondary:hover::before {
-  width: 100%;
+  width: 250%;
+  padding-bottom: 250%;
 }
 .btn-secondary:hover {
   border-color: rgba(255, 255, 255, 0.2);

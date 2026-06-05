@@ -555,7 +555,22 @@ export default function LimaTechnology() {
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h);
+    window.addEventListener("scroll", h);
+    
+    const handleGlobalMouseMove = (e) => {
+      const btn = e.target.closest('.btn-outline, .btn-secondary');
+      if (btn) {
+        const rect = btn.getBoundingClientRect();
+        btn.style.setProperty('--x', `${e.clientX - rect.left}px`);
+        btn.style.setProperty('--y', `${e.clientY - rect.top}px`);
+      }
+    };
+    document.addEventListener('mousemove', handleGlobalMouseMove);
+    
+    return () => {
+      window.removeEventListener("scroll", h);
+      document.removeEventListener('mousemove', handleGlobalMouseMove);
+    };
   }, []);
 
   const scrollToPlanes = useCallback(() => {
