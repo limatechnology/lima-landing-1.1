@@ -433,6 +433,9 @@ function ContactoSection() {
       ].filter(l => l !== null).join("\n");
       window.open(`mailto:limatech.ar@gmail.com?subject=Contacto desde sitio web&body=${encodeURIComponent(lines)}`, "_blank");
     }
+
+    setForm({ nombre: "", email: "", telefono: "", servicio: "", mensaje: "" });
+    setCaptcha({ n1: Math.floor(Math.random() * 9) + 1, n2: Math.floor(Math.random() * 9) + 1, answer: "" });
   };
 
   const handleSubmit = (e) => {
@@ -631,7 +634,7 @@ export default function LimaTechnology() {
             <span className="sr-only">transformación digital, ciberseguridad y crecimiento de tu negocio</span>
             {typedWord}<span className="tw-cursor" />
           </span><br />
-          con tecnología en Rosario<br className="mo-br" /> confiable
+          con tecnología confiable<br className="mo-br" />
         </h1>
 
         <p className="hs">Acompañamos el crecimiento de tu negocio y su transformación digital con soluciones de ciberseguridad y tecnología confiable adaptadas a PyMEs, emprendedores y freelancers.</p>
