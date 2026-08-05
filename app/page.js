@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
-
+import Image from "next/image";
 // ─── Typewriter Hook ───────────────────────────────────────────────────────
 function useTypewriter(words, ts = 90, ds = 55, pt = 1800) {
   const [display, setDisplay] = useState("");
@@ -31,8 +31,9 @@ function FloatingParticles() {
     const orbParticles = [];
     const activePulses = [];
 
-    const nodeCount = 90;
-    const orbCount = 1350;
+    const isMobile = window.innerWidth <= 768;
+    const nodeCount = isMobile ? 45 : 90;
+    const orbCount = isMobile ? 180 : 850;
     const maxPulses = 10; // Aumentado a 10 simultáneos
     const connDist = 200;
     const pulseChainProb = 0.4;
@@ -585,7 +586,7 @@ export default function LimaTechnology() {
       <FloatingParticles />
       <nav className={`nav ${scrolled ? "sc" : ""}`}>
         <a href="#" className="nl" onClick={(e) => { e.preventDefault(); goHome(); }}>
-          <img src="/LimaTechnology.png" alt="Logo de Lima Technology - Expertos en Ciberseguridad y Crecimiento Digital" className="nl-img" />
+          <Image src="/LimaTechnology.png" alt="Lima Technology" className="nl-img" width={130} height={66} priority />
         </a>
 
         
@@ -604,7 +605,7 @@ export default function LimaTechnology() {
       <nav className={`nav ${scrolled ? "sc" : ""} ${mob ? "mo" : ""}`}>
 
         <a href="#" className="nl">
-          <img src="/LimaTechnology.png" alt="Logo de Lima Technology - Ciberseguridad y Digitalización" className="nl-img" />
+          <Image src="/LimaTechnology.png" alt="Lima Technology" className="nl-img" width={130} height={66} priority />
         </a>
         <ul className="nk">
           <li><a href="#servicios" onClick={() => setMob(false)}>Servicios Digitales</a></li>
@@ -630,7 +631,7 @@ export default function LimaTechnology() {
             <span className="sr-only">transformación digital, ciberseguridad y crecimiento de tu negocio</span>
             {typedWord}<span className="tw-cursor" />
           </span><br />
-          con tecnología<br className="mo-br" /> confiable
+          con tecnología en Rosario<br className="mo-br" /> confiable
         </h1>
 
         <p className="hs">Acompañamos el crecimiento de tu negocio y su transformación digital con soluciones de ciberseguridad y tecnología confiable adaptadas a PyMEs, emprendedores y freelancers.</p>

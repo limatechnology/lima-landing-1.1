@@ -6,13 +6,13 @@ export default function sitemap() {
   return [
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified: new Date().toISOString(),
       changeFrequency: 'monthly',
       priority: 1,
     },
     {
       url: `${baseUrl}/contacto`,
-      lastModified: new Date(),
+      lastModified: new Date().toISOString(),
       changeFrequency: 'monthly',
       priority: 0.8,
     },

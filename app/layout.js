@@ -1,6 +1,9 @@
 import './globals.css';
 import Script from 'next/script';
 import { SITE_URL } from '../lib/site';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -19,7 +22,7 @@ export const metadata = {
     telephone: false,
   },
   alternates: {
-    canonical: '/',
+    canonical: `${SITE_URL}/`,
   },
   icons: {
     icon: '/icon.png',
@@ -128,7 +131,7 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body>
+      <body className={inter.className}>
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-PJNCKXDR"
