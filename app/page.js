@@ -364,6 +364,8 @@ function ContactoSection() {
   const [errors, setErrors] = useState({});
   const [captcha, setCaptcha] = useState({ n1: 0, n2: 0, answer: "" });
   const [servOpen, setServOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
   const servOptions = ["Ciberseguridad", "Crecimiento Digital", "Sitios Web", "Soporte IT", "Otro / Consulta general"];
 
   useEffect(() => {
@@ -377,7 +379,8 @@ function ContactoSection() {
     }
   };
 
-  const handleAction = (action) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const newErrors = {};
 
     const cleanNombre = form.nombre.replace(/[\r\n\x00-\x1F\x7F]/g, "").trim().substring(0, 100);
@@ -408,39 +411,35 @@ function ContactoSection() {
     }
 
     setErrors({});
+    setIsSubmitting(true);
+    setSubmitSuccess(false);
 
-    const WA = "https://wa.me/5493416139281";
-    if (action === "whatsapp") {
-      const lines = [
-        `Hola Lima Technology! Me contacto desde el formulario web.`,
-        ``,
-        `Nombre: ${cleanNombre}`,
-        `Email: ${cleanEmail}`,
-        cleanTelefono ? `Teléfono: ${cleanTelefono}` : null,
-        cleanServicio ? `Servicio de interés: ${cleanServicio}` : null,
-        ``,
-        `Mensaje: ${sanitizedMensaje}`,
-      ].filter(l => l !== null).join("\n");
-      window.open(`${WA}?text=${encodeURIComponent(lines)}`, "_blank");
-    } else {
-      const lines = [
-        `Nombre: ${cleanNombre}`,
-        `Email: ${cleanEmail}`,
-        cleanTelefono ? `Teléfono: ${cleanTelefono}` : null,
-        cleanServicio ? `Servicio de interés: ${cleanServicio}` : null,
-        ``,
-        `Mensaje: ${sanitizedMensaje}`,
-      ].filter(l => l !== null).join("\n");
-      window.open(`mailto:limatech.ar@gmail.com?subject=Contacto desde sitio web&body=${encodeURIComponent(lines)}`, "_blank");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nombre: cleanNombre,
+          email: cleanEmail,
+          telefono: cleanTelefono,
+          servicio: cleanServicio,
+          mensaje: sanitizedMensaje
+        })
+      });
+
+      if (res.ok) {
+        setSubmitSuccess(true);
+        setForm({ nombre: "", email: "", telefono: "", servicio: "", mensaje: "" });
+        setCaptcha({ n1: Math.floor(Math.random() * 9) + 1, n2: Math.floor(Math.random() * 9) + 1, answer: "" });
+      } else {
+        const data = await res.json();
+        setErrors({ general: data.error || "Error al enviar el mensaje. Intenta nuevamente." });
+      }
+    } catch (err) {
+      setErrors({ general: "Error de conexión. Intenta nuevamente." });
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setForm({ nombre: "", email: "", telefono: "", servicio: "", mensaje: "" });
-    setCaptcha({ n1: Math.floor(Math.random() * 9) + 1, n2: Math.floor(Math.random() * 9) + 1, answer: "" });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleAction("whatsapp");
   };
 
   return (
@@ -518,15 +517,18 @@ function ContactoSection() {
               {errors.captcha && <span className="cf-error-text" style={{ color: "#ff4a4a", fontSize: "0.8rem", marginTop: "0.25rem", display: "block" }}>{errors.captcha}</span>}
             </div>
           )}
+          {errors.general && <div style={{ color: "#ff4a4a", marginBottom: "1rem", fontSize: "0.9rem" }}>{errors.general}</div>}
+          {submitSuccess && (
+            <div style={{ background: "rgba(184, 245, 0, 0.1)", border: "1px solid rgba(184, 245, 0, 0.3)", color: "#B8F500", padding: "1rem", borderRadius: "8px", marginBottom: "1rem", textAlign: "center" }}>
+              ¡Mensaje recibido con éxito! Te responderemos a la brevedad.
+            </div>
+          )}
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            <button type="button" className="btn btn-primary" onClick={() => handleAction("whatsapp")} style={{ flex: 1, minWidth: '200px' }}>
-              {I.wa} Enviar WhatsApp
-            </button>
-            <button type="button" className="btn btn-primary" onClick={() => handleAction("email")} style={{ flex: 1, minWidth: '200px', background: 'transparent', border: '1px solid #444', color: '#fff' }}>
-              {I.mail} Enviar por email
+            <button type="submit" className="btn btn-primary" disabled={isSubmitting} style={{ flex: 1, minWidth: '200px', opacity: isSubmitting ? 0.7 : 1 }}>
+              {isSubmitting ? "Enviando..." : "Enviar Mensaje"}
             </button>
           </div>
-          <p className="cf-note">Se abrirá WhatsApp o tu cliente de correo con el mensaje.</p>
+          <p className="cf-note">Tus datos están seguros. Te responderemos por email o WhatsApp.</p>
         </form>
 
         <aside className="ct-info">
