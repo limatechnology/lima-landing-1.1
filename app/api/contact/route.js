@@ -1,15 +1,12 @@
 import { NextResponse } from 'next/server';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request) {
   try {
     const data = await request.json();
     const { nombre, email, telefono, servicio, mensaje } = data;
-
-    // Here you would normally integrate with a database or email service
-    // like Resend, SendGrid, or Nodemailer.
-    
-    // Simulate server processing time
-    await new Promise(resolve => setTimeout(resolve, 800));
 
     // Basic validation
     if (!nombre || !email || !mensaje) {
@@ -19,13 +16,21 @@ export async function POST(request) {
       );
     }
 
-    console.log('Nuevo mensaje de contacto recibido:', {
-      nombre,
-      email,
-      telefono,
-      servicio,
-      mensaje,
-      fecha: new Date().toISOString()
+    await resend.emails.send({
+      from: 'Lima Tech Landing <onboarding@resend.dev>',
+      to: 'limatech.ar@gmail.com',
+      subject: `Nuevo mensaje de ${nombre} - ${servicio || 'Consulta General'}`,
+      html: `
+        <div style="font-family: sans-serif; padding: 20px;">
+          <h2>Nuevo contacto desde la Landing Web</h2>
+          <p><strong>Nombre:</strong> ${nombre}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Teléfono:</strong> ${telefono}</p>
+          <p><strong>Servicio:</strong> ${servicio}</p>
+          <p><strong>Mensaje:</strong></p>
+          <p style="background: #f4f4f4; padding: 15px; border-radius: 5px;">${mensaje}</p>
+        </div>
+      `
     });
 
     return NextResponse.json(

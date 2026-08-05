@@ -379,7 +379,7 @@ function ContactoSection() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleAction = async (e, action) => {
     e.preventDefault();
     const newErrors = {};
 
@@ -414,6 +414,25 @@ function ContactoSection() {
     setIsSubmitting(true);
     setSubmitSuccess(false);
 
+    if (action === 'wa') {
+      const WA = "https://wa.me/5493416139281";
+      const lines = [
+        `Hola Lima Technology! Me contacto desde el formulario web.`,
+        ``,
+        `Nombre: ${cleanNombre}`,
+        `Email: ${cleanEmail}`,
+        cleanTelefono ? `Teléfono: ${cleanTelefono}` : null,
+        cleanServicio ? `Servicio de interés: ${cleanServicio}` : null,
+        ``,
+        `Mensaje: ${sanitizedMensaje}`,
+      ].filter(l => l !== null).join("\n");
+      window.open(`${WA}?text=${encodeURIComponent(lines)}`, "_blank", "noopener,noreferrer");
+      setIsSubmitting(false);
+      setForm({ nombre: "", email: "", telefono: "", servicio: "", mensaje: "" });
+      setCaptcha({ n1: Math.floor(Math.random() * 9) + 1, n2: Math.floor(Math.random() * 9) + 1, answer: "" });
+      return;
+    }
+
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -447,11 +466,11 @@ function ContactoSection() {
       <div className="ct-hero" style={{marginBottom: "3.5rem", textAlign: "center"}}>
         <span className="sl">Contacto</span>
         <h2 className="stt">Hablemos de tu <span className="hl">proyecto</span></h2>
-        <p className="sd" style={{margin: "0 auto"}}>Completá el formulario y te respondemos por WhatsApp en menos de 24 horas.</p>
+        <p className="sd" style={{margin: "0 auto"}}>Completá el formulario y elegí si preferís contactarnos por Email o WhatsApp.</p>
       </div>
 
       <div className="ct-grid">
-        <form className="ct-form" method="POST" onSubmit={handleSubmit}>
+        <form className="ct-form" method="POST" onSubmit={(e) => handleAction(e, 'email')}>
           <div className="cf-group">
             <label className="cf-label">Nombre *</label>
             <input className="cf-input" name="nombre" value={form.nombre} onChange={handleChange} placeholder="Tu nombre" required style={errors.nombre ? { borderColor: "#ff4a4a" } : {}} />
@@ -524,11 +543,14 @@ function ContactoSection() {
             </div>
           )}
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            <button type="submit" className="btn btn-primary" disabled={isSubmitting} style={{ flex: 1, minWidth: '200px', opacity: isSubmitting ? 0.7 : 1 }}>
-              {isSubmitting ? "Enviando..." : "Enviar Mensaje"}
+            <button type="submit" onClick={(e) => handleAction(e, 'email')} className="btn btn-primary" disabled={isSubmitting} style={{ flex: 1, minWidth: '200px', opacity: isSubmitting ? 0.7 : 1 }}>
+              {isSubmitting ? "Enviando..." : "Enviar por Email"}
+            </button>
+            <button type="button" onClick={(e) => handleAction(e, 'wa')} className="btn btn-secondary" style={{ flex: 1, minWidth: '200px', backgroundColor: '#25D366', color: '#000', border: 'none' }}>
+              {I.wa} Enviar por WhatsApp
             </button>
           </div>
-          <p className="cf-note">Tus datos están seguros. Te responderemos por email o WhatsApp.</p>
+          <p className="cf-note">Tus datos están seguros. Te responderemos a la brevedad por el canal que elijas.</p>
         </form>
 
         <aside className="ct-info">
