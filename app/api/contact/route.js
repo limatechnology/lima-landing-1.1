@@ -17,8 +17,9 @@ export async function POST(request) {
     }
 
     await resend.emails.send({
-      from: 'Lima Tech Landing <onboarding@resend.dev>',
+      from: 'Lima Tech <hola@mail.limatech.com.ar>',
       to: 'limatech.ar@gmail.com',
+      reply_to: email,
       subject: `Nuevo mensaje de ${nombre} - ${servicio || 'Consulta General'}`,
       html: `
         <div style="font-family: sans-serif; padding: 20px;">
