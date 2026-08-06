@@ -1,9 +1,9 @@
 import './globals.css';
 import Script from 'next/script';
 import { SITE_URL } from '../lib/site';
-import { Inter } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 
-const inter = Inter({ subsets: ['latin'] });
+const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'swap' });
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -122,6 +122,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <Script id="google-tag-manager" src="/js/gtm.js" strategy="afterInteractive" />
         <meta name="theme-color" content="#101010" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -131,7 +133,7 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={inter.className}>
+      <body className={plusJakartaSans.className}>
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-PJNCKXDR"

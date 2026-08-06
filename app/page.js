@@ -3,9 +3,9 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 // ─── Typewriter Hook ───────────────────────────────────────────────────────
 function useTypewriter(words, ts = 90, ds = 55, pt = 1800) {
-  const [display, setDisplay] = useState("");
+  const [display, setDisplay] = useState(words && words.length > 0 ? words[0] : "");
   const [wi, setWi] = useState(0);
-  const [ci, setCi] = useState(0);
+  const [ci, setCi] = useState(words && words.length > 0 ? words[0].length : 0);
   const [del, setDel] = useState(false);
   useEffect(() => {
     const w = words[wi]; let t;
