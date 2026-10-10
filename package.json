@@ -5,12 +5,18 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "test": "vitest run",
     "start": "next start"
   },
   "dependencies": {
+    "@upstash/ratelimit": "^2.2.0",
+    "@upstash/redis": "^1.39.0",
     "next": "^16.4.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "resend": "^6.32.1"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.3"
   }
 }

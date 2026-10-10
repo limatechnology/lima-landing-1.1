@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import Script from "next/script";
 
 // Icons used in ContactoSection
 const I = {
@@ -55,7 +56,31 @@ export default function ContactoSection() {
   const [servOpen, setServOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileContainerRef = useRef(null);
+  const turnstileWidgetIdRef = useRef(null);
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+  // La site key solo controla la UI; la verificación efectiva permanece en el servidor.
+  const turnstileEnabled = Boolean(turnstileSiteKey);
   const servOptions = ["Ciberseguridad", "Crecimiento Digital", "Sitios Web", "Soporte IT", "Otro / Consulta general"];
+
+  const resetTurnstile = useCallback(() => {
+    setTurnstileToken("");
+    if (turnstileWidgetIdRef.current !== null && window.turnstile) {
+      window.turnstile.reset(turnstileWidgetIdRef.current);
+    }
+  }, []);
+
+  const renderTurnstile = useCallback(() => {
+    if (!turnstileEnabled || !turnstileSiteKey || !turnstileContainerRef.current || !window.turnstile || turnstileWidgetIdRef.current !== null) return;
+    turnstileWidgetIdRef.current = window.turnstile.render(turnstileContainerRef.current, {
+      sitekey: turnstileSiteKey,
+      action: "contact",
+      callback: (token) => setTurnstileToken(token),
+      "expired-callback": resetTurnstile,
+      "error-callback": resetTurnstile,
+    });
+  }, [resetTurnstile, turnstileEnabled, turnstileSiteKey]);
 
   useEffect(() => {
     setCaptcha({ n1: Math.floor(Math.random() * 9) + 1, n2: Math.floor(Math.random() * 9) + 1, answer: "" });
@@ -102,6 +127,7 @@ export default function ContactoSection() {
 
   const handleAction = async (e, action) => {
     e.preventDefault();
+    if (isSubmitting) return;
     const newErrors = {};
 
     const cleanNombre = form.nombre.replace(/[\r\n\x00-\x1F\x7F]/g, "").trim().substring(0, 100);
@@ -156,6 +182,11 @@ export default function ContactoSection() {
       return;
     }
 
+    if (turnstileEnabled && !turnstileToken) {
+      setErrors({ general: "Completá la verificación de seguridad e intentá nuevamente." });
+      setIsSubmitting(false);
+      return;
+    }
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -166,7 +197,8 @@ export default function ContactoSection() {
           telefono: cleanTelefono,
           servicio: cleanServicio,
           mensaje: sanitizedMensaje,
-          website: e.currentTarget.elements.website?.value || ''
+          website: e.currentTarget.elements.website?.value || '',
+          turnstileToken
         })
       });
 
@@ -183,6 +215,7 @@ export default function ContactoSection() {
     } catch (err) {
       setErrors({ general: "Error de conexión. Intenta nuevamente." });
     } finally {
+      if (turnstileEnabled) resetTurnstile();
       setIsSubmitting(false);
     }
   };
@@ -196,7 +229,17 @@ export default function ContactoSection() {
       </div>
 
       <div className="ct-grid">
+        {turnstileEnabled && turnstileSiteKey && (
+          <Script
+            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+            strategy="afterInteractive"
+            onLoad={renderTurnstile}
+          />
+        )}
         <form className="ct-form" method="POST" onSubmit={(e) => handleAction(e, 'email')}>
+          {turnstileEnabled && turnstileSiteKey && (
+            <div ref={turnstileContainerRef} aria-label="Verificación de seguridad" style={{ marginBottom: "1rem" }} />
+          )}
           <input
             type="text"
             name="website"
