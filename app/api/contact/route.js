@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
+const MAX_BODY_BYTES = 16 * 1024;
 const LIMITS = {
   nombre: 100,
   email: 254,
@@ -8,7 +9,7 @@ const LIMITS = {
   servicio: 100,
   mensaje: 5000,
 };
-
+const ALLOWED_FIELDS = new Set(['nombre', 'email', 'telefono', 'servicio', 'mensaje', 'website']);
 const EMAIL_PATTERN = /^[A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?(?:\.[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?)+$/i;
 const PHONE_PATTERN = /^\+?[0-9\s\-()]{7,25}$/;
 
@@ -33,22 +34,89 @@ function escapeHtml(value) {
   }[character]));
 }
 
+function isAllowedOrigin(value) {
+  if (!value) return false;
+
+  try {
+    const url = new URL(value);
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const isLocalhost = (
+      url.hostname === 'localhost' ||
+      url.hostname === '127.0.0.1' ||
+      url.hostname === '::1'
+    );
+    const isProductionHost = (
+      url.hostname === 'limatechnology.com.ar' ||
+      url.hostname === 'www.limatechnology.com.ar'
+    );
+    const vercelUrl = process.env.VERCEL_URL?.toLowerCase().replace(/\.$/, '');
+    const isCurrentVercelPreview = process.env.VERCEL_ENV === 'preview' &&
+      vercelUrl && url.hostname.toLowerCase() === vercelUrl;
+
+    if (isLocalhost) return isDevelopment && (url.protocol === 'http:' || url.protocol === 'https:');
+    if (isProductionHost) return url.protocol === 'https:' && url.port === '';
+    if (isCurrentVercelPreview) return url.protocol === 'https:' && url.port === '';
+    return false;
+  } catch {
+    return false;
+  }
+}
+function hasValidRequestOrigin(request) {
+  const origin = request.headers.get('origin');
+  if (origin) return isAllowedOrigin(origin);
+
+  const referer = request.headers.get('referer');
+  if (!referer) return false;
+  try {
+    return isAllowedOrigin(new URL(referer).origin);
+  } catch {
+    return false;
+  }
+}
+
+function invalidResponse() {
+  return NextResponse.json({ error: 'Solicitud inválida' }, { status: 400 });
+}
+
 export async function POST(request) {
   try {
+    const contentType = request.headers.get('content-type')?.split(';', 1)[0].trim().toLowerCase();
+    if (contentType !== 'application/json') {
+      return NextResponse.json({ error: 'Content-Type inválido' }, { status: 415 });
+    }
+
+    const declaredLength = request.headers.get('content-length');
+    if (declaredLength && (!/^\d+$/.test(declaredLength) || Number(declaredLength) > MAX_BODY_BYTES)) {
+      return NextResponse.json({ error: 'Solicitud demasiado grande' }, { status: 413 });
+    }
+
+    if (!hasValidRequestOrigin(request)) {
+      return NextResponse.json({ error: 'Origen no permitido' }, { status: 403 });
+    }
+
+    const rawBody = await request.text();
+    if (new TextEncoder().encode(rawBody).byteLength > MAX_BODY_BYTES) {
+      return NextResponse.json({ error: 'Solicitud demasiado grande' }, { status: 413 });
+    }
+
     let data;
     try {
-      data = await request.json();
+      data = JSON.parse(rawBody);
     } catch {
-      return NextResponse.json({ error: 'Solicitud inválida' }, { status: 400 });
+      return invalidResponse();
     }
 
     if (!data || typeof data !== 'object' || Array.isArray(data)) {
-      return NextResponse.json({ error: 'Solicitud inválida' }, { status: 400 });
+      return invalidResponse();
+    }
+
+    if (Object.keys(data).some((field) => !ALLOWED_FIELDS.has(field))) {
+      return invalidResponse();
     }
 
     // Honeypot: el formulario legítimo actual no envía este campo.
-    if (typeof data.website === 'string' && data.website.trim()) {
-      return NextResponse.json({ error: 'Solicitud inválida' }, { status: 400 });
+    if (data.website !== undefined && (typeof data.website !== 'string' || data.website.trim())) {
+      return invalidResponse();
     }
 
     const nombre = asTrimmedString(data.nombre, LIMITS.nombre);
@@ -70,7 +138,7 @@ export async function POST(request) {
       servicio === null ||
       !EMAIL_PATTERN.test(email)
     ) {
-      return NextResponse.json({ error: 'Datos inválidos' }, { status: 400 });
+      return invalidResponse();
     }
 
     const safeNombre = escapeHtml(nombre);
@@ -102,7 +170,6 @@ export async function POST(request) {
       { success: true, message: 'Mensaje recibido correctamente' },
       { status: 200 }
     );
-
   } catch (error) {
     console.error('Error procesando el formulario de contacto:', error);
     return NextResponse.json(

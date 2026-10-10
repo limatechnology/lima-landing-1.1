@@ -20,7 +20,7 @@ const securityHeaders = [
   },
   {
     key: 'Referrer-Policy',
-    value: 'origin-when-cross-origin'
+    value: 'strict-origin-when-cross-origin'
   },
   {
     key: 'Strict-Transport-Security',
@@ -30,41 +30,18 @@ const securityHeaders = [
     key: 'Permissions-Policy',
     value: 'camera=(), microphone=(), geolocation=()'
   },
-  // CORS Restricción estricta (Evita Access-Control-Allow-Origin: *)
-  {
-    key: 'Access-Control-Allow-Origin',
-    value: 'https://www.limatechnology.com.ar'
-  },
-  {
-    key: 'Access-Control-Allow-Methods',
-    value: 'GET, POST, OPTIONS'
-  },
-  {
-    key: 'Access-Control-Allow-Headers',
-    value: 'Content-Type, Authorization'
-  }
 ];
 
 const nextConfig = {
   reactStrictMode: true,
   async headers() {
     return [
-      // 1. Cabeceras de seguridad y CORS para todas las rutas
+      // 1. Cabeceras de seguridad para todas las rutas
       {
         source: '/:path*',
         headers: securityHeaders,
       },
-      // 2. Cache-Control de largo plazo para archivos estáticos del compilado de Next.js
-      {
-        source: '/_next/static/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          }
-        ]
-      },
-      // 3. Cache-Control optimizado para scripts estáticos públicos (como gtm.js)
+      // 2. Cache-Control optimizado para scripts estáticos públicos (como gtm.js)
       {
         source: '/js/:path*',
         headers: [
@@ -74,10 +51,22 @@ const nextConfig = {
           }
         ]
       },
-      // 4. Cache-Control de seguridad para endpoints dinámicos (evita recuperación desde caché)
+      // 3. CORS y Cache-Control de seguridad para endpoints dinámicos
       {
         source: '/api/:path*',
         headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: 'https://www.limatechnology.com.ar'
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET, POST, OPTIONS'
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'Content-Type, Authorization'
+          },
           {
             key: 'Cache-Control',
             value: 'no-store, no-cache, must-revalidate, proxy-revalidate'

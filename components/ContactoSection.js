@@ -165,7 +165,8 @@ export default function ContactoSection() {
           email: cleanEmail,
           telefono: cleanTelefono,
           servicio: cleanServicio,
-          mensaje: sanitizedMensaje
+          mensaje: sanitizedMensaje,
+          website: e.currentTarget.elements.website?.value || ''
         })
       });
 
@@ -196,6 +197,14 @@ export default function ContactoSection() {
 
       <div className="ct-grid">
         <form className="ct-form" method="POST" onSubmit={(e) => handleAction(e, 'email')}>
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            style={{ position: "absolute", left: "-10000px", width: "1px", height: "1px", overflow: "hidden" }}
+          />
           <div className="cf-group">
             <label className="cf-label">Nombre *</label>
             <input className="cf-input" name="nombre" value={form.nombre} onChange={handleChange} placeholder="Tu nombre" required style={errors.nombre ? { borderColor: "#ff4a4a" } : {}} />
@@ -335,7 +344,7 @@ export default function ContactoSection() {
             </div>
           )}
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            <button type="submit" onClick={(e) => handleAction(e, 'email')} className="btn btn-primary" disabled={isSubmitting} style={{ flex: 1, minWidth: '200px', opacity: isSubmitting ? 0.7 : 1 }}>
+            <button type="submit" className="btn btn-primary" disabled={isSubmitting} style={{ flex: 1, minWidth: '200px', opacity: isSubmitting ? 0.7 : 1 }}>
               {isSubmitting ? "Enviando..." : "Enviar por Email"}
             </button>
             <button type="button" onClick={(e) => handleAction(e, 'wa')} className="btn btn-secondary" style={{ flex: 1, minWidth: '200px', backgroundColor: '#25D366', color: '#000', border: 'none' }}>
