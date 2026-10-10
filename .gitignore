@@ -8,3 +8,10 @@ npm-debug.log*
 .vercel
 .claude/
 
+
+# Documentacion interna / contexto IA
+LIMA_TECH_GUIDELINES.md
+docs/
+AGENTS.md
+.env
+.env.*
